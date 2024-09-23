@@ -1,0 +1,324 @@
+import {XMLParser} from 'fast-xml-parser';
+import type {NavPage, Page} from 'types/page';
+import {type Tasks, type Argument} from 'types/event';
+import {type View, type MatrixView} from 'types/view';
+import {NativeModule} from 'types/native';
+import {edge, spacer} from 'types/util';
+import {makePageNav} from './page-nav';
+
+export const PageRssInNav: NavPage = (() => {
+  const nav = makePageNav(['PageRss']);
+  nav.stateMap = {
+    ...nav.stateMap,
+    focusedRssItem: {
+      type: 'state',
+      value: null,
+    },
+  };
+  nav.eventMap = {
+    ...nav.eventMap,
+    onTapRssItem: 'onTapRssItem',
+  };
+  return nav;
+})();
+
+export const PageRssDetail: Page = {
+  stateMap: {
+    focusedRssItem: {
+      type: 'bind',
+      onChange: 'focusedRssItemDidChange',
+    },
+  },
+  eventMap: {
+    test: [
+      {
+        type: 'view',
+        view: {
+          audioView: {
+            action: {
+              play: 'pause',
+            },
+          },
+        },
+      },
+    ],
+    focusedRssItemDidChange: 'focusedRssItemDidChange',
+  },
+  subviews: {
+    type: 'scroll',
+    style: {
+      background: '#fff',
+    },
+    dimension: edge,
+    subviews: {
+      type: 'stack',
+      stack: {
+        alignment: 'center',
+      },
+      dimension: {
+        top: 0,
+        leftSafe: 60,
+        rightSafe: 60,
+        bottom: 0,
+      },
+      style: {
+        background: '#fff',
+      },
+      subviews: [
+        {
+          id: 'testLabel',
+          type: 'label',
+          text: {
+            content: '123',
+          },
+        },
+        {
+          type: 'touchFade',
+          dimension: {
+            height: 60,
+            width: 60,
+          },
+          style: {background: '#f00'},
+          onTap: 'test',
+        },
+        {
+          id: 'imageView',
+          type: 'image',
+          dimension: {
+            height: 120,
+            width: 120,
+          },
+        },
+        {
+          id: 'audioView',
+          type: 'audio',
+          dimension: {
+            height: 60,
+            width: 60,
+          },
+          style: {
+            background: '#aaf3',
+          },
+          systemControl: {
+            skipForward: 45,
+            skipBackward: true,
+          },
+        },
+        {
+          id: 'titleView',
+          type: 'label',
+          text: {
+            // content: 'label',
+            size: 24,
+            weight: 'semibold',
+          },
+          dimension: {
+            left: 0,
+            right: 0,
+          },
+        },
+        {
+          id: 'descriptionView',
+          type: 'label',
+          text: {
+            size: 18,
+            // content: 'label',
+          },
+          dimension: {
+            left: 0,
+            right: 0,
+          },
+        },
+      ],
+    },
+  },
+};
+
+export const PageRss: Page = {
+  stateMap: {
+    rss: {
+      type: 'state',
+      value: null,
+      onChange: 'rssDidChange',
+    },
+  },
+  onLoad: ['fetchRss', 'onLoad'],
+  onUnload: 'onUnload',
+  eventMap: {
+    onLoad: [],
+    onUnload: [],
+    rssDidChange: 'rssDidChange',
+    fetchRss: 'fetchRss',
+  },
+  subviews: {
+    type: 'scroll',
+    dimension: edge,
+    style: {
+      background: '#fff',
+    },
+    subviews: {
+      id: 'rssList',
+      type: 'matrix',
+      dimension: {
+        widthSafe: '100%',
+        top: 0,
+        bottom: 0,
+        leftSafe: 0,
+        right: 0,
+      },
+      style: {
+        background: '#eee',
+      },
+      matrix: {
+        content: [],
+        itemSize: {
+          width: '50%',
+        },
+        direction: 'vertical',
+      },
+    },
+  },
+};
+
+export function onTapRssItem(argument: Argument): Tasks {
+  return [
+    {
+      type: 'state',
+      state: {
+        focusedRssItem: argument.userInfo,
+      },
+    },
+    {
+      type: 'navigation',
+      navigation: 'push',
+      pageName: 'PageRssDetail',
+    },
+  ];
+}
+
+export function focusedRssItemDidChange(argument: Argument): Tasks {
+  const value = argument.stateInfo['focusedRssItem'] as Record<string, unknown>;
+  const channelTitle = value['channelTitle'] as string;
+  const channelImage = value['channelImage'] as string;
+  const image = (value['itunes:image'] as any).href as string;
+  const url = (value['enclosure'] as any).url as string;
+  const description = value['description'] as string;
+  const title = value['title'] as string;
+  const author = value['itunes:author'] as string;
+  return {
+    type: 'view',
+    view: {
+      audioView: {
+        audio: {
+          url,
+          image,
+          title,
+          author,
+          channelTitle,
+        },
+        action: {
+          play: 'current',
+        },
+      },
+      titleView: {
+        text: {
+          content: title,
+        },
+      },
+      descriptionView: {
+        text: {
+          content: description,
+        },
+      },
+      imageView: {
+        image: {
+          url: channelImage,
+        },
+      },
+    },
+  };
+}
+
+export function rssDidChange(argument: Argument): Tasks {
+  const value = argument.stateInfo['rss'] as Record<string, unknown>;
+  if (!value) {
+    return;
+  }
+
+  const items = value['item'] as Array<Record<string, unknown>>;
+  const channelTitle = value['title'] as string;
+  const channelImage = (value['itunes:image'] as any).href as string;
+  const rssList: MatrixView = {
+    matrix: {
+      content: Array.from(items, item => {
+        const view: View = {
+          type: 'touch',
+          dimension: edge,
+          userInfo: {...item, channelTitle, channelImage},
+          onTap: 'onTapRssItem',
+          subviews: {
+            type: 'stack',
+            dimension: edge,
+            stack: {
+              direction: 'vertical',
+            },
+            subviews: [
+              {
+                type: 'image',
+                image: {
+                  url: (item['itunes:image'] as any).href as string,
+                },
+                dimension: {
+                  left: 0,
+                  right: 0,
+                  height: 100,
+                },
+              },
+              {
+                type: 'label',
+                text: {
+                  content: item['title'] as string,
+                  design: 'monospaced',
+                },
+                dimension: {
+                  left: 0,
+                  right: 0,
+                },
+              },
+              spacer,
+            ],
+          },
+        };
+        return view;
+      }),
+    },
+  };
+  return {
+    type: 'view',
+    view: {
+      rssList,
+    },
+  };
+}
+
+export async function fetchRss(): Promise<Tasks> {
+  const list = [
+    'https://feeds.feedburner.com/tedtalks_audio',
+    'https://uxcoffee.typlog.io/episodes/feed.xml',
+    'https://www.ximalaya.com/album/20230759.xml',
+  ];
+  return NativeModule.fetch(list[1]!)
+    .then(text => {
+      const x = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: '',
+      });
+      const channel = x.parse(text).rss.channel as unknown;
+      return {
+        type: 'state',
+        state: {
+          rss: channel,
+        },
+      };
+    });
+}

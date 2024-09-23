@@ -1,0 +1,16 @@
+{
+  "space": true,
+  "rules": {
+    "unicorn/prevent-abbreviations": "off",
+    "import/extensions": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/padding-line-between-statements": "off",
+    "capitalized-comments": "off",
+    "no-warning-comments": "off",
+    "n/file-extension-in-import": "off"
+  },
+  "ignores": [
+    "*.js"
+  ]
+}

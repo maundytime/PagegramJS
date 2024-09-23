@@ -1,0 +1,11 @@
+{
+  "name": "pagegram",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "@sindresorhus/tsconfig": "^6.0.0",
+    "fast-xml-parser": "^4.4.1",
+    "xo": "^0.59.3",
+    "esbuild": "^0.23.1"
+  }
+}
