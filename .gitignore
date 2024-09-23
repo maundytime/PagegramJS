@@ -7,3 +7,6 @@ package-lock.json
 
 # Pagegram
 /*/bundle
+
+# VS Code
+.vscode
