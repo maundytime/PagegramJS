@@ -28,6 +28,7 @@ type PageTextComponent = PageTextProperty & {
 export type PageText = PageTextProperty & {
   content?: string | PageTextComponent[];
   lines?: number;
+  alignment?: 'left' | 'right' | 'center' | 'justified';
   lineHeightMultiple?: number;
 };
 export type Direction = 'vertical' | 'horizontal';
