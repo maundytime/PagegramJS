@@ -2,7 +2,10 @@ import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
 
 export async function worldTimeTest() {
-  return NativeModule.fetch('https://worldtimeapi.org/api/timezone/Etc/UTC');
+  return NativeModule.fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
+    .then(text => {
+      console.log(text);
+    });
 }
 
 export async function openaiTest() {

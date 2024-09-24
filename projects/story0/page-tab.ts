@@ -17,19 +17,29 @@ const subpages = [
 export const Tab: Page = {
   type: 'tab',
   subpages,
-  subviews: {
-    type: 'blur',
-    dimension: {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      unsafeAt: 'bottom',
+  subviews: [
+    {
+      style: {
+        background: '#fff',
+        zPosition: -1000,
+        interactive: false,
+      },
+      dimension: edge,
     },
-    style: {
-      background: '#00f3',
+    {
+      type: 'blur',
+      dimension: {
+        bottom: 0,
+        left: 0,
+        right: 0,
+        unsafeAt: 'bottom',
+      },
+      style: {
+        background: '#00f3',
+      },
+      subviews: makeTabs(),
     },
-    subviews: makeTabs(),
-  },
+  ],
   eventMap: makeEventsMap(),
 };
 

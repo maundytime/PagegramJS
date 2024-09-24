@@ -3,7 +3,7 @@ import {NativeHomeModule} from 'types/native-home';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 
-export async function onSaveApp(argument: Argument): Promise<Tasks> {
+export function onSaveApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const appId = focusedApp['id'] as string;
   const appName = focusedApp['name'] as string;
@@ -16,27 +16,25 @@ export async function onSaveApp(argument: Argument): Promise<Tasks> {
     name: appName,
   };
   // todo 验证app bundle是否能跑通
-  return Promise.all([
-    NativeHomeModule.saveData('app_info', appId, appInfo),
-    NativeHomeModule.saveData('app_bundle', appId, appBundle),
-    NativeHomeModule.createTable(appId),
-  ]).then(() => ({
+  NativeHomeModule.saveData('app_info', appId, appInfo);
+  NativeHomeModule.saveData('app_bundle', appId, appBundle);
+  NativeHomeModule.createTable(appId);
+  return {
     type: 'navigation',
     navigation: 'dismiss',
-  }));
+  };
 }
 
-export async function onDeleteApp(argument: Argument): Promise<Tasks> {
+export function onDeleteApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const appId = focusedApp['id'] as string;
-  return Promise.all([
-    NativeHomeModule.deleteData('app_info', appId),
-    NativeHomeModule.deleteData('app_bundle', appId),
-    NativeHomeModule.dropTable(appId),
-  ]).then(() => ({
+  NativeHomeModule.deleteData('app_info', appId);
+  NativeHomeModule.deleteData('app_bundle', appId);
+  NativeHomeModule.dropTable(appId);
+  return {
     type: 'navigation',
     navigation: 'dismiss',
-  }));
+  };
 }
 
 export function onInputAppName(argument: Argument): Tasks {
@@ -138,9 +136,9 @@ export const PageAddApp: Page = {
               dimension: {
                 left: 100,
                 top: 12,
-                bottom: 0,
+                bottom: 12,
                 right: 0,
-                height: 44 - 12,
+                height: 44 - 24,
               },
             },
           ],
@@ -171,9 +169,9 @@ export const PageAddApp: Page = {
               dimension: {
                 left: 100,
                 top: 12,
-                bottom: 0,
+                bottom: 10,
                 right: 0,
-                height: 200,
+                height: 224,
               },
             },
           ],

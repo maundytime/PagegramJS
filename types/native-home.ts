@@ -4,12 +4,12 @@ type DataRow = {
 };
 
 declare const NativeHomeModuleManager: {
-  table(tableId: string): Promise<DataRow[]>;
-  dropTable(tableId: string): Promise<void>;
-  createTable(tableId: string): Promise<void>;
-  data(tableId: string, id: string): Promise<string>;
-  deleteData(tableId: string, id: string): Promise<void>;
-  saveData(tableId: string, id: string, value: unknown): Promise<void>;
+  table(tableId: string): DataRow[];
+  dropTable(tableId: string): void;
+  createTable(tableId: string): void;
+  data(tableId: string, id: string): string;
+  deleteData(tableId: string, id: string): void;
+  saveData(tableId: string, id: string, value: unknown): void;
 };
 
 export const NativeHomeModule = NativeHomeModuleManager;

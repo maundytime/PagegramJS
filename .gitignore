@@ -5,8 +5,5 @@ package-lock.json
 # OS X
 .DS_Store
 
-# Pagegram
-/*/bundle
-
 # VS Code
 .vscode

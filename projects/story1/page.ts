@@ -1,13 +1,12 @@
 import type {Page} from 'types/page';
+import {edge} from 'types/util';
 
 export const PageTest: Page = {
   subviews: {
-    type: 'touchFade',
-    dimension: {
-      width: 200,
-      height: 60,
-      centerX: 0,
-      centerY: 0,
+    type: 'touch',
+    dimension: edge,
+    style: {
+      background: '#fff',
     },
     onTap: 'changeLabel',
     subviews: {
@@ -15,13 +14,9 @@ export const PageTest: Page = {
       type: 'label',
       text: {
         content: '点击我',
+        alignment: 'center',
       },
-      dimension: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-      },
+      dimension: edge,
     },
   },
   eventMap: {

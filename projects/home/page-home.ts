@@ -1,4 +1,4 @@
-import {type Tasks, type Argument} from 'types/event';
+import {type Tasks, type Argument, type AppInfo} from 'types/event';
 import {makeAppId, NativeHomeModule} from 'types/native-home';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
@@ -40,37 +40,28 @@ export function onChangeApps(argument: Argument): Tasks {
 }
 
 export async function reloadHome(_: Argument): Promise<Tasks> {
-  return NativeHomeModule.table('app_info')
-    .then(res => ({
-      type: 'state',
-      state: {
-        apps: res,
-      },
-    }));
+  const res = NativeHomeModule.table('app_info');
+  return {
+    type: 'state',
+    state: {
+      apps: res,
+    },
+  };
 }
 
 export function onTapApp(argument: Argument): Tasks {
-  const appInfo = argument.userInfo;
-  const appId = (appInfo as any).id as string;
-  if (appId === 'story_0') {
-    return {
-      type: 'app',
-      app: 'present',
-      appInfo,
-    };
-  }
   return {
     type: 'app',
-    app: 'over',
-    appInfo,
+    appInfo: argument.userInfo as AppInfo,
   };
 }
 
 export function onTapAddApp(_: Argument): Tasks {
-  const focusedApp = {
+  const focusedApp: AppInfo = {
     bundle: '',
     name: '',
     id: makeAppId(),
+    navigation: 'overlay',
   };
   return [
     {
@@ -81,7 +72,7 @@ export function onTapAddApp(_: Argument): Tasks {
     },
     {
       type: 'navigation',
-      navigation: 'present',
+      navigation: 'full',
       pageName: 'PageAddAppInNav',
     },
   ];
@@ -90,23 +81,23 @@ export function onTapAddApp(_: Argument): Tasks {
 export async function onLongPressApp(argument: Argument): Promise<Tasks> {
   const appInfo = argument.userInfo as Record<string, unknown>;
   const appId = appInfo['id'] as string;
-  return NativeHomeModule.data('app_bundle', appId)
-    .then(bundle => [
-      {
-        type: 'state',
-        state: {
-          focusedApp: {
-            ...appInfo,
-            bundle,
-          },
+  const bundle = NativeHomeModule.data('app_bundle', appId);
+  return [
+    {
+      type: 'state',
+      state: {
+        focusedApp: {
+          ...appInfo,
+          bundle,
         },
       },
-      {
-        type: 'navigation',
-        navigation: 'present',
-        pageName: 'PageAddAppInNav',
-      },
-    ]);
+    },
+    {
+      type: 'navigation',
+      navigation: 'full',
+      pageName: 'PageAddAppInNav',
+    },
+  ];
 }
 
 export const PageHome: Page = {

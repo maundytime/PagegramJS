@@ -199,7 +199,7 @@ export const PagePresent: Page = {
   eventMap: {
     present: {
       type: 'navigation',
-      navigation: 'over',
+      navigation: 'overlay',
       pageName: 'PageAnimationInNav',
     },
   },

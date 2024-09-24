@@ -7,7 +7,7 @@ export type Argument = {
 };
 type NavigationTask = {
   type: 'navigation';
-  navigation: 'push' | 'select' | 'over' | 'present';
+  navigation: 'push' | 'select' | 'overlay' | 'full';
   pageName: string;
 } | {
   type: 'navigation';
@@ -25,10 +25,15 @@ type StateTask = {
   type: 'state';
   state: Record<string, unknown>;
 };
+export type AppInfo = {
+  id: string;
+  bundle: string;
+  name: string;
+  navigation?: 'full' | 'overlay';
+};
 type AppTask = {
   type: 'app';
-  app: 'over' | 'present' | 'dismiss';
-  appInfo: unknown;
+  appInfo: AppInfo;
 };
 type Task = NavigationTask | ViewTask | BreakTask | StateTask | AppTask | undefined;
 export type Tasks = Task | Task[];

@@ -74,7 +74,7 @@ export type ImageView = ViewProperties & {
   type?: 'image';
   image?: {
     url?: string;
-    mode?: 'present' | 'contain' | 'stretch' | 'center';
+    mode?: 'cover' | 'contain' | 'stretch' | 'center';
   };
 };
 export type MatrixView = ViewProperties & {
