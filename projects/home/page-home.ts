@@ -1,5 +1,5 @@
 import {type Tasks, type Argument, type AppInfo} from 'types/event';
-import {makeAppId, NativeHomeModule} from 'types/native-home';
+import {makeAppId, NativeHomeModule, TableIdAppInfo} from 'types/native-home';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {type View} from 'types/view';
@@ -40,7 +40,7 @@ export function onChangeApps(argument: Argument): Tasks {
 }
 
 export async function reloadHome(_: Argument): Promise<Tasks> {
-  const res = NativeHomeModule.table('app_info');
+  const res = NativeHomeModule.table(TableIdAppInfo);
   return {
     type: 'state',
     state: {
@@ -81,7 +81,7 @@ export function onTapAddApp(_: Argument): Tasks {
 export async function onLongPressApp(argument: Argument): Promise<Tasks> {
   const appInfo = argument.userInfo as Record<string, unknown>;
   const appId = appInfo['id'] as string;
-  const bundle = NativeHomeModule.data('app_bundle', appId);
+  const bundle = NativeHomeModule.bundle(appId);
   return [
     {
       type: 'state',

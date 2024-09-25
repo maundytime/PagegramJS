@@ -10,8 +10,11 @@ declare const NativeHomeModuleManager: {
   data(tableId: string, id: string): string;
   deleteData(tableId: string, id: string): void;
   saveData(tableId: string, id: string, value: unknown): void;
+  saveBundle(id: string, value: string): void;
+  deleteBundle(id: string): void;
+  bundle(id: string): string;
 };
-
+export const TableIdAppInfo = 'app_info';
 export const NativeHomeModule = NativeHomeModuleManager;
 
 export function makeAppId() {

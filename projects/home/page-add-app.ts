@@ -1,5 +1,5 @@
 import {type Tasks, type Argument} from 'types/event';
-import {NativeHomeModule} from 'types/native-home';
+import {NativeHomeModule, TableIdAppInfo} from 'types/native-home';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 
@@ -16,8 +16,8 @@ export function onSaveApp(argument: Argument): Tasks {
     name: appName,
   };
   // todo 验证app bundle是否能跑通
-  NativeHomeModule.saveData('app_info', appId, appInfo);
-  NativeHomeModule.saveData('app_bundle', appId, appBundle);
+  NativeHomeModule.saveData(TableIdAppInfo, appId, appInfo);
+  NativeHomeModule.saveBundle(appId, appBundle);
   NativeHomeModule.createTable(appId);
   return {
     type: 'navigation',
@@ -28,8 +28,8 @@ export function onSaveApp(argument: Argument): Tasks {
 export function onDeleteApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const appId = focusedApp['id'] as string;
-  NativeHomeModule.deleteData('app_info', appId);
-  NativeHomeModule.deleteData('app_bundle', appId);
+  NativeHomeModule.deleteData(TableIdAppInfo, appId);
+  NativeHomeModule.deleteBundle(appId);
   NativeHomeModule.dropTable(appId);
   return {
     type: 'navigation',
@@ -60,10 +60,10 @@ export function onInputAppBundle(argument: Argument): Tasks {
 }
 
 export function onChangeFocusApp(argument: Argument): Tasks {
-  console.log('onChangeFocusApp');
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const bundle = focusedApp['bundle'] as string;
   const name = focusedApp['name'] as string;
+  console.log('onChangeFocusApp', bundle, name);
   return {
     type: 'view',
     view: {

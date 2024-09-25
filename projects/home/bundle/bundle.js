@@ -25,6 +25,7 @@ __export(home_exports, {
 });
 
 // types/native-home.ts
+var TableIdAppInfo = "app_info";
 var NativeHomeModule = NativeHomeModuleManager;
 function makeAppId() {
   const characters = "abcdefghijklmnopqrstuvwxyz";
@@ -57,8 +58,8 @@ function onSaveApp(argument) {
     id: appId,
     name: appName
   };
-  NativeHomeModule.saveData("app_info", appId, appInfo);
-  NativeHomeModule.saveData("app_bundle", appId, appBundle);
+  NativeHomeModule.saveData(TableIdAppInfo, appId, appInfo);
+  NativeHomeModule.saveBundle(appId, appBundle);
   NativeHomeModule.createTable(appId);
   return {
     type: "navigation",
@@ -68,8 +69,8 @@ function onSaveApp(argument) {
 function onDeleteApp(argument) {
   const focusedApp = argument.stateInfo["focusedApp"];
   const appId = focusedApp["id"];
-  NativeHomeModule.deleteData("app_info", appId);
-  NativeHomeModule.deleteData("app_bundle", appId);
+  NativeHomeModule.deleteData(TableIdAppInfo, appId);
+  NativeHomeModule.deleteBundle(appId);
   NativeHomeModule.dropTable(appId);
   return {
     type: "navigation",
@@ -97,10 +98,10 @@ function onInputAppBundle(argument) {
   };
 }
 function onChangeFocusApp(argument) {
-  console.log("onChangeFocusApp");
   const focusedApp = argument.stateInfo["focusedApp"];
   const bundle = focusedApp["bundle"];
   const name = focusedApp["name"];
+  console.log("onChangeFocusApp", bundle, name);
   return {
     type: "view",
     view: {
@@ -358,7 +359,7 @@ function onChangeApps(argument) {
   };
 }
 async function reloadHome(_) {
-  const res = NativeHomeModule.table("app_info");
+  const res = NativeHomeModule.table(TableIdAppInfo);
   return {
     type: "state",
     state: {
@@ -396,7 +397,7 @@ function onTapAddApp(_) {
 async function onLongPressApp(argument) {
   const appInfo = argument.userInfo;
   const appId = appInfo["id"];
-  const bundle = NativeHomeModule.data("app_bundle", appId);
+  const bundle = NativeHomeModule.bundle(appId);
   return [
     {
       type: "state",
