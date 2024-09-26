@@ -1,5 +1,5 @@
 import {type Tasks, type Argument} from 'types/event';
-import {NativeHomeModule, TableIdAppInfo} from 'types/native-home';
+import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 
@@ -16,9 +16,9 @@ export function onSaveApp(argument: Argument): Tasks {
     name: appName,
   };
   // todo 验证app bundle是否能跑通
-  NativeHomeModule.saveData(TableIdAppInfo, appId, appInfo);
-  NativeHomeModule.saveBundle(appId, appBundle);
-  NativeHomeModule.createTable(appId);
+  NativeHubModule.saveData(TableIdAppInfo, appId, appInfo);
+  NativeHubModule.saveBundle(appId, appBundle);
+  NativeHubModule.createTable(appId);
   return {
     type: 'navigation',
     navigation: 'dismiss',
@@ -28,9 +28,9 @@ export function onSaveApp(argument: Argument): Tasks {
 export function onDeleteApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const appId = focusedApp['id'] as string;
-  NativeHomeModule.deleteData(TableIdAppInfo, appId);
-  NativeHomeModule.deleteBundle(appId);
-  NativeHomeModule.dropTable(appId);
+  NativeHubModule.deleteData(TableIdAppInfo, appId);
+  NativeHubModule.deleteBundle(appId);
+  NativeHubModule.dropTable(appId);
   return {
     type: 'navigation',
     navigation: 'dismiss',
@@ -180,7 +180,7 @@ export const PageAddApp: Page = {
           style: {
             background: '#fff',
           },
-          onLongPress: ['onDeleteApp', 'reloadHome'],
+          onLongPress: ['onDeleteApp', 'reloadHub'],
           subviews: {
             type: 'label',
             text: {
@@ -256,7 +256,7 @@ export const PageAddAppInNav: NavPage = {
         },
         {
           type: 'touchFade',
-          onTap: ['onSaveApp', 'reloadHome'],
+          onTap: ['onSaveApp', 'reloadHub'],
           dimension: {
             bottom: 0,
             top: 0,

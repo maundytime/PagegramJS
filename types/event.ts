@@ -27,15 +27,22 @@ type StateTask = {
 };
 export type AppInfo = {
   id: string;
-  bundle: string;
-  name: string;
+  name?: string;
+  bundle?: string;
   navigation?: 'full' | 'overlay';
+  url?: string;
+  autoUpdate?: boolean;
 };
-type AppTask = {
-  type: 'app';
-  appInfo: AppInfo;
+type HubTask = {
+  type: 'hub';
+  action: 'dismiss' | 'open';
+  appId: string;
 };
-type Task = NavigationTask | ViewTask | BreakTask | StateTask | AppTask | undefined;
+type KeyboardTask = {
+  type: 'keyboard';
+  action: 'dismiss';
+};
+type Task = NavigationTask | ViewTask | BreakTask | StateTask | HubTask | KeyboardTask | undefined;
 export type Tasks = Task | Task[];
 // 了解web和android的js引擎后，尝试让page直接持有一个js对象
 // EventMap的key string是冒泡结束标志符的动态作用，和持有json还是js对象是两码事

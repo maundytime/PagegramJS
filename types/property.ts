@@ -22,7 +22,7 @@ type PageTextProperty = {
   size?: number;
   design?: Design;
 };
-type PageTextComponent = PageTextProperty & {
+export type PageTextComponent = PageTextProperty & {
   content: string;
 };
 export type PageText = PageTextProperty & {

@@ -1,5 +1,6 @@
 import {type Tasks, type Argument, type AppInfo} from 'types/event';
-import {makeAppId, NativeHomeModule, TableIdAppInfo} from 'types/native-home';
+import {NativeModule} from 'types/native';
+import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {type View} from 'types/view';
@@ -9,9 +10,10 @@ export function onChangeApps(argument: Argument): Tasks {
   const subviews: View[] = Array.from(apps, app => {
     const value = app['value'] as Record<string, unknown>;
     const name = value['name'] as string;
+    const id = value['id'] as string;
     return {
       type: 'touch',
-      userInfo: value,
+      userInfo: id,
       onTap: 'onTapApp',
       dimension: {
         top: 12,
@@ -29,7 +31,7 @@ export function onChangeApps(argument: Argument): Tasks {
       subviews: [
         {
           type: 'touchFade',
-          userInfo: value,
+          userInfo: id,
           onTap: 'onTapEditApp',
           dimension: {
             top: 0,
@@ -74,8 +76,8 @@ export function onChangeApps(argument: Argument): Tasks {
   };
 }
 
-export async function reloadHome(_: Argument): Promise<Tasks> {
-  const res = NativeHomeModule.table(TableIdAppInfo);
+export async function reloadHub(_: Argument): Promise<Tasks> {
+  const res = NativeHubModule.table(TableIdAppInfo);
   return {
     type: 'state',
     state: {
@@ -85,19 +87,16 @@ export async function reloadHome(_: Argument): Promise<Tasks> {
 }
 
 export function onTapApp(argument: Argument): Tasks {
+  const appId = argument.userInfo as string;
   return {
-    type: 'app',
-    appInfo: argument.userInfo as AppInfo,
+    type: 'hub',
+    action: 'open',
+    appId,
   };
 }
 
 export function onTapAddApp(_: Argument): Tasks {
-  const focusedApp: AppInfo = {
-    bundle: '',
-    name: '',
-    id: makeAppId(),
-    navigation: 'overlay',
-  };
+  const focusedApp: AppInfo = {id: makeAppId()};
   return [
     {
       type: 'state',
@@ -114,17 +113,14 @@ export function onTapAddApp(_: Argument): Tasks {
 }
 
 export async function onTapEditApp(argument: Argument): Promise<Tasks> {
-  const appInfo = argument.userInfo as Record<string, unknown>;
-  const appId = appInfo['id'] as string;
-  const bundle = NativeHomeModule.bundle(appId);
+  const appId = argument.userInfo as string;
+  const focusedApp = NativeHubModule.data(TableIdAppInfo, appId) as Record<string, unknown>;
+  focusedApp['bundle'] = NativeHubModule.bundle(appId);
   return [
     {
       type: 'state',
       state: {
-        focusedApp: {
-          ...appInfo,
-          bundle,
-        },
+        focusedApp,
       },
     },
     {
@@ -135,7 +131,7 @@ export async function onTapEditApp(argument: Argument): Promise<Tasks> {
   ];
 }
 
-export const PageHome: Page = {
+export const PageHub: Page = {
   stateMap: {
     apps: {
       type: 'bind',
@@ -173,9 +169,21 @@ export const PageHome: Page = {
   },
 };
 
-export const PageHomeInNav: NavPage = {
+export async function fetchHubBundle(): Promise<Tasks> {
+  // 更新自己，保存bundle
+  // 例如ios的更新，如果发生更新，app会被杀掉重新打开的
+  // 所以强制更新，就是一个dismiss的app task，然后一个open的app task
+  // app没有权限打开别人，但是有权限打开自己
+  return NativeModule.fetch('https://raw.githubusercontent.com/maundytime/PagegramJS/refs/heads/main/projects/hub/bundle/bundle.js')
+    .then(res => {
+      NativeHubModule.saveBundle('hub', res);
+      return undefined;
+    });
+}
+
+export const PageHubInNav: NavPage = {
   type: 'nav',
-  onLoad: 'reloadHome',
+  onLoad: ['reloadHub', 'fetchHubBundle'],
   stateMap: {
     apps: {
       type: 'state',
@@ -187,12 +195,13 @@ export const PageHomeInNav: NavPage = {
     },
   },
   eventMap: {
+    fetchHubBundle: 'fetchHubBundle',
     onTapEditApp: 'onTapEditApp',
     onTapApp: 'onTapApp',
     onTapAddApp: 'onTapAddApp',
-    reloadHome: 'reloadHome',
+    reloadHub: 'reloadHub',
   },
-  subpages: ['PageHome'],
+  subpages: ['PageHub'],
   subviews: {
     type: 'blur',
     dimension: {
@@ -226,7 +235,7 @@ export const PageHomeInNav: NavPage = {
             type: 'symbol',
             symbol: {
               name: 'plus',
-              size: 20,
+              weight: '500',
               color: '#000',
             },
             dimension: edge,
@@ -235,7 +244,7 @@ export const PageHomeInNav: NavPage = {
         {
           type: 'label',
           text: {
-            content: 'Home',
+            content: 'Hub',
             weight: '600',
           },
           dimension: {

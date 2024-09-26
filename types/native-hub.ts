@@ -3,11 +3,11 @@ type DataRow = {
   value: unknown;
 };
 
-declare const NativeHomeModuleManager: {
+declare const NativeHubModuleManager: {
   table(tableId: string): DataRow[];
   dropTable(tableId: string): void;
   createTable(tableId: string): void;
-  data(tableId: string, id: string): string;
+  data(tableId: string, id: string): unknown;
   deleteData(tableId: string, id: string): void;
   saveData(tableId: string, id: string, value: unknown): void;
   saveBundle(id: string, value: string): void;
@@ -15,7 +15,7 @@ declare const NativeHomeModuleManager: {
   bundle(id: string): string;
 };
 export const TableIdAppInfo = 'app_info';
-export const NativeHomeModule = NativeHomeModuleManager;
+export const NativeHubModule = NativeHubModuleManager;
 
 export function makeAppId() {
   const characters = 'abcdefghijklmnopqrstuvwxyz';

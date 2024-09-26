@@ -4,15 +4,14 @@ import type {Page} from 'types/page';
 import {edge} from 'types/util';
 
 export async function onLoad(_: Argument) {
-  console.log('to save');
-  NativeModule.saveData('key1', '113');
-  console.log('saved');
+  const x = 113;
+  console.log('to save', x, (typeof x));
+  NativeModule.saveData('key1', x);
 }
 
 export async function onLoad2(_: Argument) {
-  console.log('to get');
   const x = NativeModule.data('key1');
-  console.log('got', x);
+  console.log('got', x, (typeof x));
 }
 
 export const PageTest: Page = {
