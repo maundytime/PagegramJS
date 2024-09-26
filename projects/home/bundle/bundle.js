@@ -16,10 +16,10 @@ __export(home_exports, {
   onDeleteApp: () => onDeleteApp,
   onInputAppBundle: () => onInputAppBundle,
   onInputAppName: () => onInputAppName,
-  onLongPressApp: () => onLongPressApp,
   onSaveApp: () => onSaveApp,
   onTapAddApp: () => onTapAddApp,
   onTapApp: () => onTapApp,
+  onTapEditApp: () => onTapEditApp,
   reloadHome: () => reloadHome,
   root: () => PageHomeInNav
 });
@@ -101,7 +101,6 @@ function onChangeFocusApp(argument) {
   const focusedApp = argument.stateInfo["focusedApp"];
   const bundle = focusedApp["bundle"];
   const name = focusedApp["name"];
-  console.log("onChangeFocusApp", bundle, name);
   return {
     type: "view",
     view: {
@@ -330,30 +329,65 @@ function onChangeApps(argument) {
     const value = app["value"];
     const name = value["name"];
     return {
-      type: "touchFade",
+      type: "touch",
       userInfo: value,
       onTap: "onTapApp",
-      onLongPress: "onLongPressApp",
-      subviews: {
-        type: "label",
-        dimension: {
-          top: 0,
-          bottom: 0,
-          left: 16,
-          right: 16,
-          height: 44
+      dimension: {
+        top: 12,
+        bottom: 12,
+        left: 12,
+        right: 12
+      },
+      style: {
+        background: "fff",
+        border: {
+          radius: 8
         },
-        text: {
-          content: name
+        overflow: "hidden"
+      },
+      subviews: [
+        {
+          type: "touchFade",
+          userInfo: value,
+          onTap: "onTapEditApp",
+          dimension: {
+            top: 0,
+            width: 40,
+            height: 40,
+            right: 0
+          },
+          subviews: {
+            type: "symbol",
+            dimension: {
+              centerX: 0,
+              centerY: 0
+            },
+            symbol: {
+              name: "equal",
+              size: 14
+            }
+          }
+        },
+        {
+          type: "label",
+          dimension: {
+            centerX: 0,
+            centerY: 0
+          },
+          text: {
+            content: name
+          }
         }
-      }
+      ]
     };
   });
   return {
     type: "view",
     view: {
-      appStack: {
-        subviews
+      appMatrix: {
+        matrix: {
+          content: subviews
+        }
       }
     }
   };
@@ -394,7 +428,7 @@ function onTapAddApp(_) {
     }
   ];
 }
-async function onLongPressApp(argument) {
+async function onTapEditApp(argument) {
   const appInfo = argument.userInfo;
   const appId = appInfo["id"];
   const bundle = NativeHomeModule.bundle(appId);
@@ -432,19 +466,22 @@ var PageHome = {
     },
     dimension: edge,
     subviews: {
-      type: "stack",
-      id: "appStack",
-      stack: {
-        alignment: "fill"
-      },
-      style: {
-        background: "#fff"
-      },
+      type: "matrix",
+      id: "appMatrix",
       dimension: {
-        top: 24,
+        top: 12,
         bottom: 0,
-        leftSafe: 0,
-        rightSafe: 0
+        leftSafe: 12,
+        rightSafe: 12
+      },
+      matrix: {
+        itemSize: {
+          width: {
+            max: "50%",
+            min: 150
+          },
+          height: 100 + 24
+        }
       }
     }
   }
@@ -463,7 +500,7 @@ var PageHomeInNav = {
     }
   },
   eventMap: {
-    onLongPressApp: "onLongPressApp",
+    onTapEditApp: "onTapEditApp",
     onTapApp: "onTapApp",
     onTapAddApp: "onTapAddApp",
     reloadHome: "reloadHome"

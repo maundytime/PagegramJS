@@ -63,7 +63,6 @@ export function onChangeFocusApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const bundle = focusedApp['bundle'] as string;
   const name = focusedApp['name'] as string;
-  console.log('onChangeFocusApp', bundle, name);
   return {
     type: 'view',
     view: {

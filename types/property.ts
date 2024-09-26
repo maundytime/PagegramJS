@@ -60,12 +60,20 @@ export type Dimension = {
   unsafeAt?: 'top' | 'right' | 'bottom' | 'left';
 };
 type Range = {
-  max?: number | string;
-  min?: number | string;
+  max: number | string;
+  min: number | string;
 };
 export type ItemSize = {
   width?: number | string | Range;
   height?: number | string | Range;
+};
+export type Inset =
+| number
+| {
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
 };
 export type Style = {
   interactive?: boolean;

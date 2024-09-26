@@ -10,30 +10,65 @@ export function onChangeApps(argument: Argument): Tasks {
     const value = app['value'] as Record<string, unknown>;
     const name = value['name'] as string;
     return {
-      type: 'touchFade',
+      type: 'touch',
       userInfo: value,
       onTap: 'onTapApp',
-      onLongPress: 'onLongPressApp',
-      subviews: {
-        type: 'label',
-        dimension: {
-          top: 0,
-          bottom: 0,
-          left: 16,
-          right: 16,
-          height: 44,
-        },
-        text: {
-          content: name,
-        },
+      dimension: {
+        top: 12,
+        bottom: 12,
+        left: 12,
+        right: 12,
       },
+      style: {
+        background: 'fff',
+        border: {
+          radius: 8,
+        },
+        overflow: 'hidden',
+      },
+      subviews: [
+        {
+          type: 'touchFade',
+          userInfo: value,
+          onTap: 'onTapEditApp',
+          dimension: {
+            top: 0,
+            width: 40,
+            height: 40,
+            right: 0,
+          },
+          subviews: {
+            type: 'symbol',
+            dimension: {
+              centerX: 0,
+              centerY: 0,
+            },
+            symbol: {
+              name: 'equal',
+              size: 14,
+            },
+          },
+        },
+        {
+          type: 'label',
+          dimension: {
+            centerX: 0,
+            centerY: 0,
+          },
+          text: {
+            content: name,
+          },
+        },
+      ],
     };
   });
   return {
     type: 'view',
     view: {
-      appStack: {
-        subviews,
+      appMatrix: {
+        matrix: {
+          content: subviews,
+        },
       },
     },
   };
@@ -78,7 +113,7 @@ export function onTapAddApp(_: Argument): Tasks {
   ];
 }
 
-export async function onLongPressApp(argument: Argument): Promise<Tasks> {
+export async function onTapEditApp(argument: Argument): Promise<Tasks> {
   const appInfo = argument.userInfo as Record<string, unknown>;
   const appId = appInfo['id'] as string;
   const bundle = NativeHomeModule.bundle(appId);
@@ -117,19 +152,22 @@ export const PageHome: Page = {
     },
     dimension: edge,
     subviews: {
-      type: 'stack',
-      id: 'appStack',
-      stack: {
-        alignment: 'fill',
-      },
-      style: {
-        background: '#fff',
-      },
+      type: 'matrix',
+      id: 'appMatrix',
       dimension: {
-        top: 24,
+        top: 12,
         bottom: 0,
-        leftSafe: 0,
-        rightSafe: 0,
+        leftSafe: 12,
+        rightSafe: 12,
+      },
+      matrix: {
+        itemSize: {
+          width: {
+            max: '50%',
+            min: 150,
+          },
+          height: 100 + 24,
+        },
       },
     },
   },
@@ -149,7 +187,7 @@ export const PageHomeInNav: NavPage = {
     },
   },
   eventMap: {
-    onLongPressApp: 'onLongPressApp',
+    onTapEditApp: 'onTapEditApp',
     onTapApp: 'onTapApp',
     onTapAddApp: 'onTapAddApp',
     reloadHome: 'reloadHome',
