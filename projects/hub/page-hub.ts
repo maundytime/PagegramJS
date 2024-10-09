@@ -5,6 +5,45 @@ import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {type View} from 'types/view';
 
+const palette: string[] = [
+  'e7ced3',
+  'e9ced0',
+  'eacecc',
+  'eacec8',
+  'eacfc5',
+  'e9cfc2',
+  'e7d0bf',
+  'e5d1be',
+  'e2d2bc',
+  'dfd3bd',
+  'dbd4bd',
+  'd8d5bf',
+  'd5d6c1',
+  'd2d6c3',
+  'cfd7c6',
+  'cdd7c9',
+  'cbd8cc',
+  'cad8cf',
+  'c9d8d2',
+  'c9d8d5',
+  'c9d7d7',
+  'c9d7da',
+  'cad6db',
+  'cad6dd',
+  'ccd5df',
+  'ced5e0',
+  'd0d4e0',
+  'd1d3e1',
+  'd4d3e1',
+  'd6d2e1',
+  'd9d1e0',
+  'dcd1df',
+  'ded0de',
+  'e0d0dc',
+  'e3cfda',
+  'e5cfd7',
+];
+
 export function onChangeApps(argument: Argument): Tasks {
   const apps = argument.stateInfo['apps'] as Array<Record<string, unknown>>;
   const subviews: View[] = Array.from(apps, app => {
@@ -16,17 +55,17 @@ export function onChangeApps(argument: Argument): Tasks {
       userInfo: id,
       onTap: 'onTapApp',
       dimension: {
-        top: 12,
-        bottom: 12,
-        left: 12,
-        right: 12,
+        top: 8,
+        bottom: 8,
+        left: 8,
+        right: 8,
+        ratio: 1.618,
       },
       style: {
-        background: 'fff',
+        background: palette[Math.floor(Math.random() * palette.length)],
         border: {
-          radius: 8,
+          radius: 24,
         },
-        overflow: 'hidden',
       },
       subviews: [
         {
@@ -35,8 +74,8 @@ export function onChangeApps(argument: Argument): Tasks {
           onTap: 'onTapEditApp',
           dimension: {
             top: 0,
-            width: 40,
-            height: 40,
+            width: 48,
+            height: 48,
             right: 0,
           },
           subviews: {
@@ -47,18 +86,25 @@ export function onChangeApps(argument: Argument): Tasks {
             },
             symbol: {
               name: 'equal',
+              color: '333',
               size: 14,
+              weight: '500',
             },
           },
         },
         {
           type: 'label',
           dimension: {
-            centerX: 0,
-            centerY: 0,
+            left: 18,
+            bottom: 16,
+            right: 16,
           },
           text: {
             content: name,
+            size: 12,
+            color: '333',
+            design: 'monospaced',
+            weight: '600',
           },
         },
       ],
@@ -144,17 +190,17 @@ export const PageHub: Page = {
   subviews: {
     type: 'scroll',
     style: {
-      background: '#f5f5f5',
+      background: 'eee',
     },
     dimension: edge,
     subviews: {
       type: 'matrix',
       id: 'appMatrix',
       dimension: {
-        top: 12,
+        top: 0,
         bottom: 0,
-        leftSafe: 12,
-        rightSafe: 12,
+        leftSafe: 8,
+        rightSafe: 8,
       },
       matrix: {
         itemSize: {
@@ -162,7 +208,6 @@ export const PageHub: Page = {
             max: '50%',
             min: 150,
           },
-          height: 100 + 24,
         },
       },
     },
@@ -205,54 +250,32 @@ export const PageHubInNav: NavPage = {
   subviews: {
     type: 'blur',
     dimension: {
-      top: 0,
-      left: 0,
-      right: 0,
+      topSafe: 10,
+      width: 60,
+      height: 60,
+      rightSafe: 10,
       unsafeAt: 'top',
     },
     style: {
-      background: '#fffe',
+      background: 'eeec',
+      border: {
+        radius: 30,
+      },
+      overflow: 'hidden',
     },
     subviews: {
-      dimension: {
-        left: 0,
-        right: 0,
-        height: 44,
-        bottom: 0,
-        topSafe: 0,
+      type: 'touchFade',
+      onTap: 'onTapAddApp',
+      dimension: edge,
+      subviews: {
+        type: 'symbol',
+        symbol: {
+          name: 'plus',
+          weight: '500',
+          color: '000',
+        },
+        dimension: edge,
       },
-      subviews: [
-        {
-          type: 'touchFade',
-          onTap: 'onTapAddApp',
-          dimension: {
-            bottom: 0,
-            width: 44,
-            top: 0,
-            rightSafe: 16,
-          },
-          subviews: {
-            type: 'symbol',
-            symbol: {
-              name: 'plus',
-              weight: '500',
-              color: '#000',
-            },
-            dimension: edge,
-          },
-        },
-        {
-          type: 'label',
-          text: {
-            content: 'Hub',
-            weight: '600',
-          },
-          dimension: {
-            centerX: 0,
-            centerY: 0,
-          },
-        },
-      ],
     },
   },
 };

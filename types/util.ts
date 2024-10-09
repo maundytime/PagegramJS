@@ -7,21 +7,21 @@ export const edge: Dimension = {
 
 export const back: View = {
   style: {
-    background: '#666',
+    background: '666',
   },
   dimension: edge,
 };
 
 export const back1: View = {
   style: {
-    background: '#999',
+    background: '999',
   },
   dimension: edge,
 };
 
 export const whiteBack: View = {
   style: {
-    background: '#fff',
+    background: 'fff',
   },
   dimension: edge,
 };

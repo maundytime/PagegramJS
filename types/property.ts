@@ -57,6 +57,7 @@ export type Dimension = {
   heightSafe?: number | string;
   vertical?: number | 'auto';
   horizontal?: number | 'auto';
+  ratio?: number | string;
   unsafeAt?: 'top' | 'right' | 'bottom' | 'left';
 };
 type Range = {
@@ -66,6 +67,7 @@ type Range = {
 export type ItemSize = {
   width?: number | string | Range;
   height?: number | string | Range;
+  ratio?: number;
 };
 export type Inset =
 | number

@@ -29,7 +29,7 @@ export type AppInfo = {
   id: string;
   name?: string;
   bundle?: string;
-  navigation?: 'full' | 'overlay';
+  mode?: 'full' | 'overlay';
   url?: string;
   autoUpdate?: boolean;
 };

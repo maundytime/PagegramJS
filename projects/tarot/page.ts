@@ -159,7 +159,7 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: AIToken as string,
+      Authorization: AIToken,
     },
     body: JSON.stringify({
       messages: [
@@ -330,7 +330,7 @@ export const PageTarotInNav: NavPage = {
         unsafeAt: 'top',
       },
       style: {
-        background: '#fffe',
+        background: 'fffe',
       },
       subviews: {
         dimension: {
@@ -382,7 +382,7 @@ export const PageTarotInNav: NavPage = {
         unsafeAt: 'bottom',
       },
       style: {
-        background: '#fffe',
+        background: 'fffe',
       },
       subviews: {
         dimension: {

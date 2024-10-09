@@ -93,7 +93,7 @@ export const PageAddApp: Page = {
   subviews: {
     type: 'scroll',
     style: {
-      background: '#f5f5f5',
+      background: 'f5f5f5',
     },
     dimension: edge,
     subviews: {
@@ -111,7 +111,7 @@ export const PageAddApp: Page = {
       subviews: [
         {
           style: {
-            background: '#fff',
+            background: 'fff',
           },
           subviews: [
             {
@@ -144,7 +144,7 @@ export const PageAddApp: Page = {
         },
         {
           style: {
-            background: '#fff',
+            background: 'fff',
           },
           subviews: [
             {
@@ -178,7 +178,7 @@ export const PageAddApp: Page = {
         {
           type: 'touchFade',
           style: {
-            background: '#fff',
+            background: 'fff',
           },
           onLongPress: ['onDeleteApp', 'reloadHub'],
           subviews: {
@@ -227,7 +227,7 @@ export const PageAddAppInNav: NavPage = {
       unsafeAt: 'top',
     },
     style: {
-      background: '#fffe',
+      background: 'fffe',
     },
     subviews: {
       dimension: {
