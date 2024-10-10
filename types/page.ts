@@ -1,5 +1,6 @@
 import type {View} from './view';
 import type {EventMap} from './event';
+import {type Direction} from './property';
 
 type State = {
   type: 'state';
@@ -19,6 +20,7 @@ type BasicPage = {
   onLoad?: string | string[];
   onUnload?: string | string[];
   subviews?: View | View[];
+  direction?: Direction;
 };
 
 type TabPage = BasicPage & {

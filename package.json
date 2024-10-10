@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "^6.0.0",
+    "@material/material-color-utilities": "^0.3.0",
     "fast-xml-parser": "^4.4.1",
     "xo": "^0.59.3",
     "esbuild": "^0.23.1"

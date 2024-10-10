@@ -1,87 +1,92 @@
 import {type Tasks, type Argument} from 'types/event';
-import type {Page} from 'types/page';
-import {edge} from 'types/util';
-import {type View} from 'types/view';
+import type {NavPage, Page} from 'types/page';
+import {edge, hctColor} from 'types/util';
 
-const allSounds = [
-  'bowls',
-  'night',
-];
+const playSymbol = 'play.circle.fill';
+const pauseSymbol = 'pause.circle.fill';
+const background = hctColor(360 * Math.random(), 20, 90);
 
 export function onTap(argument: Argument): Tasks {
+  const playing = argument.stateInfo['playing'] as boolean;
   return {
     type: 'state',
     state: {
-      sound: argument.userInfo,
+      playing: !playing,
     },
   };
 }
 
+export function onPlaying(argument: Argument): Tasks {
+  const rate = (argument.systemInfo as any).rate as number;
+  return [
+    {
+      type: 'view',
+      view: {
+        playButton: {
+          symbol: {
+            name: rate === 0 ? playSymbol : pauseSymbol,
+          },
+        },
+      },
+    },
+    {
+      type: 'state',
+      state: {
+        playing: rate !== 0,
+      },
+    },
+  ];
+}
+
 export function onChange(argument: Argument): Tasks {
-  const sound = argument.stateInfo['sound'];
-  console.log('onChange', sound);
+  const playing = argument.stateInfo['playing'] as boolean;
   return {
     type: 'view',
     view: {
       audio: {
-        audio: {
-          url: '本地目录',
-        },
         action: {
-          play: 'current',
+          play: playing ? 'current' : 'pause',
+        },
+      },
+      playButton: {
+        symbol: {
+          name: playing ? pauseSymbol : playSymbol,
         },
       },
     },
   };
 }
-
-const buttons: View[] = Array.from(allSounds, sound => (
-  {
-    type: 'touchFade',
-    onTap: 'onTap',
-    userInfo: sound,
-    style: {
-      background: 'f00',
-    },
-    subviews: {
-      type: 'label',
-      text: {
-        content: sound,
-      },
-      dimension: {
-        centerX: 0,
-        centerY: 0,
-      },
-    },
-  }
-));
 
 export const PageSound: Page = {
   eventMap: {
     onTap: 'onTap',
     onChange: 'onChange',
+    onPlaying: 'onPlaying',
   },
   stateMap: {
-    sound: {
+    playing: {
       type: 'state',
-      value: null,
+      value: false,
       onChange: 'onChange',
     },
   },
-  subviews: {
-    dimension: edge,
-    style: {
-      background: 'fff',
-    },
-    subviews: [
-      {
+  subviews: [
+    {
+      id: 'audio',
+      type: 'audio',
+      onPlaying: 'onPlaying',
+      audio: {
+        url: 'sound.caf',
+      },
+    }, {
+      dimension: edge,
+      style: {
+        background,
+      },
+      subviews: {
         type: 'stack',
         stack: {
           alignment: 'fill',
-          distribution: 'fillEqually',
-        },
-        style: {
-          background: 'fff',
         },
         dimension: {
           topSafe: 0,
@@ -89,13 +94,75 @@ export const PageSound: Page = {
           left: 0,
           right: 0,
         },
-        subviews: buttons,
+        subviews: [
+          {
+            type: 'image',
+            image: {
+              url: 'mesh.pdf',
+              mode: 'center',
+            },
+            dimension: {
+              ratio: '100%',
+            },
+          },
+          {
+            subviews: {
+              type: 'touch',
+              onTap: 'onTap',
+              dimension: {
+                width: 80,
+                height: 80,
+                centerX: 0,
+                centerY: 0,
+              },
+              subviews: {
+                type: 'symbol',
+                id: 'playButton',
+                symbol: {
+                  name: playSymbol,
+                  weight: '500',
+                  size: 48,
+                },
+                dimension: {
+                  centerX: 0,
+                  centerY: 0,
+                },
+              },
+            },
+          },
+        ],
       },
-      {
-        id: 'audio',
-        type: 'audio',
-        onPlaying: 'onPlaying',
+    },
+  ],
+};
+
+export const PageSoundInNav: NavPage = {
+  direction: 'vertical',
+  type: 'nav',
+  eventMap: {
+    dismiss: {
+      type: 'navigation',
+      navigation: 'dismiss',
+    },
+  },
+  subpages: ['PageSound'],
+  subviews: {
+    type: 'touch',
+    onTap: 'dismiss',
+    dimension: {
+      topSafe: 10,
+      width: 60,
+      height: 60,
+      leftSafe: 10,
+      unsafeAt: 'top',
+    },
+    subviews: {
+      type: 'symbol',
+      symbol: {
+        name: 'arrowtriangle.down.fill',
+        weight: '500',
       },
-    ],
+      dimension: edge,
+    },
   },
 };

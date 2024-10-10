@@ -1,5 +1,13 @@
 import {type Dimension} from 'types/property';
 import {type View} from 'types/view';
+import {Hct, hexFromArgb} from '@material/material-color-utilities';
+
+export function hctColor(hue: number, chroma: number, tone: number): string {
+  const argb = Hct.from(hue, chroma, tone).toInt();
+  const hex = hexFromArgb(argb);
+  console.log(hex);
+  return hex;
+}
 
 export const edge: Dimension = {
   left: 0, right: 0, top: 0, bottom: 0,

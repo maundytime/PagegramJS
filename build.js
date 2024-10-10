@@ -20,7 +20,7 @@ async function build(dirPath, entryPath, bundlePath) {
   await esbuild.build({
     entryPoints: [entryPath],
     bundle: true,
-    minify: true,
+    // minify: true,
     outfile: bundlePath,
     format: 'esm',
   });

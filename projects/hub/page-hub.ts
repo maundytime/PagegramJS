@@ -2,47 +2,8 @@ import {type Tasks, type Argument, type AppInfo} from 'types/event';
 import {NativeModule} from 'types/native';
 import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
-import {edge} from 'types/util';
+import {edge, hctColor} from 'types/util';
 import {type View} from 'types/view';
-
-const palette: string[] = [
-  'e7ced3',
-  'e9ced0',
-  'eacecc',
-  'eacec8',
-  'eacfc5',
-  'e9cfc2',
-  'e7d0bf',
-  'e5d1be',
-  'e2d2bc',
-  'dfd3bd',
-  'dbd4bd',
-  'd8d5bf',
-  'd5d6c1',
-  'd2d6c3',
-  'cfd7c6',
-  'cdd7c9',
-  'cbd8cc',
-  'cad8cf',
-  'c9d8d2',
-  'c9d8d5',
-  'c9d7d7',
-  'c9d7da',
-  'cad6db',
-  'cad6dd',
-  'ccd5df',
-  'ced5e0',
-  'd0d4e0',
-  'd1d3e1',
-  'd4d3e1',
-  'd6d2e1',
-  'd9d1e0',
-  'dcd1df',
-  'ded0de',
-  'e0d0dc',
-  'e3cfda',
-  'e5cfd7',
-];
 
 export function onChangeApps(argument: Argument): Tasks {
   const apps = argument.stateInfo['apps'] as Array<Record<string, unknown>>;
@@ -50,6 +11,8 @@ export function onChangeApps(argument: Argument): Tasks {
     const value = app['value'] as Record<string, unknown>;
     const name = value['name'] as string;
     const id = value['id'] as string;
+    const background = hctColor(360 * Math.random(), 20, 90);
+    const color = hctColor(0, 0, 15);
     return {
       type: 'touch',
       userInfo: id,
@@ -59,10 +22,10 @@ export function onChangeApps(argument: Argument): Tasks {
         bottom: 8,
         left: 8,
         right: 8,
-        ratio: 1.618,
+        ratio: 1, // 0.618,
       },
       style: {
-        background: palette[Math.floor(Math.random() * palette.length)],
+        background,
         border: {
           radius: 24,
         },
@@ -86,7 +49,7 @@ export function onChangeApps(argument: Argument): Tasks {
             },
             symbol: {
               name: 'equal',
-              color: '333',
+              color,
               size: 14,
               weight: '500',
             },
@@ -102,9 +65,9 @@ export function onChangeApps(argument: Argument): Tasks {
           text: {
             content: name,
             size: 12,
-            color: '333',
+            color,
             design: 'monospaced',
-            weight: '600',
+            weight: '500',
           },
         },
       ],
@@ -177,6 +140,8 @@ export async function onTapEditApp(argument: Argument): Promise<Tasks> {
   ];
 }
 
+const background = hctColor(0, 0, 100);
+
 export const PageHub: Page = {
   stateMap: {
     apps: {
@@ -190,7 +155,7 @@ export const PageHub: Page = {
   subviews: {
     type: 'scroll',
     style: {
-      background: 'eee',
+      background: hctColor(0, 0, 100),
     },
     dimension: edge,
     subviews: {
@@ -250,32 +215,51 @@ export const PageHubInNav: NavPage = {
   subviews: {
     type: 'blur',
     dimension: {
-      topSafe: 10,
-      width: 60,
-      height: 60,
-      rightSafe: 10,
+      top: 0,
+      left: 0,
+      right: 0,
       unsafeAt: 'top',
     },
     style: {
-      background: 'eeec',
-      border: {
-        radius: 30,
-      },
-      overflow: 'hidden',
+      background: 'fffc',
     },
     subviews: {
-      type: 'touchFade',
-      onTap: 'onTapAddApp',
-      dimension: edge,
-      subviews: {
-        type: 'symbol',
-        symbol: {
-          name: 'plus',
-          weight: '500',
-          color: '000',
-        },
-        dimension: edge,
+      dimension: {
+        left: 0,
+        right: 0,
+        height: 60,
+        bottom: 0,
+        topSafe: 0,
       },
+      subviews: [
+        {
+          type: 'image',
+          image: {
+            url: 'logo.pdf',
+            mode: 'center',
+          },
+          dimension: edge,
+        },
+        {
+          type: 'touchFade',
+          onTap: 'onTapAddApp',
+          dimension: {
+            rightSafe: 0,
+            height: 60,
+            width: 60,
+            top: 0,
+          },
+          subviews: {
+            type: 'symbol',
+            symbol: {
+              name: 'plus',
+              weight: '500',
+              color: '000',
+            },
+            dimension: edge,
+          },
+        },
+      ],
     },
   },
 };
