@@ -8,19 +8,7 @@ export const PageTest: Page = {
     style: {
       background: 'fff',
     },
-    onTap: 'changeLabel',
-    subviews: {
-      id: 'label',
-      type: 'label',
-      text: {
-        content: '点击我',
-        alignment: 'center',
-      },
-      dimension: edge,
-    },
-  },
-  eventMap: {
-    changeLabel: {
+    onTap: {
       type: 'view',
       view: {
         label: {
@@ -29,6 +17,15 @@ export const PageTest: Page = {
           },
         },
       },
+    },
+    subviews: {
+      id: 'label',
+      type: 'label',
+      text: {
+        content: '点击我',
+        alignment: 'center',
+      },
+      dimension: edge,
     },
   },
 };

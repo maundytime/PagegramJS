@@ -16,7 +16,7 @@ export function onChangeApps(argument: Argument): Tasks {
     return {
       type: 'touch',
       userInfo: id,
-      onTap: 'onTapApp',
+      onTap: '#onTapApp',
       dimension: {
         top: 8,
         bottom: 8,
@@ -34,7 +34,7 @@ export function onChangeApps(argument: Argument): Tasks {
         {
           type: 'touchFade',
           userInfo: id,
-          onTap: 'onTapEditApp',
+          onTap: '#onTapEditApp',
           dimension: {
             top: 0,
             width: 48,
@@ -140,17 +140,12 @@ export async function onTapEditApp(argument: Argument): Promise<Tasks> {
   ];
 }
 
-const background = hctColor(0, 0, 100);
-
 export const PageHub: Page = {
   stateMap: {
     apps: {
       type: 'bind',
-      onChange: 'onChangeApps',
+      onChange: '#onChangeApps',
     },
-  },
-  eventMap: {
-    onChangeApps: '#onChangeApps',
   },
   subviews: {
     type: 'scroll',
@@ -193,7 +188,7 @@ export async function fetchHubBundle(): Promise<Tasks> {
 
 export const PageHubInNav: NavPage = {
   type: 'nav',
-  onLoad: ['reloadHub', 'fetchHubBundle'],
+  onLoad: ['reloadHub', '#fetchHubBundle'],
   stateMap: {
     apps: {
       type: 'state',
@@ -205,10 +200,6 @@ export const PageHubInNav: NavPage = {
     },
   },
   eventMap: {
-    fetchHubBundle: '#fetchHubBundle',
-    onTapEditApp: '#onTapEditApp',
-    onTapApp: '#onTapApp',
-    onTapAddApp: '#onTapAddApp',
     reloadHub: '#reloadHub',
   },
   subpages: ['PageHub'],
@@ -242,7 +233,7 @@ export const PageHubInNav: NavPage = {
         },
         {
           type: 'touchFade',
-          onTap: 'onTapAddApp',
+          onTap: '#onTapAddApp',
           dimension: {
             rightSafe: 0,
             height: 60,

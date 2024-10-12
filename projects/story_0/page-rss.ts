@@ -15,10 +15,6 @@ export const PageRssInNav: NavPage = (() => {
       value: null,
     },
   };
-  nav.eventMap = {
-    ...nav.eventMap,
-    onTapRssItem: 'onTapRssItem',
-  };
   return nav;
 })();
 
@@ -26,23 +22,8 @@ export const PageRssDetail: Page = {
   stateMap: {
     focusedRssItem: {
       type: 'bind',
-      onChange: 'focusedRssItemDidChange',
+      onChange: '#focusedRssItemDidChange',
     },
-  },
-  eventMap: {
-    test: [
-      {
-        type: 'view',
-        view: {
-          audioView: {
-            action: {
-              play: 'pause',
-            },
-          },
-        },
-      },
-    ],
-    focusedRssItemDidChange: '#focusedRssItemDidChange',
   },
   subviews: {
     type: 'scroll',
@@ -79,7 +60,16 @@ export const PageRssDetail: Page = {
             width: 60,
           },
           style: {background: 'f00'},
-          onTap: 'test',
+          onTap: {
+            type: 'view',
+            view: {
+              audioView: {
+                action: {
+                  play: 'pause',
+                },
+              },
+            },
+          },
         },
         {
           id: 'imageView',
@@ -139,14 +129,10 @@ export const PageRss: Page = {
     rss: {
       type: 'state',
       value: null,
-      onChange: 'rssDidChange',
+      onChange: '#rssDidChange',
     },
   },
-  onLoad: 'fetchRss',
-  eventMap: {
-    rssDidChange: '#rssDidChange',
-    fetchRss: '#fetchRss',
-  },
+  onLoad: '#fetchRss',
   subviews: {
     type: 'scroll',
     dimension: edge,
@@ -252,7 +238,7 @@ export function rssDidChange(argument: Argument): Tasks {
           type: 'touch',
           dimension: edge,
           userInfo: {...item, channelTitle, channelImage},
-          onTap: 'onTapRssItem',
+          onTap: '#onTapRssItem',
           subviews: {
             type: 'stack',
             dimension: edge,

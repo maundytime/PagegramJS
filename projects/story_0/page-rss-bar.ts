@@ -10,35 +10,7 @@ export const PageRssBarInNav: NavPage = (() => {
 export const PageRssBar: Page = {
   stateMap: {
     slideSpace: {type: 'state', value: 0},
-    playingProgress: {type: 'state', value: 0, onChange: 'onPlayingProgressChange'},
-  },
-  eventMap: {
-    onPlaying: '#onPlaying',
-    onPlayingStart: '#onPlayingStart',
-    onMove: '#onMove',
-    onPlayingProgressChange: '#onPlayingProgressChange',
-    onMoveEnd: '#onMoveEnd',
-    onMeasure: '#onMeasure',
-    playAudio1: {
-      type: 'view',
-      view: {
-        audio1: {
-          action: {
-            play: 'current',
-          },
-        },
-      },
-    },
-    pauseAudio1: {
-      type: 'view',
-      view: {
-        audio1: {
-          action: {
-            play: 'pause',
-          },
-        },
-      },
-    },
+    playingProgress: {type: 'state', value: 0, onChange: '#onPlayingProgressChange'},
   },
   subviews: [
     {
@@ -71,8 +43,8 @@ export const PageRssBar: Page = {
         play: 'current',
       },
       // loop: 'random',
-      onPlaying: 'onPlaying',
-      onPlayingStart: 'onPlayingStart',
+      onPlaying: '#onPlaying',
+      onPlayingStart: '#onPlayingStart',
       systemControl: {
         // skipBackward: 15,
         // skipForward: 60,
@@ -82,7 +54,16 @@ export const PageRssBar: Page = {
     },
     {
       type: 'touchFade',
-      onTap: 'playAudio1',
+      onTap: {
+        type: 'view',
+        view: {
+          audio1: {
+            action: {
+              play: 'current',
+            },
+          },
+        },
+      },
       dimension: {
         left: 0,
         width: 60,
@@ -95,7 +76,16 @@ export const PageRssBar: Page = {
     },
     {
       type: 'touchFade',
-      onTap: 'pauseAudio1',
+      onTap: {
+        type: 'view',
+        view: {
+          audio1: {
+            action: {
+              play: 'pause',
+            },
+          },
+        },
+      },
       dimension: {
         left: 0,
         width: 60,
@@ -108,7 +98,7 @@ export const PageRssBar: Page = {
     },
     {
       type: 'measure',
-      onMeasure: 'onMeasure',
+      onMeasure: '#onMeasure',
       dimension: {
         left: 60,
         right: 60,
@@ -121,8 +111,8 @@ export const PageRssBar: Page = {
       subviews: {
         id: 'dragView',
         type: 'touch',
-        onMove: 'onMove',
-        onMoveEnd: 'onMoveEnd',
+        onMove: '#onMove',
+        onMoveEnd: '#onMoveEnd',
         dimension: {
           left: 0,
           centerY: 0,

@@ -84,11 +84,8 @@ export const PageAddApp: Page = {
   stateMap: {
     focusedApp: {
       type: 'bind',
-      onChange: 'onChangeFocusApp',
+      onChange: '#onChangeFocusApp',
     },
-  },
-  eventMap: {
-    onChangeFocusApp: '#onChangeFocusApp',
   },
   subviews: {
     type: 'scroll',
@@ -131,7 +128,7 @@ export const PageAddApp: Page = {
                 editable: true,
                 lines: 1,
               },
-              onInput: 'onInputAppName',
+              onInput: '#onInputAppName',
               dimension: {
                 left: 100,
                 top: 12,
@@ -164,7 +161,7 @@ export const PageAddApp: Page = {
                 editable: true,
                 scrollable: true,
               },
-              onInput: 'onInputAppBundle',
+              onInput: '#onInputAppBundle',
               dimension: {
                 left: 100,
                 top: 12,
@@ -180,7 +177,7 @@ export const PageAddApp: Page = {
           style: {
             background: 'fff',
           },
-          onLongPress: ['onDeleteApp', 'reloadHub'],
+          onLongPress: ['#onDeleteApp', 'reloadHub'],
           subviews: {
             type: 'label',
             text: {
@@ -207,16 +204,6 @@ export const PageAddAppInNav: NavPage = {
       type: 'bind',
     },
   },
-  eventMap: {
-    onInputAppName: '#onInputAppName',
-    onInputAppBundle: '#onInputAppBundle',
-    onSaveApp: '#onSaveApp',
-    onDeleteApp: '#onDeleteApp',
-    onDismissTap: {
-      type: 'navigation',
-      navigation: 'dismiss',
-    },
-  },
   subpages: ['PageAddApp'],
   subviews: {
     type: 'blur',
@@ -240,7 +227,10 @@ export const PageAddAppInNav: NavPage = {
       subviews: [
         {
           type: 'touchFade',
-          onTap: 'onDismissTap',
+          onTap: {
+            type: 'navigation',
+            navigation: 'dismiss',
+          },
           dimension: {
             bottom: 0,
             top: 0,
@@ -256,7 +246,7 @@ export const PageAddAppInNav: NavPage = {
         },
         {
           type: 'touchFade',
-          onTap: ['onSaveApp', 'reloadHub'],
+          onTap: ['#onSaveApp', 'reloadHub'],
           dimension: {
             bottom: 0,
             top: 0,

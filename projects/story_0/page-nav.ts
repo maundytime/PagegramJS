@@ -33,7 +33,10 @@ export function makePageNav(subpages: string[]): NavPage {
   };
   const dismissButton = {
     type: 'touchFade',
-    onTap: 'dismiss',
+    onTap: {
+      type: 'navigation',
+      navigation: 'dismiss',
+    },
     dimension: {
       height: 60,
       width: 60,
@@ -47,7 +50,10 @@ export function makePageNav(subpages: string[]): NavPage {
   const popButton = {
     type: 'touchFade',
     id: 'popButton',
-    onTap: 'pop',
+    onTap: {
+      type: 'navigation',
+      navigation: 'pop',
+    },
     dimension: {
       height: 60,
       width: 60,
@@ -93,24 +99,11 @@ export function makePageNav(subpages: string[]): NavPage {
       stackCount: {
         type: 'state',
         value: 0,
-        onChange: 'stackCountDidChange',
+        onChange: '#stackCountDidChange',
       },
     },
-    onPush: 'onPush',
-    onPop: 'onPop',
-    eventMap: {
-      stackCountDidChange: '#stackCountDidChange',
-      dismiss: {
-        type: 'navigation',
-        navigation: 'dismiss',
-      },
-      pop: {
-        type: 'navigation',
-        navigation: 'pop',
-      },
-      onPush: 'increaseStackCountFunction',
-      onPop: 'decreaseStackCountFunction',
-    },
+    onPush: '#increaseStackCountFunction',
+    onPop: '#decreaseStackCountFunction',
   };
   return nav;
 }

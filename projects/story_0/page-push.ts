@@ -9,18 +9,12 @@ function makePage(flag: boolean): Page {
       info: {
         type: 'state',
         value: flag ? 'yellow' : 'purple',
-        onChange: 'infoDidChange',
+        onChange: '#infoDidChange',
       },
       infoFromParent: {
         type: 'bind',
-        onChange: 'infoFromParentDidChange',
+        onChange: '#infoFromParentDidChange',
       },
-    },
-    eventMap: {
-      infoDidChange: '#infoDidChange',
-      infoFromParentDidChange: '#infoFromParentDidChange',
-      worldTimeTest: '#worldTimeTest',
-      changeNavInfo: '#changeNavInfo',
     },
     subviews: {
       dimension: edge,
@@ -67,7 +61,7 @@ function makePage(flag: boolean): Page {
         },
         {
           type: 'touchFade',
-          onTap: ['worldTimeTest', 'changeNavInfo'],
+          onTap: ['#worldTimeTest', '#changeNavInfo'],
           dimension: {
             height: 100,
             width: 100,

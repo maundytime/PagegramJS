@@ -1,4 +1,3 @@
-import {type EventMap} from 'types/event';
 import type {Page} from 'types/page';
 import {type StackView} from 'types/view';
 import {edge} from 'types/util';
@@ -40,20 +39,7 @@ export const Tab: Page = {
       subviews: makeTabs(),
     },
   ],
-  eventMap: makeEventsMap(),
 };
-
-function makeEventsMap() {
-  const eventMap: EventMap = {};
-  for (const key of subpages) {
-    eventMap[key] = {
-      type: 'navigation',
-      pageName: key,
-      navigation: 'select',
-    };
-  }
-  return eventMap;
-}
 
 function makeTabs(): StackView {
   return {
@@ -74,7 +60,11 @@ function makeTabs(): StackView {
     subviews: Array.from(subpages, (v, i) => (
       {
         type: 'touchFade',
-        onTap: v,
+        onTap: {
+          type: 'navigation',
+          pageName: v,
+          navigation: 'select',
+        },
         style: {
           background: '0003',
         },

@@ -134,16 +134,13 @@ export const PageSound: Page = {
 export const PageSoundInNav: NavPage = {
   direction: 'vertical',
   type: 'nav',
-  eventMap: {
-    dismiss: {
-      type: 'navigation',
-      navigation: 'dismiss',
-    },
-  },
   subpages: ['PageSound'],
   subviews: {
     type: 'touch',
-    onTap: 'dismiss',
+    onTap: {
+      type: 'navigation',
+      navigation: 'dismiss',
+    },
     dimension: {
       topSafe: 10,
       width: 60,

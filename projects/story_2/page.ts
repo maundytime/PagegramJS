@@ -15,11 +15,7 @@ export async function onLoad2(_: Argument) {
 }
 
 export const PageTest: Page = {
-  onLoad: ['onLoad', 'onLoad2'],
-  eventMap: {
-    onLoad: '#onLoad',
-    onLoad2: '#onLoad2',
-  },
+  onLoad: ['#onLoad', '#onLoad2'],
   subviews: {
     type: 'label',
     text: {

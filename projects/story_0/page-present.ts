@@ -63,7 +63,50 @@ export const PageAnimation: Page = {
         },
         {
           type: 'touchFade',
-          onTap: 'sizeTo100',
+          onTap: [
+            {
+              type: 'view',
+              duration: 0.5,
+              view: {
+                removeView: {
+                  style: {opacity: 0},
+                },
+              },
+            },
+            br,
+            {
+              type: 'view',
+              duration: 2,
+              view: {
+                removeView: {
+                  style: {opacity: 1},
+                },
+                text1: {
+                  id: 'text1',
+                  type: 'label',
+                  text: {content: 'CHANGE'},
+                },
+                symbol1: {
+                  symbol: {
+                    name: 'square',
+                    size: 100,
+                    color: '000',
+                  },
+                  style: {
+                    transform: {
+                      rotate: 30,
+                    },
+                  },
+                  dimension: {
+                    centerX: 0,
+                    centerY: 0,
+                    width: 100,
+                    height: 100,
+                  },
+                },
+              },
+            },
+          ],
           dimension: {
             height: 60,
             width: 60,
@@ -76,7 +119,36 @@ export const PageAnimation: Page = {
         },
         {
           type: 'touchFade',
-          onTap: 'sizeTo200',
+          onTap: {
+            type: 'view',
+            view: {
+              symbol1: {
+                symbol: {
+                  name: 'square',
+                  size: 200,
+                  color: '00f',
+                },
+                dimension: {
+                  centerX: 0,
+                  centerY: 0,
+                  width: 200,
+                  height: 200,
+                },
+                style: {
+                  transform: {
+                    rotate: 0,
+                  },
+                },
+              },
+              text1: {
+                text: {content: 'text1'},
+                style: {
+                  background: '0003',
+                },
+              },
+            },
+            duration: 2,
+          },
           dimension: {
             height: 60,
             width: 60,
@@ -88,86 +160,6 @@ export const PageAnimation: Page = {
           },
         },
       ],
-    },
-  },
-  eventMap: {
-    dismissButtonDidTap: {
-      type: 'navigation',
-      navigation: 'dismiss',
-    },
-    sizeTo100: [
-      {
-        type: 'view',
-        duration: 0.5,
-        view: {
-          removeView: {
-            style: {opacity: 0},
-          },
-        },
-      },
-      br,
-      {
-        type: 'view',
-        duration: 2,
-        view: {
-          removeView: {
-            style: {opacity: 1},
-          },
-          text1: {
-            id: 'text1',
-            type: 'label',
-            text: {content: 'CHANGE'},
-          },
-          symbol1: {
-            symbol: {
-              name: 'square',
-              size: 100,
-              color: '000',
-            },
-            style: {
-              transform: {
-                rotate: 30,
-              },
-            },
-            dimension: {
-              centerX: 0,
-              centerY: 0,
-              width: 100,
-              height: 100,
-            },
-          },
-        },
-      },
-    ],
-    sizeTo200: {
-      type: 'view',
-      view: {
-        symbol1: {
-          symbol: {
-            name: 'square',
-            size: 200,
-            color: '00f',
-          },
-          dimension: {
-            centerX: 0,
-            centerY: 0,
-            width: 200,
-            height: 200,
-          },
-          style: {
-            transform: {
-              rotate: 0,
-            },
-          },
-        },
-        text1: {
-          text: {content: 'text1'},
-          style: {
-            background: '0003',
-          },
-        },
-      },
-      duration: 2,
     },
   },
 };
@@ -184,7 +176,11 @@ export const PagePresent: Page = {
     },
     subviews: {
       type: 'touchFade',
-      onTap: 'present',
+      onTap: {
+        type: 'navigation',
+        navigation: 'overlay',
+        pageName: 'PageAnimationInNav',
+      },
       dimension: {
         height: 100,
         width: 100,
@@ -194,13 +190,6 @@ export const PagePresent: Page = {
       style: {
         background: '0003',
       },
-    },
-  },
-  eventMap: {
-    present: {
-      type: 'navigation',
-      navigation: 'overlay',
-      pageName: 'PageAnimationInNav',
     },
   },
 };

@@ -229,14 +229,10 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
 }
 
 export const PageTarot: Page = {
-  eventMap: {
-    onCards: '#onCards',
-    onCardsReading: '#onCardsReading',
-  },
   stateMap: {
     cards: {
       type: 'bind',
-      onChange: ['onCards', 'onCardsReading'],
+      onChange: ['#onCards', '#onCardsReading'],
     },
   },
   subviews: {
@@ -306,13 +302,6 @@ export const PageTarot: Page = {
 
 export const PageTarotInNav: NavPage = {
   type: 'nav',
-  eventMap: {
-    onTap: '#onTap',
-    onDismissTap: {
-      type: 'navigation',
-      navigation: 'dismiss',
-    },
-  },
   stateMap: {
     cards: {
       type: 'state',
@@ -343,7 +332,10 @@ export const PageTarotInNav: NavPage = {
         subviews: [
           {
             type: 'touchFade',
-            onTap: 'onDismissTap',
+            onTap: {
+              type: 'navigation',
+              navigation: 'dismiss',
+            },
             dimension: {
               bottom: 0,
               width: 44,
@@ -395,7 +387,7 @@ export const PageTarotInNav: NavPage = {
         subviews: [
           {
             type: 'touchFade',
-            onTap: 'onTap',
+            onTap: '#onTap',
             style: {
               background: '0002',
               border: {
