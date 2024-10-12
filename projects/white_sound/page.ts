@@ -58,23 +58,18 @@ export function onChange(argument: Argument): Tasks {
 }
 
 export const PageSound: Page = {
-  eventMap: {
-    onTap: 'onTap',
-    onChange: 'onChange',
-    onPlaying: 'onPlaying',
-  },
   stateMap: {
     playing: {
       type: 'state',
       value: false,
-      onChange: 'onChange',
+      onChange: '#onChange',
     },
   },
   subviews: [
     {
       id: 'audio',
       type: 'audio',
-      onPlaying: 'onPlaying',
+      onPlaying: '#onPlaying',
       audio: {
         url: 'sound.caf',
       },
@@ -108,7 +103,7 @@ export const PageSound: Page = {
           {
             subviews: {
               type: 'touch',
-              onTap: 'onTap',
+              onTap: '#onTap',
               dimension: {
                 width: 80,
                 height: 80,

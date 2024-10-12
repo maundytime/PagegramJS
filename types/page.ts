@@ -1,15 +1,15 @@
 import type {View} from './view';
-import type {EventMap} from './event';
+import type {EventMap, Tasks} from './event';
 import {type Direction} from './property';
 
 type State = {
   type: 'state';
   value: unknown;
-  onChange?: string | string[];
+  onChange?: Tasks;
 } | {
   type: 'bind';
   value?: undefined; // debug用，应该是没有的，todo移除
-  onChange?: string | string[];
+  onChange?: Tasks;
 };
 
 export type StateMap = Record<string, State>;
@@ -17,8 +17,8 @@ export type StateMap = Record<string, State>;
 type BasicPage = {
   stateMap?: StateMap;
   eventMap?: EventMap;
-  onLoad?: string | string[];
-  onUnload?: string | string[];
+  onLoad?: Tasks;
+  onUnload?: Tasks;
   subviews?: View | View[];
   direction?: Direction;
 };
@@ -31,8 +31,8 @@ type TabPage = BasicPage & {
 export type NavPage = BasicPage & {
   type: 'nav';
   subpages: string[];
-  onPush?: string | string[];
-  onPop?: string | string[];
+  onPush?: Tasks;
+  onPop?: Tasks;
 };
 
 export type Page = BasicPage | TabPage | NavPage;

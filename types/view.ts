@@ -1,3 +1,4 @@
+import {type Tasks} from './event';
 import type {
   PageSymbol, Direction, Style, Dimension, PageText, ItemSize,
 } from './property';
@@ -8,17 +9,17 @@ type ViewProperties = {
   dimension?: Dimension;
 };
 type TouchViewProperties = {
-  onTap?: string | string[];
-  onLongPress?: string | string[];
-  onMove?: string | string[];
-  onMoveEnd?: string | string[];
+  onTap?: Tasks;
+  onLongPress?: Tasks;
+  onMove?: Tasks;
+  onMoveEnd?: Tasks;
   userInfo?: unknown;
 };
 // container
 export type MeasureView = ViewProperties & {
   type?: 'measure';
   subviews?: View | View[];
-  onMeasure?: string | string[];
+  onMeasure?: Tasks;
 };
 export type TouchFadeView = ViewProperties & TouchViewProperties & {
   type?: 'touchFade';
@@ -64,7 +65,7 @@ export type TextView = ViewProperties & {
     scrollable?: boolean;
     selectable?: boolean;
   };
-  onInput: string | string[];
+  onInput: Tasks;
 };
 export type SymbolView = ViewProperties & {
   type?: 'symbol';
@@ -109,9 +110,9 @@ export type AudioView = ViewProperties & {
     previousTrack?: boolean;
     nextTrack?: boolean;
   };
-  onPlaying?: string | string[];
-  onPlayingStart?: string | string[];
-  onPlayingEnd?: string | string[];
+  onPlaying?: Tasks;
+  onPlayingStart?: Tasks;
+  onPlayingEnd?: Tasks;
   action?: AudioViewAction;
 };
 

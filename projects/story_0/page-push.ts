@@ -17,10 +17,10 @@ function makePage(flag: boolean): Page {
       },
     },
     eventMap: {
-      infoDidChange: 'infoDidChange',
-      infoFromParentDidChange: 'infoFromParentDidChange',
-      worldTimeTest: 'worldTimeTest',
-      changeNavInfo: 'changeNavInfo',
+      infoDidChange: '#infoDidChange',
+      infoFromParentDidChange: '#infoFromParentDidChange',
+      worldTimeTest: '#worldTimeTest',
+      changeNavInfo: '#changeNavInfo',
     },
     subviews: {
       dimension: edge,

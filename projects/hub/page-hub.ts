@@ -150,7 +150,7 @@ export const PageHub: Page = {
     },
   },
   eventMap: {
-    onChangeApps: 'onChangeApps',
+    onChangeApps: '#onChangeApps',
   },
   subviews: {
     type: 'scroll',
@@ -205,11 +205,11 @@ export const PageHubInNav: NavPage = {
     },
   },
   eventMap: {
-    fetchHubBundle: 'fetchHubBundle',
-    onTapEditApp: 'onTapEditApp',
-    onTapApp: 'onTapApp',
-    onTapAddApp: 'onTapAddApp',
-    reloadHub: 'reloadHub',
+    fetchHubBundle: '#fetchHubBundle',
+    onTapEditApp: '#onTapEditApp',
+    onTapApp: '#onTapApp',
+    onTapAddApp: '#onTapAddApp',
+    reloadHub: '#reloadHub',
   },
   subpages: ['PageHub'],
   subviews: {

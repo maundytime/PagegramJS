@@ -99,7 +99,7 @@ export function makePageNav(subpages: string[]): NavPage {
     onPush: 'onPush',
     onPop: 'onPop',
     eventMap: {
-      stackCountDidChange: 'stackCountDidChange',
+      stackCountDidChange: '#stackCountDidChange',
       dismiss: {
         type: 'navigation',
         navigation: 'dismiss',

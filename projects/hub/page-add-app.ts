@@ -88,7 +88,7 @@ export const PageAddApp: Page = {
     },
   },
   eventMap: {
-    onChangeFocusApp: 'onChangeFocusApp',
+    onChangeFocusApp: '#onChangeFocusApp',
   },
   subviews: {
     type: 'scroll',
@@ -208,10 +208,10 @@ export const PageAddAppInNav: NavPage = {
     },
   },
   eventMap: {
-    onInputAppName: 'onInputAppName',
-    onInputAppBundle: 'onInputAppBundle',
-    onSaveApp: 'onSaveApp',
-    onDeleteApp: 'onDeleteApp',
+    onInputAppName: '#onInputAppName',
+    onInputAppBundle: '#onInputAppBundle',
+    onSaveApp: '#onSaveApp',
+    onDeleteApp: '#onDeleteApp',
     onDismissTap: {
       type: 'navigation',
       navigation: 'dismiss',

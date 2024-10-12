@@ -13,12 +13,12 @@ export const PageRssBar: Page = {
     playingProgress: {type: 'state', value: 0, onChange: 'onPlayingProgressChange'},
   },
   eventMap: {
-    onPlaying: 'onPlaying',
-    onPlayingStart: 'onPlayingStart',
-    onMove: 'onMove',
-    onPlayingProgressChange: 'onPlayingProgressChange',
-    onMoveEnd: 'onMoveEnd',
-    onMeasure: 'onMeasure',
+    onPlaying: '#onPlaying',
+    onPlayingStart: '#onPlayingStart',
+    onMove: '#onMove',
+    onPlayingProgressChange: '#onPlayingProgressChange',
+    onMoveEnd: '#onMoveEnd',
+    onMeasure: '#onMeasure',
     playAudio1: {
       type: 'view',
       view: {

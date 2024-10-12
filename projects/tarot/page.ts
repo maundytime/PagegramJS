@@ -230,8 +230,8 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
 
 export const PageTarot: Page = {
   eventMap: {
-    onCards: 'onCards',
-    onCardsReading: 'onCardsReading',
+    onCards: '#onCards',
+    onCardsReading: '#onCardsReading',
   },
   stateMap: {
     cards: {
@@ -307,7 +307,7 @@ export const PageTarot: Page = {
 export const PageTarotInNav: NavPage = {
   type: 'nav',
   eventMap: {
-    onTap: 'onTap',
+    onTap: '#onTap',
     onDismissTap: {
       type: 'navigation',
       navigation: 'dismiss',

@@ -42,7 +42,7 @@ export const PageRssDetail: Page = {
         },
       },
     ],
-    focusedRssItemDidChange: 'focusedRssItemDidChange',
+    focusedRssItemDidChange: '#focusedRssItemDidChange',
   },
   subviews: {
     type: 'scroll',
@@ -142,13 +142,10 @@ export const PageRss: Page = {
       onChange: 'rssDidChange',
     },
   },
-  onLoad: ['fetchRss', 'onLoad'],
-  onUnload: 'onUnload',
+  onLoad: 'fetchRss',
   eventMap: {
-    onLoad: [],
-    onUnload: [],
-    rssDidChange: 'rssDidChange',
-    fetchRss: 'fetchRss',
+    rssDidChange: '#rssDidChange',
+    fetchRss: '#fetchRss',
   },
   subviews: {
     type: 'scroll',
