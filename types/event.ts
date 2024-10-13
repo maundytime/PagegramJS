@@ -19,7 +19,18 @@ type BreakTask = {
 type ViewTask = {
   type: 'view';
   view: Record<string, View>;
-  duration?: number;
+};
+type AnimationTask = {
+  type: 'animation';
+  animation: Animation | Animation[];
+  loop?: boolean;
+  id?: string;
+};
+export type Animation = {
+  view: Record<string, View>;
+  duration: number;
+  delay?: number;
+  curve?: 'spring' | 'linear';
 };
 type StateTask = {
   type: 'state';
@@ -38,12 +49,8 @@ type HubTask = {
   action: 'dismiss' | 'open';
   appId: string;
 };
-type KeyboardTask = {
-  type: 'keyboard';
-  action: 'dismiss';
-};
 type FunctionTask = string;
-type Task = FunctionTask | NavigationTask | ViewTask | BreakTask | StateTask | HubTask | KeyboardTask | undefined;
+type Task = FunctionTask | AnimationTask | NavigationTask | ViewTask | BreakTask | StateTask | HubTask | undefined;
 export type Tasks = Task | Task[];
 // 了解web和android的js引擎后，尝试让page直接持有一个js对象
 // EventMap的key string是冒泡结束标志符的动态作用，和持有json还是js对象是两码事

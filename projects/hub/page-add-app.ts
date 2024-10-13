@@ -199,11 +199,11 @@ export const PageAddApp: Page = {
 
 export const PageAddAppInNav: NavPage = {
   type: 'nav',
-  stateMap: {
-    focusedApp: {
-      type: 'bind',
-    },
-  },
+  // stateMap: {
+  //   focusedApp: {
+  //     type: 'bind',
+  //   },
+  // },
   subpages: ['PageAddApp'],
   subviews: {
     type: 'blur',

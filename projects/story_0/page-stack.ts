@@ -1,5 +1,6 @@
 import type {Page} from 'types/page';
-import {edge, numbers, texts} from 'types/util';
+import {edge} from 'types/util';
+import {numbers, texts} from 'types/test';
 import {makePageNav} from './page-nav';
 
 export const PageStackInNav = makePageNav(['PageStack']);

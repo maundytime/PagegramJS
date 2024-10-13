@@ -4,7 +4,7 @@ import type {
 } from './property';
 
 type ViewProperties = {
-  id?: number | string;
+  id?: string;
   style?: Style;
   dimension?: Dimension;
 };
@@ -86,10 +86,10 @@ export type MatrixView = ViewProperties & {
     direction?: Direction;
   };
 };
-export type AudioViewAction = {
+export type AudioViewCommand = {
   play?: 'current' | 'pause' | 'next' | 'previous';
   time?: number | string;
-  timeDiff?: number | string;
+  timeOffset?: number | string;
   rate?: number;
 };
 type Audio = {
@@ -113,7 +113,7 @@ export type AudioView = ViewProperties & {
   onPlaying?: Tasks;
   onPlayingStart?: Tasks;
   onPlayingEnd?: Tasks;
-  action?: AudioViewAction;
+  command?: AudioViewCommand;
 };
 
 export type View =

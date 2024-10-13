@@ -64,7 +64,7 @@ export const PageRssDetail: Page = {
             type: 'view',
             view: {
               audioView: {
-                action: {
+                command: {
                   play: 'pause',
                 },
               },
@@ -199,7 +199,7 @@ export function focusedRssItemDidChange(argument: Argument): Tasks {
           author,
           channelTitle,
         },
-        action: {
+        command: {
           play: 'current',
         },
       },

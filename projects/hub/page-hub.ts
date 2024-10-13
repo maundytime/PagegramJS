@@ -2,7 +2,8 @@ import {type Tasks, type Argument, type AppInfo} from 'types/event';
 import {NativeModule} from 'types/native';
 import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
-import {edge, hctColor} from 'types/util';
+import {edge} from 'types/util';
+import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
 
 export function onChangeApps(argument: Argument): Tasks {
@@ -34,7 +35,7 @@ export function onChangeApps(argument: Argument): Tasks {
         {
           type: 'touchFade',
           userInfo: id,
-          onTap: '#onTapEditApp',
+          onTap: 'onTapEditApp',
           dimension: {
             top: 0,
             width: 48,
@@ -201,6 +202,7 @@ export const PageHubInNav: NavPage = {
   },
   eventMap: {
     reloadHub: '#reloadHub',
+    onTapEditApp: '#onTapEditApp',
   },
   subpages: ['PageHub'],
   subviews: {
@@ -226,7 +228,7 @@ export const PageHubInNav: NavPage = {
         {
           type: 'image',
           image: {
-            url: 'logo.pdf',
+            url: 'logo.svg',
             mode: 'center',
           },
           dimension: edge,

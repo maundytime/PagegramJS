@@ -39,7 +39,7 @@ export const PageRssBar: Page = {
           author: 'UXCoffee',
         },
       ],
-      action: {
+      command: {
         play: 'current',
       },
       // loop: 'random',
@@ -58,7 +58,7 @@ export const PageRssBar: Page = {
         type: 'view',
         view: {
           audio1: {
-            action: {
+            command: {
               play: 'current',
             },
           },
@@ -80,7 +80,7 @@ export const PageRssBar: Page = {
         type: 'view',
         view: {
           audio1: {
-            action: {
+            command: {
               play: 'pause',
             },
           },
@@ -192,7 +192,7 @@ export function onMoveEnd(argument: Argument): Tasks {
     view: {
       audio1: {
         onPlayingEnable: true,
-        action: {
+        command: {
           time: progress.toString(),
         },
       },
@@ -200,8 +200,8 @@ export function onMoveEnd(argument: Argument): Tasks {
   };
 }
 
-/// view - eventname - event - functionname - function - state - state bind - eventname - event - functionname - function - view/action
-/// view - event - function - state - state bind - event - function - view/action
+/// view - eventname - event - functionname - function - state - state bind - eventname - event - functionname - function - view/command
+/// view - event - function - state - state bind - event - function - view/command
 /// - eventname - event - functionname - function -
 /// - event - functionname - function
 /// functionname可以直接写function

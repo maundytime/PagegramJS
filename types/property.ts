@@ -33,7 +33,7 @@ export type PageText = PageTextProperty & {
 };
 export type Direction = 'vertical' | 'horizontal';
 export type PageSymbol = {
-  name: string;
+  name?: string;
   size?: number;
   weight?: Weight;
   color?: string;
@@ -92,8 +92,11 @@ export type Style = {
     scaleX?: number;
     scaleY?: number;
     translateX?: number;
+    translateXOffset?: number;
     translateY?: number;
+    translateYOffset?: number;
     rotate?: number;
+    rotateOffset?: number;
   };
   shadow?: {
     opacity?: number;

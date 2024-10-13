@@ -119,24 +119,26 @@ export function decreaseStackCountFunction(argument: Argument): Tasks {
 export function stackCountDidChange(argument: Argument): Tasks {
   const value = argument.stateInfo['stackCount'] as number;
   return {
-    type: 'view',
-    view: {
-      popButton: {
-        style: {
-          opacity: value === 0 ? 0 : 1,
+    type: 'animation',
+    animation: {
+      view: {
+        popButton: {
+          style: {
+            opacity: value === 0 ? 0 : 1,
+          },
         },
       },
+      duration: 0.5,
     },
-    duration: 0.5,
   };
 }
 
-function updateStackCountHelper(argument: Argument, diff: number): Tasks {
+function updateStackCountHelper(argument: Argument, offset: number): Tasks {
   const value = argument.stateInfo['stackCount'] as number;
   return {
     type: 'state',
     state: {
-      stackCount: value + diff,
+      stackCount: value + offset,
     },
   };
 }

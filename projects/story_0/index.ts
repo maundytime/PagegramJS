@@ -5,7 +5,6 @@ export * from './page-push';
 export * from './page-rss';
 export * from './page-rss-bar';
 export * from './page-stack';
-export * from './page-test';
 export * from './page-nav';
 export * from './functions-test';
 export * from './page-tab';

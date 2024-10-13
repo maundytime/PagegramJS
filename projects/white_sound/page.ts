@@ -1,10 +1,13 @@
-import {type Tasks, type Argument} from 'types/event';
+import {type Tasks, type Argument, type Animation} from 'types/event';
 import type {NavPage, Page} from 'types/page';
-import {edge, hctColor} from 'types/util';
+import {edge} from 'types/util';
+import {hctColor} from 'types/htc-color';
 
 const playSymbol = 'play.circle.fill';
 const pauseSymbol = 'pause.circle.fill';
-const background = hctColor(360 * Math.random(), 20, 90);
+const hue = 360 * Math.random();
+const background = hctColor(hue, 20, 90);
+const color = hctColor(0, 0, 15);
 
 export function onTap(argument: Argument): Tasks {
   const playing = argument.stateInfo['playing'] as boolean;
@@ -40,11 +43,11 @@ export function onPlaying(argument: Argument): Tasks {
 
 export function onChange(argument: Argument): Tasks {
   const playing = argument.stateInfo['playing'] as boolean;
-  return {
+  return [{
     type: 'view',
     view: {
       audio: {
-        action: {
+        command: {
           play: playing ? 'current' : 'pause',
         },
       },
@@ -54,6 +57,66 @@ export function onChange(argument: Argument): Tasks {
         },
       },
     },
+  }];
+}
+
+export function onRotate(argument: Argument): Tasks {
+  const playing = argument.stateInfo['playing'] as boolean;
+  if (playing) {
+    return {
+      type: 'animation',
+      animation: {
+        view: {
+          mesh: {
+            style: {
+              transform: {
+                rotateOffset: 30,
+              },
+            },
+          },
+        },
+        duration: 5,
+        curve: 'linear',
+      },
+      loop: true,
+      id: 'mesh',
+    };
+  }
+  return {
+    type: 'animation',
+    animation: [],
+    id: 'mesh',
+  };
+}
+
+export function onColor(argument: Argument): Tasks {
+  const playing = argument.stateInfo['playing'] as boolean;
+  const animation: Animation[] = Array.from({length: 12}, _ => {
+    const background = hctColor(360 * Math.random(), 20, 90);
+    return {
+      view: {
+        background: {
+          style: {
+            background,
+          },
+        },
+      },
+      duration: 5,
+      curve: 'linear',
+    };
+  });
+  if (playing) {
+    return {
+      type: 'animation',
+      animation,
+      loop: true,
+      id: 'color',
+    };
+  }
+  return {
+    type: 'animation',
+    animation: [],
+    id: 'color',
   };
 }
 
@@ -62,7 +125,7 @@ export const PageSound: Page = {
     playing: {
       type: 'state',
       value: false,
-      onChange: '#onChange',
+      onChange: ['#onChange', '#onRotate', '#onColor'],
     },
   },
   subviews: [
@@ -75,6 +138,7 @@ export const PageSound: Page = {
       },
     }, {
       dimension: edge,
+      id: 'background',
       style: {
         background,
       },
@@ -91,13 +155,21 @@ export const PageSound: Page = {
         },
         subviews: [
           {
-            type: 'image',
-            image: {
-              url: 'mesh.pdf',
-              mode: 'center',
-            },
             dimension: {
               ratio: '100%',
+            },
+            subviews: {
+              type: 'image',
+              id: 'mesh',
+              image: {
+                url: 'cover.png',
+              },
+              dimension: {
+                centerX: 0,
+                centerY: 0,
+                width: 306,
+                height: 306,
+              },
             },
           },
           {
@@ -116,6 +188,7 @@ export const PageSound: Page = {
                 symbol: {
                   name: playSymbol,
                   weight: '500',
+                  color,
                   size: 48,
                 },
                 dimension: {
@@ -153,6 +226,7 @@ export const PageSoundInNav: NavPage = {
       symbol: {
         name: 'arrowtriangle.down.fill',
         weight: '500',
+        color,
       },
       dimension: edge,
     },

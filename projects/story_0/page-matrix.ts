@@ -1,5 +1,6 @@
 import type {Page} from 'types/page';
-import {edge, spacer, texts} from 'types/util';
+import {edge, spacer} from 'types/util';
+import {texts} from 'types/test';
 import {makePageNav} from './page-nav';
 
 export const PageMatrixInNav = makePageNav(['PageMatrix']);
