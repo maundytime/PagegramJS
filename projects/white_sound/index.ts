@@ -1,2 +1,2 @@
 export * from './page';
-export {PageSoundInNav as root} from './page';
+export {PageSound as root} from './page';

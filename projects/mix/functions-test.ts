@@ -1,6 +1,5 @@
 import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
-import {AIToken} from 'ignore/token';
 
 export async function worldTimeTest() {
   return NativeModule.fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
@@ -14,7 +13,7 @@ export async function openaiTest() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: AIToken,
+      Authorization: `Bearer ${(globalThis as any).OPENAI_KEY}`,
     },
     body: JSON.stringify({
       messages: [

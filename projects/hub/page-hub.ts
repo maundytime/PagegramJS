@@ -35,7 +35,7 @@ export function onChangeApps(argument: Argument): Tasks {
         {
           type: 'touchFade',
           userInfo: id,
-          onTap: 'onTapEditApp',
+          onTap: '#onTapEditApp',
           dimension: {
             top: 0,
             width: 48,
@@ -147,6 +147,9 @@ export const PageHub: Page = {
       type: 'bind',
       onChange: '#onChangeApps',
     },
+    focusedApp: {
+      type: 'bind',
+    },
   },
   subviews: {
     type: 'scroll',
@@ -189,7 +192,7 @@ export async function fetchHubBundle(): Promise<Tasks> {
 
 export const PageHubInNav: NavPage = {
   type: 'nav',
-  onLoad: ['reloadHub', '#fetchHubBundle'],
+  onLoad: ['@reloadHub', '#fetchHubBundle'],
   stateMap: {
     apps: {
       type: 'state',
@@ -202,7 +205,6 @@ export const PageHubInNav: NavPage = {
   },
   eventMap: {
     reloadHub: '#reloadHub',
-    onTapEditApp: '#onTapEditApp',
   },
   subpages: ['PageHub'],
   subviews: {

@@ -10,4 +10,4 @@ package-lock.json
 
 #
 /projects/*/bundle
-/ignore
+api-key.ts

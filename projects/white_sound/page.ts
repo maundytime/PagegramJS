@@ -1,10 +1,11 @@
 import {type Tasks, type Argument, type Animation} from 'types/event';
-import type {NavPage, Page} from 'types/page';
+import type {Page} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
+import {type View} from 'types/view';
 
-const playSymbol = 'play.circle.fill';
-const pauseSymbol = 'pause.circle.fill';
+const playSymbol = 'play.fill';
+const pauseSymbol = 'pause.fill';
 const hue = 360 * Math.random();
 const background = hctColor(hue, 20, 90);
 const color = hctColor(0, 0, 15);
@@ -21,29 +22,17 @@ export function onTap(argument: Argument): Tasks {
 
 export function onPlaying(argument: Argument): Tasks {
   const rate = (argument.systemInfo as any).rate as number;
-  return [
-    {
-      type: 'view',
-      view: {
-        playButton: {
-          symbol: {
-            name: rate === 0 ? playSymbol : pauseSymbol,
-          },
-        },
-      },
+  return {
+    type: 'state',
+    state: {
+      playing: rate !== 0,
     },
-    {
-      type: 'state',
-      state: {
-        playing: rate !== 0,
-      },
-    },
-  ];
+  };
 }
 
 export function onChange(argument: Argument): Tasks {
   const playing = argument.stateInfo['playing'] as boolean;
-  return [{
+  return {
     type: 'view',
     view: {
       audio: {
@@ -57,7 +46,7 @@ export function onChange(argument: Argument): Tasks {
         },
       },
     },
-  }];
+  };
 }
 
 export function onRotate(argument: Argument): Tasks {
@@ -120,7 +109,91 @@ export function onColor(argument: Argument): Tasks {
   };
 }
 
+const dismissButton: View = {
+  dimension: {
+    height: 64,
+  },
+  subviews: {
+    type: 'touch',
+    onTap: {
+      type: 'navigation',
+      navigation: 'dismiss',
+    },
+    dimension: {
+      width: 64,
+      height: 64,
+      left: 16,
+      centerY: 0,
+    },
+    subviews: {
+      type: 'symbol',
+      symbol: {
+        name: 'arrowtriangle.down.fill',
+        weight: '500',
+        color,
+      },
+      dimension: edge,
+    },
+  },
+};
+
+const cover: View = {
+  subviews: {
+    type: 'image',
+    id: 'mesh',
+    image: {
+      url: 'cover.png',
+    },
+    style: {
+      border: {
+        radius: 160,
+      },
+      overflow: 'hidden',
+    },
+    dimension: {
+      centerX: 0,
+      centerY: 0,
+      width: 320,
+      ratio: '100%',
+    },
+  },
+};
+
+const playButton: View = {
+  dimension: {
+    height: '30%',
+  },
+  subviews: {
+    type: 'touch',
+    onTap: '#onTap',
+    dimension: {
+      width: 64,
+      height: 48,
+      centerX: 0,
+      centerY: 0,
+    },
+    style: {
+      background: color,
+      border: {
+        radius: 24,
+      },
+    },
+    subviews: {
+      type: 'symbol',
+      id: 'playButton',
+      symbol: {
+        name: playSymbol,
+        color: 'fff',
+      },
+      dimension: edge,
+    },
+  },
+};
+
+const content = [dismissButton, cover, playButton];
+
 export const PageSound: Page = {
+  direction: 'vertical',
   stateMap: {
     playing: {
       type: 'state',
@@ -153,58 +226,13 @@ export const PageSound: Page = {
           left: 0,
           right: 0,
         },
-        subviews: [
-          {
-            dimension: {
-              ratio: '100%',
-            },
-            subviews: {
-              type: 'image',
-              id: 'mesh',
-              image: {
-                url: 'cover.png',
-              },
-              dimension: {
-                centerX: 0,
-                centerY: 0,
-                width: 306,
-                height: 306,
-              },
-            },
-          },
-          {
-            subviews: {
-              type: 'touch',
-              onTap: '#onTap',
-              dimension: {
-                width: 80,
-                height: 80,
-                centerX: 0,
-                centerY: 0,
-              },
-              subviews: {
-                type: 'symbol',
-                id: 'playButton',
-                symbol: {
-                  name: playSymbol,
-                  weight: '500',
-                  color,
-                  size: 48,
-                },
-                dimension: {
-                  centerX: 0,
-                  centerY: 0,
-                },
-              },
-            },
-          },
-        ],
+        subviews: content,
       },
     },
   ],
 };
 
-export const PageSoundInNav: NavPage = {
+export const PageSoundInNav = {
   direction: 'vertical',
   type: 'nav',
   subpages: ['PageSound'],

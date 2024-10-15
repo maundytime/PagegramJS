@@ -48,7 +48,7 @@ function makePage(flag: boolean): Page {
         },
         {
           type: 'touchFade',
-          onTap: flag ? 'pushPage2' : 'pushPage1',
+          onTap: flag ? '@pushPage2' : '@pushPage1',
           dimension: {
             height: 200,
             width: 100,

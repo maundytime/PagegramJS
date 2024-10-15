@@ -2,7 +2,6 @@ import {type Argument, type Tasks} from 'types/event';
 import {NativeModule} from 'types/native';
 import type {NavPage, Page} from 'types/page';
 import {type PageTextComponent} from 'types/property';
-import {AIToken} from 'ignore/token';
 import {edge} from 'types/util';
 
 const allCards = [
@@ -159,7 +158,7 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: AIToken,
+      Authorization: `Bearer ${(globalThis as any).OPENAI_KEY}`,
     },
     body: JSON.stringify({
       messages: [

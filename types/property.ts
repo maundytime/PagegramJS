@@ -28,6 +28,12 @@ export type PageTextComponent = PageTextProperty & {
 export type PageText = PageTextProperty & {
   content?: string | PageTextComponent[];
   lines?: number;
+  inset?: number | {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
   alignment?: 'left' | 'right' | 'center' | 'justified';
   lineHeightMultiple?: number;
 };

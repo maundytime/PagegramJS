@@ -9,8 +9,5 @@
     "capitalized-comments": "off",
     "no-warning-comments": "off",
     "n/file-extension-in-import": "off"
-  },
-  "ignores": [
-    "*.js"
-  ]
+  }
 }

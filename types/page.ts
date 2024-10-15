@@ -8,7 +8,6 @@ type State = {
   onChange?: Tasks;
 } | {
   type: 'bind';
-  value?: undefined; // debug用，应该是没有的，todo移除
   onChange?: Tasks;
 };
 

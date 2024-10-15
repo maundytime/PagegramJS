@@ -96,7 +96,7 @@ export const PageAddApp: Page = {
     subviews: {
       type: 'stack',
       stack: {
-        spacing: 24,
+        spacing: 16,
         alignment: 'fill',
       },
       dimension: {
@@ -114,6 +114,9 @@ export const PageAddApp: Page = {
             {
               type: 'label',
               text: {
+                size: 14,
+                design: 'monospaced',
+                weight: '500',
                 content: 'Name',
               },
               dimension: {
@@ -126,15 +129,22 @@ export const PageAddApp: Page = {
               type: 'text',
               text: {
                 editable: true,
+                design: 'monospaced',
+                size: 14,
                 lines: 1,
+                inset: {
+                  top: 12,
+                  right: 16,
+                  bottom: 12,
+                },
               },
               onInput: '#onInputAppName',
               dimension: {
                 left: 100,
-                top: 12,
-                bottom: 12,
+                top: 0,
+                bottom: 0,
                 right: 0,
-                height: 44 - 24,
+                height: 44,
               },
             },
           ],
@@ -147,6 +157,9 @@ export const PageAddApp: Page = {
             {
               type: 'label',
               text: {
+                design: 'monospaced',
+                weight: '500',
+                size: 14,
                 content: 'Bundle',
               },
               dimension: {
@@ -159,15 +172,22 @@ export const PageAddApp: Page = {
               type: 'text',
               text: {
                 editable: true,
+                design: 'monospaced',
                 scrollable: true,
+                size: 14,
+                inset: {
+                  top: 12,
+                  bottom: 12,
+                  right: 16,
+                },
               },
               onInput: '#onInputAppBundle',
               dimension: {
                 left: 100,
-                top: 12,
-                bottom: 10,
+                top: 0,
+                bottom: 0,
                 right: 0,
-                height: 224,
+                height: 240,
               },
             },
           ],
@@ -177,10 +197,12 @@ export const PageAddApp: Page = {
           style: {
             background: 'fff',
           },
-          onLongPress: ['#onDeleteApp', 'reloadHub'],
+          onLongPress: ['#onDeleteApp', '@reloadHub'],
           subviews: {
             type: 'label',
             text: {
+              design: 'monospaced',
+              size: 14,
               content: 'Long press to delete',
             },
             dimension: {
@@ -199,11 +221,11 @@ export const PageAddApp: Page = {
 
 export const PageAddAppInNav: NavPage = {
   type: 'nav',
-  // stateMap: {
-  //   focusedApp: {
-  //     type: 'bind',
-  //   },
-  // },
+  stateMap: {
+    focusedApp: {
+      type: 'bind',
+    },
+  },
   subpages: ['PageAddApp'],
   subviews: {
     type: 'blur',
@@ -239,6 +261,8 @@ export const PageAddAppInNav: NavPage = {
           subviews: {
             type: 'label',
             text: {
+              design: 'monospaced',
+              size: 14,
               content: 'Dismiss',
             },
             dimension: edge,
@@ -246,7 +270,7 @@ export const PageAddAppInNav: NavPage = {
         },
         {
           type: 'touchFade',
-          onTap: ['#onSaveApp', 'reloadHub'],
+          onTap: ['#onSaveApp', '@reloadHub'],
           dimension: {
             bottom: 0,
             top: 0,
@@ -255,6 +279,9 @@ export const PageAddAppInNav: NavPage = {
           subviews: {
             type: 'label',
             text: {
+              design: 'monospaced',
+              size: 14,
+              weight: '500',
               content: 'Done',
             },
             dimension: edge,
@@ -264,6 +291,8 @@ export const PageAddAppInNav: NavPage = {
           type: 'label',
           text: {
             content: 'Project',
+            design: 'monospaced',
+            size: 14,
             weight: '600',
           },
           dimension: {

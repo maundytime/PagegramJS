@@ -1,6 +1,7 @@
-const esbuild = require('esbuild');
-const fs = require('node:fs').promises;
-const path = require('node:path');
+import {promises as fs} from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import esbuild from 'esbuild';
 
 async function getSubfolders(dir) {
   const files = await fs.readdir(dir);
@@ -14,7 +15,7 @@ async function getSubfolders(dir) {
   return directories.filter(Boolean);
 }
 
-async function build(dirPath, entryPath, bundlePath) {
+async function build(dirPath, entryPath, bundlePath, envPath) {
   await fs.mkdir(dirPath, {recursive: true});
   await fs.writeFile(entryPath, 'export * as pagegram from \'../index\';\n');
   await esbuild.build({
@@ -25,21 +26,25 @@ async function build(dirPath, entryPath, bundlePath) {
     format: 'esm',
   });
   fs.unlink(entryPath);
-  let fileContent = await fs.readFile(bundlePath, 'utf8');
+  let bundle = await fs.readFile(bundlePath, 'utf8');
   const regex = /export\s*{\s*(\S*) as pagegram\s*};[\s\S]*$/g;
   const replacement = 'var pagegram=$1;\n';
-  fileContent = fileContent.replaceAll(regex, replacement);
-  await fs.writeFile(bundlePath, fileContent, 'utf8');
+  bundle = bundle.replaceAll(regex, replacement);
+  try {
+    const env = await fs.readFile(envPath, 'utf8');
+    bundle = [env, bundle].join('\n');
+  } catch {}
+
+  await fs.writeFile(bundlePath, bundle, 'utf8');
 }
 
-async function main() {
-  const folders = await getSubfolders(path.join(__dirname, 'projects'));
-  for (const folder of folders) {
-    const dirPath = path.join(__dirname, `projects/${folder}/bundle`);
-    const entryPath = path.join(__dirname, `projects/${folder}/bundle/index.ts`);
-    const bundlePath = path.join(__dirname, `projects/${folder}/bundle/bundle.js`);
-    await build(dirPath, entryPath, bundlePath);
-  }
-}
-
-main();
+const dir = path.dirname(fileURLToPath(import.meta.url));
+const folders = await getSubfolders(path.join(dir, 'projects'));
+const buildPromises = folders.map(async folder => {
+  const dirPath = path.join(dir, `projects/${folder}/bundle`);
+  const entryPath = path.join(dir, `projects/${folder}/bundle/index.ts`);
+  const bundlePath = path.join(dir, `projects/${folder}/bundle/bundle.js`);
+  const envPath = path.join(dir, `projects/${folder}/bundle/env.js`);
+  return build(dirPath, entryPath, bundlePath, envPath);
+});
+await Promise.all(buildPromises);
