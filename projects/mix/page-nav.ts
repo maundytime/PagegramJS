@@ -1,28 +1,56 @@
 import {type Tasks, type Argument} from 'types/event';
 import type {NavPage} from 'types/page';
+import {type TextView} from 'types/view';
 
 export function makePageNav(subpages: string[]): NavPage {
-  const title = {
-    text: {
-      content: [
-        {
-          content: '123',
-          size: 12,
-        },
-        {
-          content: '456',
-        },
-        {
-          content: '\n789',
-          size: 12,
-          color: '0fF3',
-        },
-      ],
-      lineHeightMultiple: 1.5,
-      size: 20,
-      color: '0fF',
-      lines: 0,
+  const title1: TextView = {
+    text: [
+      {
+        content: '123',
+        color: 'f00',
+        size: 12,
+      },
+      {
+        content: '456',
+        color: 'f00',
+        size: 20,
+      },
+      {
+        content: '\n789',
+        size: 12,
+        color: 'f00',
+      },
+    ],
+    lineHeightMultiple: 1.5,
+    lines: 0,
+    dimension: {
+      centerX: 0,
+      centerY: 0,
     },
+    style: {
+      background: '0003',
+    },
+  };
+  const title2: TextView = {
+    text: [
+      {
+        content: '123',
+        color: '0f0',
+        size: 12,
+      },
+      {
+        content: '456',
+        color: '0f0',
+        size: 20,
+      },
+      {
+        content: '\n789',
+        size: 12,
+        color: '0f0',
+      },
+    ],
+    lineHeightMultiple: 1.5,
+    lines: 0,
     dimension: {
       centerX: 0,
       centerY: 0,
@@ -89,8 +117,8 @@ export function makePageNav(subpages: string[]): NavPage {
         },
         subviews: [
           popButton,
-          {...title, type: 'label'},
-          {...title, type: 'text'},
+          {...title1, type: 'label'},
+          {...title2, type: 'text'},
           dismissButton,
         ],
       },

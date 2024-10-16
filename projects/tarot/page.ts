@@ -45,7 +45,7 @@ function makeCard(card: unknown) {
         type: 'label',
         text: {
           content: ((card as any).name as string).toUpperCase(),
-          weight: '500',
+          weight: 500,
         },
         dimension: {
           centerX: 0,
@@ -56,7 +56,7 @@ function makeCard(card: unknown) {
         type: 'label',
         text: {
           content: (card as any).orientation === '逆位' ? '↓' : '↑',
-          weight: '500',
+          weight: 500,
         },
         dimension: {
           centerX: 0,
@@ -195,7 +195,7 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
         return [
           {
             content: `${name} ${orientation}\n`,
-            weight: '500',
+            weight: 500,
           },
           {
             content: `${explain}\n\n`,
@@ -206,16 +206,14 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
         type: 'view',
         view: {
           answer: {
-            text: {
-              content: [
-                ...makeCardReading(obj['card1']),
-                ...makeCardReading(obj['card2']),
-                ...makeCardReading(obj['card3']),
-                {
-                  content: obj['answer'] as string,
-                },
-              ],
-            },
+            text: [
+              ...makeCardReading(obj['card1']),
+              ...makeCardReading(obj['card2']),
+              ...makeCardReading(obj['card3']),
+              {
+                content: obj['answer'] as string,
+              },
+            ],
           },
           loading: {
             style: {
@@ -273,9 +271,7 @@ export const PageTarot: Page = {
               type: 'text',
               id: 'answer',
               dimension: edge,
-              text: {
-                scrollable: true,
-              },
+              scrollable: true,
             },
             {
               type: 'symbol',
@@ -345,7 +341,7 @@ export const PageTarotInNav: NavPage = {
               type: 'symbol',
               symbol: {
                 name: 'xmark',
-                weight: '500',
+                weight: 500,
               },
               dimension: edge,
             },
@@ -354,7 +350,7 @@ export const PageTarotInNav: NavPage = {
             type: 'label',
             text: {
               content: '塔罗牌',
-              weight: '600',
+              weight: 600,
             },
             dimension: {
               centerX: 0,
@@ -403,7 +399,7 @@ export const PageTarotInNav: NavPage = {
               type: 'label',
               text: {
                 content: '抽取塔罗牌',
-                weight: '500',
+                weight: 500,
               },
               dimension: {
                 centerX: 0,

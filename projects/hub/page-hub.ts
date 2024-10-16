@@ -23,12 +23,12 @@ export function onChangeApps(argument: Argument): Tasks {
         bottom: 8,
         left: 8,
         right: 8,
-        ratio: 1, // 0.618,
+        ratio: 1,
       },
       style: {
         background,
         border: {
-          radius: 24,
+          radius: 16,
         },
       },
       subviews: [
@@ -52,7 +52,7 @@ export function onChangeApps(argument: Argument): Tasks {
               name: 'equal',
               color,
               size: 14,
-              weight: '500',
+              weight: 500,
             },
           },
         },
@@ -68,7 +68,7 @@ export function onChangeApps(argument: Argument): Tasks {
             size: 12,
             color,
             design: 'monospaced',
-            weight: '500',
+            weight: 500,
           },
         },
       ],
@@ -156,6 +156,7 @@ export const PageHub: Page = {
     style: {
       background: hctColor(0, 0, 100),
     },
+    alwaysBounceVertical: true,
     dimension: edge,
     subviews: {
       type: 'matrix',
@@ -248,7 +249,7 @@ export const PageHubInNav: NavPage = {
             type: 'symbol',
             symbol: {
               name: 'plus',
-              weight: '500',
+              weight: 500,
               color: '000',
             },
             dimension: edge,

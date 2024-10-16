@@ -12,11 +12,10 @@ export const PageMatrix: Page = {
     subviews: {
       type: 'matrix',
       dimension: {
-        widthSafe: '100%',
         top: 0,
         bottom: 0,
         leftSafe: 0,
-        right: 0,
+        rightSafe: 0,
       },
       style: {
         background: 'eee',

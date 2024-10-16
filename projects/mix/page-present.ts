@@ -49,7 +49,9 @@ export const PageAnimation: Page = {
           subviews: {
             id: 'text1',
             type: 'label',
-            text: {content: 'text test'},
+            text: {
+              content: 'text test',
+            },
             dimension: {
               left: 0,
               right: 0,
@@ -81,12 +83,16 @@ export const PageAnimation: Page = {
               animation: {
                 view: {
                   removeView: {
-                    style: {opacity: 1},
+                    style: {
+                      opacity: 1,
+                    },
                   },
                   text1: {
                     id: 'text1',
                     type: 'label',
-                    text: {content: 'CHANGE'},
+                    text: {
+                      content: 'CHANGE',
+                    },
                   },
                   symbol1: {
                     symbol: {
@@ -146,7 +152,9 @@ export const PageAnimation: Page = {
                   },
                 },
                 text1: {
-                  text: {content: 'text1'},
+                  text: {
+                    content: 'text1',
+                  },
                   style: {
                     background: '0003',
                   },

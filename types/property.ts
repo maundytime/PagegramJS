@@ -1,42 +1,27 @@
 type Weight =
   | 'unspecified'
-  | 'ultraLight' | '100'
-  | 'thin' | '200'
-  | 'light' | '300'
-  | 'regular' | '400'
-  | 'medium' | '500'
-  | 'semibold' | '600'
-  | 'bold' | '700'
-  | 'heavy' | '800'
-  | 'black' | '900';
-
+  | 'ultraLight' | 100
+  | 'thin' | 200
+  | 'light' | 300
+  | 'regular' | 400
+  | 'medium' | 500
+  | 'semibold' | 600
+  | 'bold' | 700
+  | 'heavy' | 800
+  | 'black' | 900;
 type Design =
   | 'monospaced'
-  | 'rounded' | '100'
-  | 'serif' | '200'
-  | 'default' | '300';
-
-type PageTextProperty = {
+  | 'rounded'
+  | 'serif'
+  | 'default';
+export type PageTextComponent = {
+  content?: string;
   color?: string;
   weight?: Weight;
   size?: number;
   design?: Design;
 };
-export type PageTextComponent = PageTextProperty & {
-  content: string;
-};
-export type PageText = PageTextProperty & {
-  content?: string | PageTextComponent[];
-  lines?: number;
-  inset?: number | {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  };
-  alignment?: 'left' | 'right' | 'center' | 'justified';
-  lineHeightMultiple?: number;
-};
+export type PageText = PageTextComponent | PageTextComponent[];
 export type Direction = 'vertical' | 'horizontal';
 export type PageSymbol = {
   name?: string;
@@ -75,20 +60,13 @@ export type ItemSize = {
   height?: number | string | Range;
   ratio?: number;
 };
-export type Inset =
-| number
-| {
-  top?: number;
-  left?: number;
-  bottom?: number;
-  right?: number;
-};
 export type Style = {
   interactive?: boolean;
   overflow?: 'hidden' | 'auto';
   opacity?: number;
   background?: string;
   zPosition?: number;
+  tint?: string;
   border?: {
     width?: number;
     color?: string;

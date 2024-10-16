@@ -32,6 +32,8 @@ export type TouchView = ViewProperties & TouchViewProperties & {
 export type ScrollView = ViewProperties & {
   type?: 'scroll';
   subviews?: View | View[];
+  alwaysBounceVertical?: boolean;
+  alwaysBounceHorizontal?: boolean;
 };
 export type BlurView = ViewProperties & {
   type?: 'blur';
@@ -54,18 +56,36 @@ export type BasicView = ViewProperties & {
 export type LabelView = ViewProperties & {
   type?: 'label';
   text?: PageText;
+
+  lines?: number;
+  alignment?: 'left' | 'right' | 'center' | 'justified';
+  lineHeightMultiple?: number;
+
 };
 type Spacer = {
   type: 'spacer';
 };
 export type TextView = ViewProperties & {
   type?: 'text';
-  text?: PageText & {
-    editable?: boolean;
-    scrollable?: boolean;
-    selectable?: boolean;
-  };
-  onInput: Tasks;
+  text?: PageText;
+  onInput?: Tasks;
+  editable?: boolean;
+  scrollable?: boolean;
+  selectable?: boolean;
+  alwaysBounceVertical?: boolean;
+  alwaysBounceHorizontal?: boolean;
+
+  lines?: number;
+  inset?: Inset;
+  alignment?: 'left' | 'right' | 'center' | 'justified';
+  lineHeightMultiple?: number;
+
+};
+type Inset = number | {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
 };
 export type SymbolView = ViewProperties & {
   type?: 'symbol';

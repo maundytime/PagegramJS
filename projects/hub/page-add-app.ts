@@ -15,7 +15,6 @@ export function onSaveApp(argument: Argument): Tasks {
     id: appId,
     name: appName,
   };
-  // todo 验证app bundle是否能跑通
   NativeHubModule.saveData(TableIdAppInfo, appId, appInfo);
   NativeHubModule.saveBundle(appId, appBundle);
   NativeHubModule.createTable(appId);
@@ -56,6 +55,7 @@ export function onInputAppBundle(argument: Argument): Tasks {
     state: {
       focusedApp,
     },
+    skipOnChange: true,
   };
 }
 
@@ -100,10 +100,11 @@ export const PageAddApp: Page = {
         alignment: 'fill',
       },
       dimension: {
-        top: 24,
+        top: 16,
         bottom: 0,
-        leftSafe: 0,
-        rightSafe: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
       },
       subviews: [
         {
@@ -114,29 +115,30 @@ export const PageAddApp: Page = {
             {
               type: 'label',
               text: {
-                size: 14,
+                size: 16,
                 design: 'monospaced',
-                weight: '500',
+                weight: 500,
                 content: 'Name',
               },
               dimension: {
-                height: 44,
                 left: 16,
+                top: 0,
+                height: 44,
               },
             },
             {
               id: 'appNameTextView',
               type: 'text',
+              editable: true,
+              lines: 1,
+              inset: {
+                top: 12,
+                right: 16,
+                bottom: 12,
+              },
               text: {
-                editable: true,
                 design: 'monospaced',
-                size: 14,
-                lines: 1,
-                inset: {
-                  top: 12,
-                  right: 16,
-                  bottom: 12,
-                },
+                size: 16,
               },
               onInput: '#onInputAppName',
               dimension: {
@@ -144,7 +146,6 @@ export const PageAddApp: Page = {
                 top: 0,
                 bottom: 0,
                 right: 0,
-                height: 44,
               },
             },
           ],
@@ -158,28 +159,29 @@ export const PageAddApp: Page = {
               type: 'label',
               text: {
                 design: 'monospaced',
-                weight: '500',
-                size: 14,
+                weight: 500,
+                size: 16,
                 content: 'Bundle',
               },
               dimension: {
-                height: 44,
                 left: 16,
+                top: 0,
+                height: 44,
               },
             },
             {
               id: 'appBundleTextView',
               type: 'text',
+              scrollable: true,
+              editable: true,
+              inset: {
+                top: 12,
+                bottom: 12,
+                right: 16,
+              },
               text: {
-                editable: true,
                 design: 'monospaced',
-                scrollable: true,
-                size: 14,
-                inset: {
-                  top: 12,
-                  bottom: 12,
-                  right: 16,
-                },
+                size: 16,
               },
               onInput: '#onInputAppBundle',
               dimension: {
@@ -202,15 +204,15 @@ export const PageAddApp: Page = {
             type: 'label',
             text: {
               design: 'monospaced',
-              size: 14,
-              content: 'Long press to delete',
+              size: 16,
+              content: 'Long Press To Delete',
+              weight: 500,
             },
             dimension: {
               right: 16,
               left: 16,
-              top: 0,
-              bottom: 0,
-              height: 44,
+              top: 12,
+              bottom: 12,
             },
           },
         },
@@ -262,7 +264,7 @@ export const PageAddAppInNav: NavPage = {
             type: 'label',
             text: {
               design: 'monospaced',
-              size: 14,
+              size: 16,
               content: 'Dismiss',
             },
             dimension: edge,
@@ -280,8 +282,8 @@ export const PageAddAppInNav: NavPage = {
             type: 'label',
             text: {
               design: 'monospaced',
-              size: 14,
-              weight: '500',
+              size: 16,
+              weight: 500,
               content: 'Done',
             },
             dimension: edge,
@@ -292,8 +294,8 @@ export const PageAddAppInNav: NavPage = {
           text: {
             content: 'Project',
             design: 'monospaced',
-            size: 14,
-            weight: '600',
+            size: 16,
+            weight: 600,
           },
           dimension: {
             centerX: 0,

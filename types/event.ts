@@ -35,6 +35,7 @@ export type Animation = {
 type StateTask = {
   type: 'state';
   state: Record<string, unknown>;
+  skipOnChange?: boolean;
 };
 export type AppInfo = {
   id: string;

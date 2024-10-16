@@ -12,9 +12,8 @@ export const PageMatrixH: Page = {
     subviews: {
       type: 'matrix',
       dimension: {
-        heightSafe: '100%',
         topSafe: 0,
-        bottom: 0,
+        bottomSafe: 0,
         left: 0,
         right: 0,
       },

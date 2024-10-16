@@ -15,6 +15,9 @@ export const PageRssInNav: NavPage = (() => {
       value: null,
     },
   };
+  nav.eventMap = {
+    onTapRssItem: '#onTapRssItem',
+  };
   return nav;
 })();
 
@@ -143,11 +146,10 @@ export const PageRss: Page = {
       id: 'rssList',
       type: 'matrix',
       dimension: {
-        widthSafe: '100%',
         top: 0,
         bottom: 0,
         leftSafe: 0,
-        right: 0,
+        rightSafe: 0,
       },
       style: {
         background: 'eee',
@@ -157,7 +159,6 @@ export const PageRss: Page = {
         itemSize: {
           width: '50%',
         },
-        direction: 'vertical',
       },
     },
   },
@@ -238,7 +239,7 @@ export function rssDidChange(argument: Argument): Tasks {
           type: 'touch',
           dimension: edge,
           userInfo: {...item, channelTitle, channelImage},
-          onTap: '#onTapRssItem',
+          onTap: '@onTapRssItem',
           subviews: {
             type: 'stack',
             dimension: edge,

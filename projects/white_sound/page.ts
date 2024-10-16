@@ -129,7 +129,7 @@ const dismissButton: View = {
       type: 'symbol',
       symbol: {
         name: 'arrowtriangle.down.fill',
-        weight: '500',
+        weight: 500,
         color,
       },
       dimension: edge,
@@ -230,33 +230,4 @@ export const PageSound: Page = {
       },
     },
   ],
-};
-
-export const PageSoundInNav = {
-  direction: 'vertical',
-  type: 'nav',
-  subpages: ['PageSound'],
-  subviews: {
-    type: 'touch',
-    onTap: {
-      type: 'navigation',
-      navigation: 'dismiss',
-    },
-    dimension: {
-      topSafe: 10,
-      width: 60,
-      height: 60,
-      leftSafe: 10,
-      unsafeAt: 'top',
-    },
-    subviews: {
-      type: 'symbol',
-      symbol: {
-        name: 'arrowtriangle.down.fill',
-        weight: '500',
-        color,
-      },
-      dimension: edge,
-    },
-  },
 };
