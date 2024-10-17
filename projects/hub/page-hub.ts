@@ -5,9 +5,11 @@ import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
+import logo from './logo.svg';
 
-const color = hctColor(0, 0, 15);
-const halfSpace = 9;
+const color = '26';
+const halfSpace = 7;
+const base = 360 * Math.random();
 
 export function onChangeApps(argument: Argument): Tasks {
   const apps = argument.stateInfo['apps'] as Array<Record<string, unknown>>;
@@ -15,7 +17,10 @@ export function onChangeApps(argument: Argument): Tasks {
     const value = app['value'] as Record<string, unknown>;
     const name = value['name'] as string;
     const id = value['id'] as string;
-    const background = hctColor(360 * Math.random(), 20, 90);
+    const x = Math.random() - 0.5;
+    const y = base + (180 * x);
+    const z = y % 360;
+    const background = hctColor(z, 20, 90);
     return {
       type: 'touch',
       userInfo: id,
@@ -29,7 +34,7 @@ export function onChangeApps(argument: Argument): Tasks {
       },
       style: {
         background,
-        radius: halfSpace * 2,
+        radius: halfSpace * 3,
       },
       subviews: [
         {
@@ -60,8 +65,8 @@ export function onChangeApps(argument: Argument): Tasks {
           type: 'label',
           dimension: {
             left: 18,
-            bottom: 16,
-            right: 16,
+            bottom: 18,
+            right: 18,
           },
           text: {
             content: name,
@@ -192,7 +197,7 @@ export async function fetchHubBundle(): Promise<Tasks> {
 
 export const PageHubInNav: NavPage = {
   type: 'nav',
-  onLoad: ['#reloadHub', '#fetchHubBundle'],
+  onLoad: ['#reloadHub'],
   stateMap: {
     apps: {
       type: 'state',
@@ -223,7 +228,7 @@ export const PageHubInNav: NavPage = {
         dimension: {
           left: 0,
           right: 0,
-          height: 54,
+          height: 60,
           bottom: 0,
           topSafe: 0,
         },
@@ -231,7 +236,7 @@ export const PageHubInNav: NavPage = {
           {
             type: 'image',
             image: {
-              url: 'logo.svg',
+              svg: logo,
               mode: 'center',
             },
             dimension: edge,
@@ -243,15 +248,15 @@ export const PageHubInNav: NavPage = {
       type: 'touchFade',
       onTap: '#onTapAddApp',
       dimension: {
-        centerX: 0,
-        bottomSafe: 0,
-        height: 54,
-        width: 54,
+        bottomSafe: 14,
+        height: 42,
+        width: 42,
+        rightSafe: 32,
         unsafeAt: 'bottom',
       },
       style: {
         background: color,
-        radius: 27,
+        radius: 21,
       },
       subviews: {
         type: 'symbol',

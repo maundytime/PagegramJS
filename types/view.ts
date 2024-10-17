@@ -104,6 +104,9 @@ export type ImageView = ViewProperties & {
   type?: 'image';
   image?: {
     url?: string;
+    svg?: string;
+    base64?: string;
+    path?: string;
     mode?: 'cover' | 'contain' | 'stretch' | 'center';
   };
 };
@@ -122,7 +125,8 @@ export type AudioViewCommand = {
   rate?: number;
 };
 type Audio = {
-  url: string;
+  ur?: string;
+  path?: string;
   image?: string;
   title?: string;
   channelTitle?: string;

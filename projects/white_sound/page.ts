@@ -142,7 +142,7 @@ const cover: View = {
     type: 'image',
     id: 'mesh',
     image: {
-      url: 'cover.png',
+      path: 'cover.png',
     },
     style: {
       radius: 160,
@@ -203,7 +203,7 @@ export const PageSound: Page = {
       type: 'audio',
       onPlaying: '#onPlaying',
       audio: {
-        url: 'sound.caf',
+        path: 'sound.caf',
       },
     }, {
       dimension: edge,

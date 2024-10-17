@@ -8,6 +8,7 @@
     "test": "xo"
   },
   "devDependencies": {
+    "esbuild-plugin-inline-import": "^1.1.0",
     "@material/material-color-utilities": "^0.3.0",
     "@sindresorhus/tsconfig": "^6.0.0",
     "esbuild": "^0.23.1",

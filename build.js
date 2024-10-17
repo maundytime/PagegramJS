@@ -2,6 +2,7 @@ import {promises as fs} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import esbuild from 'esbuild';
+import inlineImportPlugin from 'esbuild-plugin-inline-import';
 
 async function getSubfolders(dir) {
   const files = await fs.readdir(dir);
@@ -24,6 +25,11 @@ async function build(dirPath, entryPath, bundlePath, envPath) {
     // minify: true,
     outfile: bundlePath,
     format: 'esm',
+    plugins: [
+      inlineImportPlugin({
+        filter: /\.svg$/,
+      }),
+    ],
   });
   fs.unlink(entryPath);
   let bundle = await fs.readFile(bundlePath, 'utf8');
