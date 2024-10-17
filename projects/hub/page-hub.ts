@@ -1,6 +1,6 @@
 import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
-import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
@@ -115,7 +115,10 @@ export function onTapAddApp(_: Argument): Tasks {
     {
       type: 'state',
       state: {
-        focusedApp: {},
+        focusedApp: {
+          isNew: true,
+          id: makeAppId(),
+        },
       },
     },
     {
