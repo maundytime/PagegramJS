@@ -145,9 +145,7 @@ const cover: View = {
       url: 'cover.png',
     },
     style: {
-      border: {
-        radius: 160,
-      },
+      radius: 160,
       overflow: 'hidden',
     },
     dimension: {
@@ -174,16 +172,14 @@ const playButton: View = {
     },
     style: {
       background: color,
-      border: {
-        radius: 24,
-      },
+      radius: 24,
     },
     subviews: {
       type: 'symbol',
       id: 'playButton',
       symbol: {
         name: playSymbol,
-        color: 'fff',
+        color: 'f',
       },
       dimension: edge,
     },

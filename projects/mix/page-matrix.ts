@@ -18,7 +18,7 @@ export const PageMatrix: Page = {
         rightSafe: 0,
       },
       style: {
-        background: 'eee',
+        background: 'e',
       },
       matrix: {
         content: Array.from(texts, content => (

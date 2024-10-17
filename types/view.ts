@@ -1,6 +1,8 @@
 import {type Tasks} from './event';
 import type {
   PageSymbol, Direction, Style, Dimension, PageText, ItemSize,
+  Weight,
+  Design,
 } from './property';
 
 type ViewProperties = {
@@ -56,7 +58,10 @@ export type BasicView = ViewProperties & {
 export type LabelView = ViewProperties & {
   type?: 'label';
   text?: PageText;
-
+  color?: string;
+  weight?: Weight;
+  size?: number;
+  design?: Design;
   lines?: number;
   alignment?: 'left' | 'right' | 'center' | 'justified';
   lineHeightMultiple?: number;
@@ -68,6 +73,10 @@ type Spacer = {
 export type TextView = ViewProperties & {
   type?: 'text';
   text?: PageText;
+  color?: string;
+  weight?: Weight;
+  size?: number;
+  design?: Design;
   onInput?: Tasks;
   editable?: boolean;
   scrollable?: boolean;

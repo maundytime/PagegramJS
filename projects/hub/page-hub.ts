@@ -1,10 +1,13 @@
-import {type Tasks, type Argument, type AppInfo} from 'types/event';
+import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
-import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
+
+const color = hctColor(0, 0, 15);
+const halfSpace = 9;
 
 export function onChangeApps(argument: Argument): Tasks {
   const apps = argument.stateInfo['apps'] as Array<Record<string, unknown>>;
@@ -13,23 +16,20 @@ export function onChangeApps(argument: Argument): Tasks {
     const name = value['name'] as string;
     const id = value['id'] as string;
     const background = hctColor(360 * Math.random(), 20, 90);
-    const color = hctColor(0, 0, 15);
     return {
       type: 'touch',
       userInfo: id,
       onTap: '#onTapApp',
       dimension: {
-        top: 8,
-        bottom: 8,
-        left: 8,
-        right: 8,
+        top: halfSpace,
+        bottom: halfSpace,
+        left: halfSpace,
+        right: halfSpace,
         ratio: 1,
       },
       style: {
         background,
-        border: {
-          radius: 16,
-        },
+        radius: halfSpace * 2,
       },
       subviews: [
         {
@@ -106,12 +106,11 @@ export function onTapApp(argument: Argument): Tasks {
 }
 
 export function onTapAddApp(_: Argument): Tasks {
-  const focusedApp: AppInfo = {id: makeAppId()};
   return [
     {
       type: 'state',
       state: {
-        focusedApp,
+        focusedApp: {},
       },
     },
     {
@@ -162,10 +161,10 @@ export const PageHub: Page = {
       type: 'matrix',
       id: 'appMatrix',
       dimension: {
-        top: 0,
-        bottom: 0,
-        leftSafe: 8,
-        rightSafe: 8,
+        top: halfSpace,
+        bottom: halfSpace,
+        leftSafe: halfSpace,
+        rightSafe: halfSpace,
       },
       matrix: {
         itemSize: {
@@ -193,7 +192,7 @@ export async function fetchHubBundle(): Promise<Tasks> {
 
 export const PageHubInNav: NavPage = {
   type: 'nav',
-  onLoad: ['@reloadHub', '#fetchHubBundle'],
+  onLoad: ['#reloadHub', '#fetchHubBundle'],
   stateMap: {
     apps: {
       type: 'state',
@@ -208,54 +207,61 @@ export const PageHubInNav: NavPage = {
     reloadHub: '#reloadHub',
   },
   subpages: ['PageHub'],
-  subviews: {
-    type: 'blur',
-    dimension: {
-      top: 0,
-      left: 0,
-      right: 0,
-      unsafeAt: 'top',
-    },
-    style: {
-      background: 'fffc',
-    },
-    subviews: {
+  subviews: [
+    {
+      type: 'blur',
       dimension: {
+        top: 0,
         left: 0,
         right: 0,
-        height: 60,
-        bottom: 0,
-        topSafe: 0,
+        unsafeAt: 'top',
       },
-      subviews: [
-        {
-          type: 'image',
-          image: {
-            url: 'logo.svg',
-            mode: 'center',
-          },
-          dimension: edge,
+      style: {
+        background: 'fffc',
+      },
+      subviews: {
+        dimension: {
+          left: 0,
+          right: 0,
+          height: 54,
+          bottom: 0,
+          topSafe: 0,
         },
-        {
-          type: 'touchFade',
-          onTap: '#onTapAddApp',
-          dimension: {
-            rightSafe: 0,
-            height: 60,
-            width: 60,
-            top: 0,
-          },
-          subviews: {
-            type: 'symbol',
-            symbol: {
-              name: 'plus',
-              weight: 500,
-              color: '000',
+        subviews: [
+          {
+            type: 'image',
+            image: {
+              url: 'logo.svg',
+              mode: 'center',
             },
             dimension: edge,
           },
-        },
-      ],
+        ],
+      },
     },
-  },
+    {
+      type: 'touchFade',
+      onTap: '#onTapAddApp',
+      dimension: {
+        centerX: 0,
+        bottomSafe: 0,
+        height: 54,
+        width: 54,
+        unsafeAt: 'bottom',
+      },
+      style: {
+        background: color,
+        radius: 27,
+      },
+      subviews: {
+        type: 'symbol',
+        symbol: {
+          name: 'plus',
+          weight: 500,
+          color: 'f',
+        },
+        dimension: edge,
+      },
+    },
+  ],
 };

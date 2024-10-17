@@ -19,7 +19,7 @@ export const Tab: Page = {
   subviews: [
     {
       style: {
-        background: 'fff',
+        background: 'f',
         zPosition: -1000,
         interactive: false,
       },
@@ -77,7 +77,7 @@ function makeTabs(): StackView {
           symbol: {
             name: 'moon',
             size: 20,
-            color: '000',
+            color: '0',
           },
           dimension: edge,
         },

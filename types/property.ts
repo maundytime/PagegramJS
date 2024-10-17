@@ -1,4 +1,4 @@
-type Weight =
+export type Weight =
   | 'unspecified'
   | 'ultraLight' | 100
   | 'thin' | 200
@@ -9,7 +9,7 @@ type Weight =
   | 'bold' | 700
   | 'heavy' | 800
   | 'black' | 900;
-type Design =
+export type Design =
   | 'monospaced'
   | 'rounded'
   | 'serif'
@@ -21,7 +21,7 @@ export type PageTextComponent = {
   size?: number;
   design?: Design;
 };
-export type PageText = PageTextComponent | PageTextComponent[];
+export type PageText = string | PageTextComponent | PageTextComponent[];
 export type Direction = 'vertical' | 'horizontal';
 export type PageSymbol = {
   name?: string;
@@ -67,11 +67,9 @@ export type Style = {
   background?: string;
   zPosition?: number;
   tint?: string;
-  border?: {
-    width?: number;
-    color?: string;
-    radius?: number;
-  };
+  borderWidth?: number;
+  borderColor?: string;
+  radius?: number;
   transform?: {
     scaleX?: number;
     scaleY?: number;

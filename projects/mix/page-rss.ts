@@ -31,7 +31,7 @@ export const PageRssDetail: Page = {
   subviews: {
     type: 'scroll',
     style: {
-      background: 'fff',
+      background: 'f',
     },
     dimension: edge,
     subviews: {
@@ -46,7 +46,7 @@ export const PageRssDetail: Page = {
         bottom: 0,
       },
       style: {
-        background: 'fff',
+        background: 'f',
       },
       subviews: [
         {
@@ -140,7 +140,7 @@ export const PageRss: Page = {
     type: 'scroll',
     dimension: edge,
     style: {
-      background: 'fff',
+      background: 'f',
     },
     subviews: {
       id: 'rssList',
@@ -152,7 +152,7 @@ export const PageRss: Page = {
         rightSafe: 0,
       },
       style: {
-        background: 'eee',
+        background: 'e',
       },
       matrix: {
         content: [],

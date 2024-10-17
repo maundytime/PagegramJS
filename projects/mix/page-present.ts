@@ -7,7 +7,7 @@ export const PageAnimation: Page = {
   subviews: {
     dimension: edge,
     style: {
-      background: 'fff',
+      background: 'f',
     },
     subviews: {
       dimension: {
@@ -26,7 +26,7 @@ export const PageAnimation: Page = {
           symbol: {
             name: 'square',
             size: 50,
-            color: '000',
+            color: '0',
           },
           style: {
             background: '3333',
@@ -98,7 +98,7 @@ export const PageAnimation: Page = {
                     symbol: {
                       name: 'square',
                       size: 100,
-                      color: '000',
+                      color: '0',
                     },
                     style: {
                       transform: {
@@ -186,7 +186,7 @@ export const PagePresent: Page = {
   subviews: {
     dimension: edge,
     style: {
-      background: 'fff',
+      background: 'f',
     },
     subviews: {
       type: 'touchFade',

@@ -36,9 +36,7 @@ function makeCard(card: unknown) {
         dimension: edge,
         style: {
           background: '0001',
-          border: {
-            radius: 8,
-          },
+          radius: 8,
         },
       },
       {
@@ -234,7 +232,7 @@ export const PageTarot: Page = {
   },
   subviews: {
     style: {
-      background: 'fff',
+      background: 'f',
     },
     dimension: edge,
     subviews: {
@@ -282,7 +280,7 @@ export const PageTarot: Page = {
               },
               symbol: {
                 name: 'progress.indicator',
-                color: '999',
+                color: '9',
               },
               style: {
                 opacity: 0,
@@ -385,9 +383,7 @@ export const PageTarotInNav: NavPage = {
             onTap: '#onTap',
             style: {
               background: '0002',
-              border: {
-                radius: 8,
-              },
+              radius: 8,
             },
             dimension: {
               left: 16,
