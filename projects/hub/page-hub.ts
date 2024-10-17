@@ -1,6 +1,6 @@
 import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
-import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
@@ -8,7 +8,8 @@ import {type View} from 'types/view';
 import logo from './logo.svg';
 
 const color = '26';
-const halfSpace = 7;
+const spaceInner = 8;
+const spaceOutter = 12;
 const base = 360 * Math.random();
 
 export function onChangeApps(argument: Argument): Tasks {
@@ -18,7 +19,7 @@ export function onChangeApps(argument: Argument): Tasks {
     const name = value['name'] as string;
     const id = value['id'] as string;
     const x = Math.random() - 0.5;
-    const y = base + (180 * x);
+    const y = base + (240 * x);
     const z = y % 360;
     const background = hctColor(z, 20, 90);
     return {
@@ -26,15 +27,15 @@ export function onChangeApps(argument: Argument): Tasks {
       userInfo: id,
       onTap: '#onTapApp',
       dimension: {
-        top: halfSpace,
-        bottom: halfSpace,
-        left: halfSpace,
-        right: halfSpace,
+        top: spaceInner,
+        bottom: spaceInner,
+        left: spaceInner,
+        right: spaceInner,
         ratio: 1,
       },
       style: {
         background,
-        radius: halfSpace * 3,
+        radius: spaceInner * 2,
       },
       subviews: [
         {
@@ -115,7 +116,10 @@ export function onTapAddApp(_: Argument): Tasks {
     {
       type: 'state',
       state: {
-        focusedApp: {},
+        focusedApp: {
+          isNew: true,
+          id: makeAppId(),
+        },
       },
     },
     {
@@ -166,17 +170,14 @@ export const PageHub: Page = {
       type: 'matrix',
       id: 'appMatrix',
       dimension: {
-        top: halfSpace,
-        bottom: halfSpace,
-        leftSafe: halfSpace,
-        rightSafe: halfSpace,
+        top: spaceOutter,
+        bottom: spaceOutter,
+        leftSafe: spaceOutter,
+        rightSafe: spaceOutter,
       },
       matrix: {
         itemSize: {
-          width: {
-            max: '50%',
-            min: 150,
-          },
+          width: '1/2',
         },
       },
     },

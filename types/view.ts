@@ -125,7 +125,7 @@ export type AudioViewCommand = {
   rate?: number;
 };
 type Audio = {
-  ur?: string;
+  url?: string;
   path?: string;
   image?: string;
   title?: string;

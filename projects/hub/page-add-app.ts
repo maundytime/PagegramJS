@@ -1,5 +1,5 @@
 import {type Tasks, type Argument} from 'types/event';
-import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 
@@ -38,7 +38,6 @@ export function onDeleteApp(argument: Argument): Tasks {
 
 export function onInputAppName(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  focusedApp['id'] ||= makeAppId();
   focusedApp['name'] = (argument.systemInfo as any).text as string;
   return {
     type: 'state',
@@ -51,7 +50,6 @@ export function onInputAppName(argument: Argument): Tasks {
 
 export function onInputAppBundle(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  focusedApp['id'] ||= makeAppId();
   focusedApp['bundle'] = (argument.systemInfo as any).text as string;
   return {
     type: 'state',
@@ -66,7 +64,7 @@ export function onChangeFocusApp(argument: Argument): Tasks {
   const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
   const bundle = focusedApp['bundle'] as string;
   const name = focusedApp['name'] as string;
-  const id = focusedApp['id'] as string;
+  const isNew = focusedApp['isNew'];
   return {
     type: 'view',
     view: {
@@ -78,7 +76,7 @@ export function onChangeFocusApp(argument: Argument): Tasks {
       },
       deleteButton: {
         style: {
-          opacity: id ? 1 : 0,
+          opacity: isNew ? 0 : 1,
         },
       },
     },
