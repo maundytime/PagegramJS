@@ -3,7 +3,6 @@ import {type StackView} from 'types/view';
 import {edge} from 'types/util';
 
 const subpages = [
-  'PageTestInNav',
   'PageRssInNav',
   'PageRssBarInNav',
   'PagePushPopInNav',

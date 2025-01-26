@@ -3,7 +3,6 @@ export * from './page-matrix';
 export * from './page-matrix-h';
 export * from './page-push';
 export * from './page-rss';
-export * from './page-test';
 export * from './page-rss-bar';
 export * from './page-stack';
 export * from './page-nav';
