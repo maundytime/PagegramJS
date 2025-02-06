@@ -5,7 +5,6 @@ import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
-import logo from './logo.svg';
 
 const color = '26';
 const spaceInner = 8;
@@ -214,37 +213,37 @@ export const PageHubInNav: NavPage = {
   },
   subpages: ['PageHub'],
   subviews: [
-    {
-      type: 'blur',
-      dimension: {
-        top: 0,
-        left: 0,
-        right: 0,
-        unsafeAt: 'top',
-      },
-      style: {
-        background: 'fffc',
-      },
-      subviews: {
-        dimension: {
-          left: 0,
-          right: 0,
-          height: 60,
-          bottom: 0,
-          topSafe: 0,
-        },
-        subviews: [
-          {
-            type: 'image',
-            image: {
-              svg: logo,
-              mode: 'center',
-            },
-            dimension: edge,
-          },
-        ],
-      },
-    },
+    // {
+    //   type: 'blur',
+    //   dimension: {
+    //     top: 0,
+    //     left: 0,
+    //     right: 0,
+    //     unsafeAt: 'top',
+    //   },
+    //   style: {
+    //     background: 'fffc',
+    //   },
+    //   subviews: {
+    //     dimension: {
+    //       left: 0,
+    //       right: 0,
+    //       height: 60,
+    //       bottom: 0,
+    //       topSafe: 0,
+    //     },
+    //     subviews: [
+    //       {
+    //         type: 'image',
+    //         image: {
+    //           svg: logo,
+    //           mode: 'center',
+    //         },
+    //         dimension: edge,
+    //       },
+    //     ],
+    //   },
+    // },
     {
       type: 'touchFade',
       onTap: '#onTapAddApp',
@@ -252,7 +251,8 @@ export const PageHubInNav: NavPage = {
         bottomSafe: 14,
         height: 42,
         width: 42,
-        rightSafe: 32,
+        centerX: 0,
+        // rightSafe: 32,
         unsafeAt: 'bottom',
       },
       style: {

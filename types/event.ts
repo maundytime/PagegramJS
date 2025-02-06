@@ -48,7 +48,7 @@ export type AppInfo = {
 type HubTask = {
   type: 'hub';
   action: 'dismiss' | 'open';
-  appId: string;
+  pagegramId: string;
 };
 type FunctionTask = string;
 type Task = FunctionTask | AnimationTask | NavigationTask | ViewTask | BreakTask | StateTask | HubTask | undefined;

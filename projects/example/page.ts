@@ -1,4 +1,5 @@
 import type {Page} from 'types/page';
+import {edge} from 'types/util';
 
 export const PageTest: Page = {
   subviews: {
@@ -6,9 +7,10 @@ export const PageTest: Page = {
     text: {
       content: '你好',
     },
-    dimension: {
-      centerX: 0,
-      centerY: 0,
+    dimension: edge,
+    style: {
+      background: 'f',
     },
+    alignment: 'center',
   },
 };
