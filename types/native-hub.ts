@@ -14,10 +14,10 @@ declare const NativeHubModuleManager: {
   deleteBundle(id: string): void;
   bundle(id: string): string;
 };
-export const TableIdAppInfo = 'app_info';
+export const TableIdGramInfo = 'gram_info';
 export const NativeHubModule = NativeHubModuleManager;
 
-export function makeAppId() {
+export function makeGramId() {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
   let result = '';
   for (let i = 0; i < 32; i++) {

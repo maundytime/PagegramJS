@@ -37,7 +37,7 @@ type StateTask = {
   state: Record<string, unknown>;
   skipOnChange?: boolean;
 };
-export type AppInfo = {
+export type GramInfo = {
   id: string;
   name?: string;
   bundle?: string;
@@ -48,7 +48,7 @@ export type AppInfo = {
 type HubTask = {
   type: 'hub';
   action: 'dismiss' | 'open';
-  appId: string;
+  gramId: string;
 };
 type FunctionTask = string;
 type Task = FunctionTask | AnimationTask | NavigationTask | ViewTask | BreakTask | StateTask | HubTask | undefined;

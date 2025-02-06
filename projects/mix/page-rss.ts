@@ -288,9 +288,7 @@ export function rssDidChange(argument: Argument): Tasks {
 export async function fetchRss(): Promise<Tasks> {
   const list = [
     'https://zhuchangsile.xyz/episodes/feed.xml',
-    'https://feeds.feedburner.com/tedtalks_audio',
     'https://uxcoffee.typlog.io/episodes/feed.xml',
-    'https://www.ximalaya.com/album/20230759.xml',
   ];
   return NativeModule.fetch(list[0]!)
     .then(text => {

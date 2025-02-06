@@ -1,11 +1,10 @@
 import {type Tasks, type Argument} from 'types/event';
 import {NativeModule} from 'types/native';
-import {makeAppId, NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {makeGramId, NativeHubModule, TableIdGramInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
-import logo from './logo.svg';
 
 const color = '26';
 const spaceInner = 8;
@@ -13,9 +12,9 @@ const spaceOutter = 12;
 const base = 360 * Math.random();
 
 export function onChangeApps(argument: Argument): Tasks {
-  const apps = argument.stateInfo['apps'] as Array<Record<string, unknown>>;
-  const subviews: View[] = Array.from(apps, app => {
-    const value = app['value'] as Record<string, unknown>;
+  const grams = argument.stateInfo['grams'] as Array<Record<string, unknown>>;
+  const subviews: View[] = Array.from(grams, gram => {
+    const value = gram['value'] as Record<string, unknown>;
     const name = value['name'] as string;
     const id = value['id'] as string;
     const x = Math.random() - 0.5;
@@ -83,7 +82,7 @@ export function onChangeApps(argument: Argument): Tasks {
   return {
     type: 'view',
     view: {
-      appMatrix: {
+      gramMatrix: {
         matrix: {
           content: subviews,
         },
@@ -93,21 +92,21 @@ export function onChangeApps(argument: Argument): Tasks {
 }
 
 export async function reloadHub(_: Argument): Promise<Tasks> {
-  const res = NativeHubModule.table(TableIdAppInfo);
+  const res = NativeHubModule.table(TableIdGramInfo);
   return {
     type: 'state',
     state: {
-      apps: res,
+      grams: res,
     },
   };
 }
 
 export function onTapApp(argument: Argument): Tasks {
-  const appId = argument.userInfo as string;
+  const gramId = argument.userInfo as string;
   return {
     type: 'hub',
     action: 'open',
-    appId,
+    gramId,
   };
 }
 
@@ -116,9 +115,9 @@ export function onTapAddApp(_: Argument): Tasks {
     {
       type: 'state',
       state: {
-        focusedApp: {
+        focusedGram: {
           isNew: true,
-          id: makeAppId(),
+          id: makeGramId(),
         },
       },
     },
@@ -131,14 +130,14 @@ export function onTapAddApp(_: Argument): Tasks {
 }
 
 export async function onTapEditApp(argument: Argument): Promise<Tasks> {
-  const appId = argument.userInfo as string;
-  const focusedApp = NativeHubModule.data(TableIdAppInfo, appId) as Record<string, unknown>;
-  focusedApp['bundle'] = NativeHubModule.bundle(appId);
+  const gramId = argument.userInfo as string;
+  const focusedGram = NativeHubModule.data(TableIdGramInfo, gramId) as Record<string, unknown>;
+  focusedGram['bundle'] = NativeHubModule.bundle(gramId);
   return [
     {
       type: 'state',
       state: {
-        focusedApp,
+        focusedGram,
       },
     },
     {
@@ -151,11 +150,11 @@ export async function onTapEditApp(argument: Argument): Promise<Tasks> {
 
 export const PageHub: Page = {
   stateMap: {
-    apps: {
+    grams: {
       type: 'bind',
       onChange: '#onChangeApps',
     },
-    focusedApp: {
+    focusedGram: {
       type: 'bind',
     },
   },
@@ -168,7 +167,7 @@ export const PageHub: Page = {
     dimension: edge,
     subviews: {
       type: 'matrix',
-      id: 'appMatrix',
+      id: 'gramMatrix',
       dimension: {
         top: spaceOutter,
         bottom: spaceOutter,
@@ -200,11 +199,11 @@ export const PageHubInNav: NavPage = {
   type: 'nav',
   onLoad: ['#reloadHub'],
   stateMap: {
-    apps: {
+    grams: {
       type: 'state',
       value: [],
     },
-    focusedApp: {
+    focusedGram: {
       type: 'state',
       value: null,
     },
@@ -214,37 +213,37 @@ export const PageHubInNav: NavPage = {
   },
   subpages: ['PageHub'],
   subviews: [
-    {
-      type: 'blur',
-      dimension: {
-        top: 0,
-        left: 0,
-        right: 0,
-        unsafeAt: 'top',
-      },
-      style: {
-        background: 'fffc',
-      },
-      subviews: {
-        dimension: {
-          left: 0,
-          right: 0,
-          height: 60,
-          bottom: 0,
-          topSafe: 0,
-        },
-        subviews: [
-          {
-            type: 'image',
-            image: {
-              svg: logo,
-              mode: 'center',
-            },
-            dimension: edge,
-          },
-        ],
-      },
-    },
+    // {
+    //   type: 'blur',
+    //   dimension: {
+    //     top: 0,
+    //     left: 0,
+    //     right: 0,
+    //     unsafeAt: 'top',
+    //   },
+    //   style: {
+    //     background: 'fffc',
+    //   },
+    //   subviews: {
+    //     dimension: {
+    //       left: 0,
+    //       right: 0,
+    //       height: 60,
+    //       bottom: 0,
+    //       topSafe: 0,
+    //     },
+    //     subviews: [
+    //       {
+    //         type: 'image',
+    //         image: {
+    //           svg: logo,
+    //           mode: 'center',
+    //         },
+    //         dimension: edge,
+    //       },
+    //     ],
+    //   },
+    // },
     {
       type: 'touchFade',
       onTap: '#onTapAddApp',
@@ -252,7 +251,8 @@ export const PageHubInNav: NavPage = {
         bottomSafe: 14,
         height: 42,
         width: 42,
-        rightSafe: 32,
+        centerX: 0,
+        // rightSafe: 32,
         unsafeAt: 'bottom',
       },
       style: {

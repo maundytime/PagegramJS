@@ -1,23 +1,23 @@
 import {type Tasks, type Argument} from 'types/event';
-import {NativeHubModule, TableIdAppInfo} from 'types/native-hub';
+import {NativeHubModule, TableIdGramInfo} from 'types/native-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 
-export function onSaveApp(argument: Argument): Tasks {
-  const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  const appId = focusedApp['id'] as string;
-  const appName = focusedApp['name'] as string;
-  const appBundle = focusedApp['bundle'] as string;
-  if (!appName || !appBundle || !appId) {
+export function onSaveGram(argument: Argument): Tasks {
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  const gramId = focusedGram['id'] as string;
+  const gramName = focusedGram['name'] as string;
+  const gramBundle = focusedGram['bundle'] as string;
+  if (!gramName || !gramBundle || !gramId) {
     return;
   }
-  const appInfo = {
-    id: appId,
-    name: appName,
+  const gramInfo = {
+    id: gramId,
+    name: gramName,
   };
-  NativeHubModule.saveData(TableIdAppInfo, appId, appInfo);
-  NativeHubModule.saveBundle(appId, appBundle);
-  NativeHubModule.createTable(appId);
+  NativeHubModule.saveData(TableIdGramInfo, gramId, gramInfo);
+  NativeHubModule.saveBundle(gramId, gramBundle);
+  NativeHubModule.createTable(gramId);
   return {
     type: 'navigation',
     navigation: 'dismiss',
@@ -25,11 +25,11 @@ export function onSaveApp(argument: Argument): Tasks {
 }
 
 export function onDeleteApp(argument: Argument): Tasks {
-  const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  const appId = focusedApp['id'] as string;
-  NativeHubModule.deleteData(TableIdAppInfo, appId);
-  NativeHubModule.deleteBundle(appId);
-  NativeHubModule.dropTable(appId);
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  const gramId = focusedGram['id'] as string;
+  NativeHubModule.deleteData(TableIdGramInfo, gramId);
+  NativeHubModule.deleteBundle(gramId);
+  NativeHubModule.dropTable(gramId);
   return {
     type: 'navigation',
     navigation: 'dismiss',
@@ -37,41 +37,41 @@ export function onDeleteApp(argument: Argument): Tasks {
 }
 
 export function onInputAppName(argument: Argument): Tasks {
-  const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  focusedApp['name'] = (argument.systemInfo as any).text as string;
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  focusedGram['name'] = (argument.systemInfo as any).text as string;
   return {
     type: 'state',
     state: {
-      focusedApp,
+      focusedGram,
     },
     // skipOnChange: true,
   };
 }
 
 export function onInputAppBundle(argument: Argument): Tasks {
-  const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  focusedApp['bundle'] = (argument.systemInfo as any).text as string;
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  focusedGram['bundle'] = (argument.systemInfo as any).text as string;
   return {
     type: 'state',
     state: {
-      focusedApp,
+      focusedGram,
     },
     // skipOnChange: true,
   };
 }
 
 export function onChangeFocusApp(argument: Argument): Tasks {
-  const focusedApp = argument.stateInfo['focusedApp'] as Record<string, unknown>;
-  const bundle = focusedApp['bundle'] as string;
-  const name = focusedApp['name'] as string;
-  const isNew = focusedApp['isNew'];
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  const bundle = focusedGram['bundle'] as string;
+  const name = focusedGram['name'] as string;
+  const isNew = focusedGram['isNew'];
   return {
     type: 'view',
     view: {
-      appNameTextView: {
+      gramNameTextView: {
         text: name,
       },
-      appBundleTextView: {
+      gramBundleTextView: {
         text: bundle,
       },
       deleteButton: {
@@ -88,7 +88,7 @@ const color = '26';
 
 export const PageAddApp: Page = {
   stateMap: {
-    focusedApp: {
+    focusedGram: {
       type: 'bind',
       onChange: '#onChangeFocusApp',
     },
@@ -131,7 +131,7 @@ export const PageAddApp: Page = {
           },
         },
         {
-          id: 'appNameTextView',
+          id: 'gramNameTextView',
           type: 'text',
           editable: true,
           lines: 1,
@@ -171,7 +171,7 @@ export const PageAddApp: Page = {
           },
         },
         {
-          id: 'appBundleTextView',
+          id: 'gramBundleTextView',
           type: 'text',
           scrollable: true,
           editable: true,
@@ -227,7 +227,7 @@ export const PageAddApp: Page = {
 export const PageAddAppInNav: NavPage = {
   type: 'nav',
   stateMap: {
-    focusedApp: {
+    focusedGram: {
       type: 'bind',
     },
   },

@@ -3,12 +3,24 @@ import type {Page} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
+import {NativeModule} from 'types/native';
 
 const playSymbol = 'play.fill';
 const pauseSymbol = 'pause.fill';
 const hue = 360 * Math.random();
 const background = hctColor(hue, 20, 90);
 const color = hctColor(0, 0, 15);
+
+export function test(argument: Argument) {
+  console.log(JSON.stringify(argument));
+}
+
+export async function worldTimeTest(argument: Argument) {
+  console.log(111, JSON.stringify(argument));
+  return new Promise((resolve, _reject) => {
+    resolve('Hello from JS async');
+  });
+}
 
 export function onTap(argument: Argument): Tasks {
   const playing = argument.stateInfo['playing'] as boolean;
