@@ -8,35 +8,47 @@ export function onSaveGram(argument: Argument): Tasks {
   const gramId = focusedGram['id'] as string;
   const gramName = focusedGram['name'] as string;
   const gramBundle = focusedGram['bundle'] as string;
+  const gramType = focusedGram['type'] as string;
   if (!gramName || !gramBundle || !gramId) {
     return;
   }
-  const gramInfo = {
-    id: gramId,
-    name: gramName,
-  };
+  delete focusedGram['bundle'];
+  const gramInfo = focusedGram;
   NativeHubModule.saveData(TableIdGramInfo, gramId, gramInfo);
   NativeHubModule.saveBundle(gramId, gramBundle);
   NativeHubModule.createTable(gramId);
+  if (gramType === 'widget') {
+    NativeHubModule.reloadWidgets();
+  }
   return {
     type: 'navigation',
     navigation: 'dismiss',
   };
 }
 
-export function onDeleteApp(argument: Argument): Tasks {
+export function onDeleteGram(argument: Argument): Tasks {
   const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
   const gramId = focusedGram['id'] as string;
+  const gramType = focusedGram['type'] as string;
   NativeHubModule.deleteData(TableIdGramInfo, gramId);
   NativeHubModule.deleteBundle(gramId);
   NativeHubModule.dropTable(gramId);
+  if (gramType === 'widget') {
+    NativeHubModule.reloadWidgets();
+  }
   return {
     type: 'navigation',
     navigation: 'dismiss',
   };
 }
 
-export function onInputAppName(argument: Argument): Tasks {
+export function onCopyId(argument: Argument) {
+  const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
+  const gramId = focusedGram['id'] as string;
+  NativeHubModule.copy(gramId);
+}
+
+export function onInputGramName(argument: Argument): Tasks {
   const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
   focusedGram['name'] = (argument.systemInfo as any).text as string;
   return {
@@ -48,7 +60,7 @@ export function onInputAppName(argument: Argument): Tasks {
   };
 }
 
-export function onInputAppBundle(argument: Argument): Tasks {
+export function onInputGramBundle(argument: Argument): Tasks {
   const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
   focusedGram['bundle'] = (argument.systemInfo as any).text as string;
   return {
@@ -60,7 +72,7 @@ export function onInputAppBundle(argument: Argument): Tasks {
   };
 }
 
-export function onChangeFocusApp(argument: Argument): Tasks {
+export function onChangeFocusGram(argument: Argument): Tasks {
   const focusedGram = argument.stateInfo['focusedGram'] as Record<string, unknown>;
   const bundle = focusedGram['bundle'] as string;
   const name = focusedGram['name'] as string;
@@ -76,7 +88,7 @@ export function onChangeFocusApp(argument: Argument): Tasks {
       },
       deleteButton: {
         style: {
-          opacity: isNew ? 0 : 1,
+          opacity: isNew ? 1 : 0,
         },
       },
     },
@@ -86,11 +98,11 @@ export function onChangeFocusApp(argument: Argument): Tasks {
 const background = 'f1';
 const color = '26';
 
-export const PageAddApp: Page = {
+export const PageAddGram: Page = {
   stateMap: {
     focusedGram: {
       type: 'bind',
-      onChange: '#onChangeFocusApp',
+      onChange: '#onChangeFocusGram',
     },
   },
   subviews: {
@@ -147,7 +159,7 @@ export const PageAddApp: Page = {
           style: {
             background: 'f',
           },
-          onInput: '#onInputAppName',
+          onInput: '#onInputGramName',
           dimension: {
             height: 44,
           },
@@ -182,11 +194,41 @@ export const PageAddApp: Page = {
           design: 'monospaced',
           color,
           size: 12,
-          onInput: '#onInputAppBundle',
+          onInput: '#onInputGramBundle',
           dimension: {
             left: 0,
             right: 0,
             height: 240,
+          },
+        },
+        {
+          dimension: {
+            height: 24,
+          },
+        },
+        {
+          id: 'copyIdButton',
+          type: 'touchFade',
+          style: {
+            background: 'f',
+          },
+          dimension: {
+            height: 44,
+          },
+          onTap: ['#onCopyId'],
+          subviews: {
+            type: 'label',
+            text: {
+              design: 'monospaced',
+              size: 12,
+              content: 'COPY ID',
+              color,
+              weight: 500,
+            },
+            dimension: {
+              centerX: 0,
+              centerY: 0,
+            },
           },
         },
         {
@@ -203,7 +245,7 @@ export const PageAddApp: Page = {
           dimension: {
             height: 44,
           },
-          onLongPress: ['#onDeleteApp', '@reloadHub'],
+          onLongPress: ['#onDeleteGram', '@reloadHub'],
           subviews: {
             type: 'label',
             text: {
@@ -224,14 +266,14 @@ export const PageAddApp: Page = {
   },
 };
 
-export const PageAddAppInNav: NavPage = {
+export const PageAddGramInNav: NavPage = {
   type: 'nav',
   stateMap: {
     focusedGram: {
       type: 'bind',
     },
   },
-  subpages: ['PageAddApp'],
+  subpages: ['PageAddGram'],
   subviews: {
     type: 'blur',
     dimension: {
@@ -277,7 +319,7 @@ export const PageAddAppInNav: NavPage = {
         },
         {
           type: 'touchFade',
-          onTap: ['#onSaveApp', '@reloadHub'],
+          onTap: ['#onSaveGram', '@reloadHub'],
           dimension: {
             bottom: 0,
             top: 0,

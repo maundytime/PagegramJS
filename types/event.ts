@@ -44,6 +44,7 @@ export type GramInfo = {
   mode?: 'full' | 'overlay';
   url?: string;
   autoUpdate?: boolean;
+  type: 'app' | 'widget';
 };
 type HubTask = {
   type: 'hub';

@@ -3,7 +3,6 @@ import type {Page} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
-import {NativeModule} from 'types/native';
 
 const playSymbol = 'play.fill';
 const pauseSymbol = 'pause.fill';

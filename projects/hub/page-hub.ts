@@ -11,7 +11,7 @@ const spaceInner = 8;
 const spaceOutter = 12;
 const base = 360 * Math.random();
 
-export function onChangeApps(argument: Argument): Tasks {
+export function onChangeGrams(argument: Argument): Tasks {
   const grams = argument.stateInfo['grams'] as Array<Record<string, unknown>>;
   const subviews: View[] = Array.from(grams, gram => {
     const value = gram['value'] as Record<string, unknown>;
@@ -24,7 +24,7 @@ export function onChangeApps(argument: Argument): Tasks {
     return {
       type: 'touch',
       userInfo: id,
-      onTap: '#onTapApp',
+      onTap: '#onTapGram',
       dimension: {
         top: spaceInner,
         bottom: spaceInner,
@@ -40,7 +40,7 @@ export function onChangeApps(argument: Argument): Tasks {
         {
           type: 'touchFade',
           userInfo: id,
-          onTap: '#onTapEditApp',
+          onTap: '#onTapEditGram',
           dimension: {
             top: 0,
             width: 48,
@@ -101,7 +101,7 @@ export async function reloadHub(_: Argument): Promise<Tasks> {
   };
 }
 
-export function onTapApp(argument: Argument): Tasks {
+export function onTapGram(argument: Argument): Tasks {
   const gramId = argument.userInfo as string;
   return {
     type: 'hub',
@@ -110,7 +110,7 @@ export function onTapApp(argument: Argument): Tasks {
   };
 }
 
-export function onTapAddApp(_: Argument): Tasks {
+export function onTapAddGram(_: Argument): Tasks {
   return [
     {
       type: 'state',
@@ -124,12 +124,12 @@ export function onTapAddApp(_: Argument): Tasks {
     {
       type: 'navigation',
       navigation: 'full',
-      pageName: 'PageAddAppInNav',
+      pageName: 'PageAddGramInNav',
     },
   ];
 }
 
-export async function onTapEditApp(argument: Argument): Promise<Tasks> {
+export async function onTapEditGram(argument: Argument): Promise<Tasks> {
   const gramId = argument.userInfo as string;
   const focusedGram = NativeHubModule.data(TableIdGramInfo, gramId) as Record<string, unknown>;
   focusedGram['bundle'] = NativeHubModule.bundle(gramId);
@@ -143,7 +143,7 @@ export async function onTapEditApp(argument: Argument): Promise<Tasks> {
     {
       type: 'navigation',
       navigation: 'full',
-      pageName: 'PageAddAppInNav',
+      pageName: 'PageAddGramInNav',
     },
   ];
 }
@@ -152,7 +152,7 @@ export const PageHub: Page = {
   stateMap: {
     grams: {
       type: 'bind',
-      onChange: '#onChangeApps',
+      onChange: '#onChangeGrams',
     },
     focusedGram: {
       type: 'bind',
@@ -246,7 +246,7 @@ export const PageHubInNav: NavPage = {
     // },
     {
       type: 'touchFade',
-      onTap: '#onTapAddApp',
+      onTap: '#onTapAddGram',
       dimension: {
         bottomSafe: 14,
         height: 42,

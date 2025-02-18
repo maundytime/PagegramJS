@@ -1,51 +1,51 @@
 import {type Argument} from 'types/event';
-import {NativeModule} from 'types/native';
+import {NativeWidget} from 'types/native';
 import {spacer} from 'types/util';
 import {type Widget} from 'types/widget';
 
 export function test(argument: Argument) {
   console.log(JSON.stringify(argument));
-  return 'test1 func called';
+  return `func called ${NativeWidget.date as any}`;
 }
 
 // padding类似insets，在uikit中并没有完全对应的属性
 
 function getWeekday() {
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const dayIndex = NativeModule.date.getDay();
+  const dayIndex = NativeWidget.date.getDay();
   return daysOfWeek[dayIndex];
 }
 
 function getAMPM() {
-  const hours = NativeModule.date.getHours();
+  const hours = NativeWidget.date.getHours();
   return hours >= 12 ? 'PM' : 'AM';
 }
 
 function getHours() {
-  let hours = NativeModule.date.getHours();
+  let hours = NativeWidget.date.getHours();
   hours = hours % 12 || 12;
   return hours;
 }
 
 function getMinutes() {
-  const minutes = NativeModule.date.getMinutes();
+  const minutes = NativeWidget.date.getMinutes();
   const formattedMinutes = String(minutes).padStart(2, '0');
+  console.log(formattedMinutes);
   return formattedMinutes;
 }
 
 function getYear() {
-  const year = NativeModule.date.getFullYear();
+  const year = NativeWidget.date.getFullYear();
   return year;
 }
 
 function getDate() {
-  const month = NativeModule.date.getMonth() + 1;
-  const day = NativeModule.date.getDate();
-  return `${month}/${day}`;
+  const month = NativeWidget.date.getMonth();
+  const day = NativeWidget.date.getDate();
+  return `${month + 1}/${day}`;
 }
 
 export const WidgetClock: Widget = {
-  size: 'small',
   subviews: {
     type: 'zstack',
     style: {
@@ -65,6 +65,7 @@ export const WidgetClock: Widget = {
         dimension: {
           maxWidth: 'infinity',
           maxHeight: 'infinity',
+          padding: 6,
         },
         subviews: [
           {
@@ -73,22 +74,38 @@ export const WidgetClock: Widget = {
               {
                 type: 'text',
                 text: getWeekday(),
+                color: '232322',
+                size: 14,
+                design: 'monospaced',
+                weight: 'bold',
               },
               spacer,
               {
                 type: 'text',
                 text: getAMPM(),
+                color: '232322',
+                size: 14,
+                design: 'monospaced',
+                weight: 'bold',
               },
             ],
           },
           spacer,
           {
             type: 'hstack',
+            spacing: 4,
             subviews: [
               {
                 type: 'text',
                 text: getHours(),
+                color: '232322',
+                size: 28,
+                design: 'monospaced',
+                weight: 'bold',
               },
+              // {
+              //   type: 'button',
+              // },
               {
                 type: 'vstack',
                 mask: true,
@@ -125,6 +142,10 @@ export const WidgetClock: Widget = {
               {
                 type: 'text',
                 text: getMinutes(),
+                color: '232322',
+                size: 28,
+                design: 'monospaced',
+                weight: 'bold',
               },
             ],
           },
@@ -135,14 +156,41 @@ export const WidgetClock: Widget = {
               {
                 type: 'text',
                 text: getYear(),
+                color: '232322',
+                size: 14,
+                design: 'monospaced',
+                weight: 'bold',
               },
               spacer,
               {
                 type: 'text',
                 text: getDate(),
+                color: '232322',
+                size: 14,
+                design: 'monospaced',
+                weight: 'bold',
               },
             ],
           },
+        ],
+      },
+      {
+        type: 'vstack',
+        dimension: {
+          maxWidth: 'infinity',
+          maxHeight: 'infinity',
+        },
+        subviews: [
+          {
+            type: 'rectangle',
+            dimension: {
+              height: 2,
+            },
+            style: {
+              background: '23232233',
+            },
+          },
+          spacer,
         ],
       },
     ],

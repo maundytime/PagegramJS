@@ -13,6 +13,8 @@ declare const NativeHubModuleManager: {
   saveBundle(id: string, value: string): void;
   deleteBundle(id: string): void;
   bundle(id: string): string;
+  reloadWidgets(): void;
+  copy(value: string): void;
 };
 export const TableIdGramInfo = 'gram_info';
 export const NativeHubModule = NativeHubModuleManager;
