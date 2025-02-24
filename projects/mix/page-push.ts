@@ -77,11 +77,15 @@ function makePage(flag: boolean): Page {
   };
 }
 
-export const PagePushPop1: Page = makePage(true);
+export function PagePushPop1(): Page {
+  return makePage(true);
+}
 
-export const PagePushPop2: Page = makePage(false);
+export function PagePushPop2(): Page {
+  return makePage(false);
+}
 
-export const PagePushPopInNav: NavPage = (() => {
+export function PagePushPopInNav(): NavPage {
   const nav = makePageNav(['PagePushPop1']);
   nav.eventMap = {
     ...nav.eventMap,
@@ -104,7 +108,7 @@ export const PagePushPopInNav: NavPage = (() => {
     },
   };
   return nav;
-})();
+}
 
 export function changeNavInfo(_: Argument): Tasks {
   return {

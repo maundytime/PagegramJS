@@ -1,5 +1,4 @@
 export type Widget = {
-  size?: 'small' | 'medium' | 'large';
   subviews?: WidgetView | WidgetView[];
 };
 

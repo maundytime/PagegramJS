@@ -8,4 +8,3 @@ export * from './page-stack';
 export * from './page-nav';
 export * from './functions-test';
 export * from './page-tab';
-export {Tab as root} from './page-tab';

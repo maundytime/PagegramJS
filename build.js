@@ -16,11 +16,11 @@ async function getSubfolders(dir) {
   return directories.filter(Boolean);
 }
 
-async function build(dirPath, entryPath, bundlePath) {
+async function build(dirPath, buildPath, entryPath, bundlePath) {
   await fs.mkdir(dirPath, {recursive: true});
-  await fs.writeFile(entryPath, 'export * as pagegram from \'../index\';\n');
+  await fs.writeFile(entryPath, 'export * from \'../index\';\n');
   await esbuild.build({
-    entryPoints: [entryPath],
+    entryPoints: [buildPath],
     bundle: true,
     // minify: true,
     outfile: bundlePath,
@@ -33,8 +33,8 @@ async function build(dirPath, entryPath, bundlePath) {
   });
   fs.unlink(entryPath);
   let bundle = await fs.readFile(bundlePath, 'utf8');
-  const regex = /export\s*{\s*(\S*) as pagegram\s*};[\s\S]*$/g;
-  const replacement = 'var pagegram=$1;\n';
+  const regex = /export ?{[\s\S]*};[\s\S]*$/g;
+  const replacement = '';
   bundle = bundle.replaceAll(regex, replacement);
   await fs.writeFile(bundlePath, bundle, 'utf8');
 }
@@ -43,8 +43,9 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 const folders = await getSubfolders(path.join(dir, 'projects'));
 const buildPromises = folders.map(async folder => {
   const dirPath = path.join(dir, `projects/${folder}/bundle`);
+  const buildPath = path.join(dir, `projects/${folder}/index.ts`);
   const entryPath = path.join(dir, `projects/${folder}/bundle/index.ts`);
   const bundlePath = path.join(dir, `projects/${folder}/bundle/bundle.js`);
-  return build(dirPath, entryPath, bundlePath);
+  return build(dirPath, buildPath, entryPath, bundlePath);
 });
 await Promise.all(buildPromises);

@@ -3,6 +3,8 @@ import type {Page} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
 import {type View} from 'types/view';
+import {Pagegram} from 'types/pagegram';
+// import mesh from './mesh.svg';
 
 const playSymbol = 'play.fill';
 const pauseSymbol = 'pause.fill';
@@ -155,6 +157,10 @@ const cover: View = {
     image: {
       path: 'cover.png',
     },
+    // image: {
+    //   svg: mesh,
+    //   mode: 'center',
+    // },
     style: {
       radius: 160,
       overflow: 'hidden',
@@ -199,42 +205,55 @@ const playButton: View = {
 
 const content = [dismissButton, cover, playButton];
 
-export const PageSound: Page = {
-  direction: 'vertical',
-  stateMap: {
-    playing: {
-      type: 'state',
-      value: false,
-      onChange: ['#onChange', '#onRotate', '#onColor'],
-    },
-  },
-  subviews: [
-    {
-      id: 'audio',
-      type: 'audio',
-      onPlaying: '#onPlaying',
-      audio: {
-        path: 'sound.caf',
-      },
-    }, {
-      dimension: edge,
-      id: 'background',
-      style: {
-        background,
-      },
-      subviews: {
-        type: 'stack',
-        stack: {
-          alignment: 'fill',
-        },
-        dimension: {
-          topSafe: 0,
-          bottomSafe: 0,
-          left: 0,
-          right: 0,
-        },
-        subviews: content,
+export function reloadHub() {
+  const x = Pagegram.data('somekey');
+  console.log(123, x);
+  Pagegram.saveData('somekey', 'somevalue');
+  const x1 = Pagegram.data('somekey');
+  console.log(111, x1);
+}
+
+export function PageSound(): Page {
+  return {
+    onLoad: ['#reloadHub'],
+    direction: 'vertical',
+    stateMap: {
+      playing: {
+        type: 'state',
+        value: false,
+        onChange: ['#onChange', '#onRotate', '#onColor'],
       },
     },
-  ],
-};
+    subviews: [
+      {
+        id: 'audio',
+        type: 'audio',
+        onPlaying: '#onPlaying',
+        audio: {
+          path: 'sound.caf',
+        },
+      }, {
+        dimension: edge,
+        id: 'background',
+        style: {
+          background,
+        },
+        subviews: {
+          type: 'stack',
+          stack: {
+            alignment: 'fill',
+          },
+          dimension: {
+            topSafe: 0,
+            bottomSafe: 0,
+            left: 0,
+            right: 0,
+          },
+          subviews: content,
+        },
+      },
+    ],
+  };
+}
+
+Pagegram.present(PageSound);

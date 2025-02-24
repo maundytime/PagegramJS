@@ -1,5 +1,5 @@
 import {type Argument, type Tasks} from 'types/event';
-import {NativeModule} from 'types/native';
+import {Pagegram} from 'types/pagegram';
 import type {NavPage, Page} from 'types/page';
 import {type PageTextComponent} from 'types/property';
 import {edge} from 'types/util';
@@ -152,7 +152,7 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
   if (cards.length === 0) {
     return;
   }
-  return NativeModule.fetch('https://api.openai.com/v1/chat/completions', {
+  return Pagegram.fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -223,188 +223,194 @@ export async function onCardsReading(argument: Argument): Promise<Tasks> {
     });
 }
 
-export const PageTarot: Page = {
-  stateMap: {
-    cards: {
-      type: 'bind',
-      onChange: ['#onCards', '#onCardsReading'],
+export function PageTarot(): Page {
+  return {
+    stateMap: {
+      cards: {
+        type: 'bind',
+        onChange: ['#onCards', '#onCardsReading'],
+      },
     },
-  },
-  subviews: {
-    style: {
-      background: 'f',
-    },
-    dimension: edge,
     subviews: {
-      type: 'stack',
-      dimension: {
-        left: 16,
-        right: 16,
-        topSafe: 8,
-        bottomSafe: 0,
+      style: {
+        background: 'f',
       },
-      stack: {
-        spacing: 16,
-        alignment: 'fill',
+      dimension: edge,
+      subviews: {
+        type: 'stack',
+        dimension: {
+          left: 16,
+          right: 16,
+          topSafe: 8,
+          bottomSafe: 0,
+        },
+        stack: {
+          spacing: 16,
+          alignment: 'fill',
+        },
+        subviews: [
+          {
+            type: 'stack',
+            id: 'cards',
+            dimension: {
+              left: 0,
+              right: 0,
+              height: 160,
+            },
+            stack: {
+              direction: 'horizontal',
+              distribution: 'fillEqually',
+              alignment: 'fill',
+              spacing: 16,
+            },
+          },
+          {
+            subviews: [
+              {
+                type: 'text',
+                id: 'answer',
+                dimension: edge,
+                scrollable: true,
+              },
+              {
+                type: 'symbol',
+                id: 'loading',
+                dimension: {
+                  centerX: 0,
+                  centerY: 0,
+                },
+                symbol: {
+                  name: 'progress.indicator',
+                  color: '9',
+                },
+                style: {
+                  opacity: 0,
+                },
+              },
+            ],
+          },
+        ],
       },
-      subviews: [
-        {
-          type: 'stack',
-          id: 'cards',
+    },
+  };
+}
+
+export function PageTarotInNav(): NavPage {
+  return {
+    type: 'nav',
+    stateMap: {
+      cards: {
+        type: 'state',
+        value: [],
+      },
+    },
+    subpages: ['PageTarot'],
+    subviews: [
+      {
+        type: 'blur',
+        dimension: {
+          top: 0,
+          left: 0,
+          right: 0,
+          unsafeAt: 'top',
+        },
+        style: {
+          background: 'fffe',
+        },
+        subviews: {
           dimension: {
             left: 0,
             right: 0,
-            height: 160,
+            height: 44,
+            bottom: 0,
+            topSafe: 0,
           },
-          stack: {
-            direction: 'horizontal',
-            distribution: 'fillEqually',
-            alignment: 'fill',
-            spacing: 16,
-          },
-        },
-        {
           subviews: [
             {
-              type: 'text',
-              id: 'answer',
-              dimension: edge,
-              scrollable: true,
+              type: 'touchFade',
+              onTap: {
+                type: 'navigation',
+                navigation: 'dismiss',
+              },
+              dimension: {
+                bottom: 0,
+                width: 44,
+                top: 0,
+                leftSafe: 16,
+              },
+              subviews: {
+                type: 'symbol',
+                symbol: {
+                  name: 'xmark',
+                  weight: 500,
+                },
+                dimension: edge,
+              },
             },
             {
-              type: 'symbol',
-              id: 'loading',
+              type: 'label',
+              text: {
+                content: '塔罗牌',
+                weight: 600,
+              },
               dimension: {
                 centerX: 0,
                 centerY: 0,
-              },
-              symbol: {
-                name: 'progress.indicator',
-                color: '9',
-              },
-              style: {
-                opacity: 0,
               },
             },
           ],
         },
-      ],
-    },
-  },
-};
-
-export const PageTarotInNav: NavPage = {
-  type: 'nav',
-  stateMap: {
-    cards: {
-      type: 'state',
-      value: [],
-    },
-  },
-  subpages: ['PageTarot'],
-  subviews: [
-    {
-      type: 'blur',
-      dimension: {
-        top: 0,
-        left: 0,
-        right: 0,
-        unsafeAt: 'top',
       },
-      style: {
-        background: 'fffe',
-      },
-      subviews: {
+      {
+        type: 'blur',
         dimension: {
-          left: 0,
-          right: 0,
-          height: 44,
           bottom: 0,
-          topSafe: 0,
-        },
-        subviews: [
-          {
-            type: 'touchFade',
-            onTap: {
-              type: 'navigation',
-              navigation: 'dismiss',
-            },
-            dimension: {
-              bottom: 0,
-              width: 44,
-              top: 0,
-              leftSafe: 16,
-            },
-            subviews: {
-              type: 'symbol',
-              symbol: {
-                name: 'xmark',
-                weight: 500,
-              },
-              dimension: edge,
-            },
-          },
-          {
-            type: 'label',
-            text: {
-              content: '塔罗牌',
-              weight: 600,
-            },
-            dimension: {
-              centerX: 0,
-              centerY: 0,
-            },
-          },
-        ],
-      },
-    },
-    {
-      type: 'blur',
-      dimension: {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        unsafeAt: 'bottom',
-      },
-      style: {
-        background: 'fffe',
-      },
-      subviews: {
-        dimension: {
           left: 0,
           right: 0,
-          height: 60,
-          top: 0,
-          bottomSafe: 0,
+          unsafeAt: 'bottom',
         },
-        subviews: [
-          {
-            type: 'touchFade',
-            onTap: '#onTap',
-            style: {
-              background: '0002',
-              radius: 8,
-            },
-            dimension: {
-              left: 16,
-              right: 16,
-              top: 8,
-              bottom: 8,
-            },
-            subviews: {
-              type: 'label',
-              text: {
-                content: '抽取塔罗牌',
-                weight: 500,
+        style: {
+          background: 'fffe',
+        },
+        subviews: {
+          dimension: {
+            left: 0,
+            right: 0,
+            height: 60,
+            top: 0,
+            bottomSafe: 0,
+          },
+          subviews: [
+            {
+              type: 'touchFade',
+              onTap: '#onTap',
+              style: {
+                background: '0002',
+                radius: 8,
               },
               dimension: {
-                centerX: 0,
-                centerY: 0,
+                left: 16,
+                right: 16,
+                top: 8,
+                bottom: 8,
+              },
+              subviews: {
+                type: 'label',
+                text: {
+                  content: '抽取塔罗牌',
+                  weight: 500,
+                },
+                dimension: {
+                  centerX: 0,
+                  centerY: 0,
+                },
               },
             },
-          },
-        ],
+          ],
+        },
       },
-    },
-  ],
-};
+    ],
+  };
+}
+
+Pagegram.present(PageTarotInNav);

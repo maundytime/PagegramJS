@@ -1,15 +1,15 @@
 import {type Tasks, type Argument} from 'types/event';
-import {NativeModule} from 'types/native';
+import {Pagegram} from 'types/pagegram';
 
 export async function worldTimeTest() {
-  return NativeModule.fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
+  return Pagegram.fetch('https://worldtimeapi.org/api/timezone/Etc/UTC')
     .then(text => {
       console.log(text);
     });
 }
 
 export async function openaiTest() {
-  return NativeModule.fetch('https://api.openai.com/v1/chat/completions', {
+  return Pagegram.fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

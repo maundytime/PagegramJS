@@ -1,6 +1,6 @@
 import {type Tasks, type Argument} from 'types/event';
-import {NativeModule} from 'types/native';
-import {makeGramId, NativeHubModule, TableIdGramInfo} from 'types/native-hub';
+import {Pagegram} from 'types/pagegram';
+import {makeGramId, PagegramHub, TableIdGramInfo} from 'types/pagegram-hub';
 import type {Page, NavPage} from 'types/page';
 import {edge} from 'types/util';
 import {hctColor} from 'types/htc-color';
@@ -92,7 +92,7 @@ export function onChangeGrams(argument: Argument): Tasks {
 }
 
 export async function reloadHub(_: Argument): Promise<Tasks> {
-  const res = NativeHubModule.table(TableIdGramInfo);
+  const res = PagegramHub.table(TableIdGramInfo);
   return {
     type: 'state',
     state: {
@@ -131,8 +131,8 @@ export function onTapAddGram(_: Argument): Tasks {
 
 export async function onTapEditGram(argument: Argument): Promise<Tasks> {
   const gramId = argument.userInfo as string;
-  const focusedGram = NativeHubModule.data(TableIdGramInfo, gramId) as Record<string, unknown>;
-  focusedGram['bundle'] = NativeHubModule.bundle(gramId);
+  const focusedGram = PagegramHub.data(TableIdGramInfo, gramId) as Record<string, unknown>;
+  focusedGram['bundle'] = PagegramHub.bundle(gramId);
   return [
     {
       type: 'state',
@@ -148,126 +148,101 @@ export async function onTapEditGram(argument: Argument): Promise<Tasks> {
   ];
 }
 
-export const PageHub: Page = {
-  stateMap: {
-    grams: {
-      type: 'bind',
-      onChange: '#onChangeGrams',
-    },
-    focusedGram: {
-      type: 'bind',
-    },
-  },
-  subviews: {
-    type: 'scroll',
-    style: {
-      background: hctColor(0, 0, 100),
-    },
-    alwaysBounceVertical: true,
-    dimension: edge,
-    subviews: {
-      type: 'matrix',
-      id: 'gramMatrix',
-      dimension: {
-        top: spaceOutter,
-        bottom: spaceOutter,
-        leftSafe: spaceOutter,
-        rightSafe: spaceOutter,
+export function PageHub(): Page {
+  return {
+    stateMap: {
+      grams: {
+        type: 'bind',
+        onChange: '#onChangeGrams',
       },
-      matrix: {
-        itemSize: {
-          width: '1/2',
+      focusedGram: {
+        type: 'bind',
+      },
+    },
+    subviews: {
+      type: 'scroll',
+      style: {
+        background: hctColor(0, 0, 100),
+      },
+      alwaysBounceVertical: true,
+      dimension: edge,
+      subviews: {
+        type: 'matrix',
+        id: 'gramMatrix',
+        dimension: {
+          top: spaceOutter,
+          bottom: spaceOutter,
+          leftSafe: spaceOutter,
+          rightSafe: spaceOutter,
+        },
+        matrix: {
+          itemSize: {
+            width: '1/2',
+          },
         },
       },
     },
-  },
-};
+  };
+}
 
 export async function fetchHubBundle(): Promise<Tasks> {
   // 更新自己，保存bundle
   // 例如ios的更新，如果发生更新，app会被杀掉重新打开的
   // 所以强制更新，就是一个dismiss的app task，然后一个open的app task
   // app没有权限打开别人，但是有权限打开自己
-  return NativeModule.fetch('https://raw.githubusercontent.com/maundytime/PagegramJS/refs/heads/main/projects/hub/bundle/bundle.js')
+  return Pagegram.fetch('https://raw.githubusercontent.com/maundytime/PagegramJS/refs/heads/main/projects/hub/bundle/bundle.js')
     .then(res => {
-      NativeHubModule.saveBundle('hub', res);
+      PagegramHub.saveBundle('hub', res);
       return undefined;
     });
 }
 
-export const PageHubInNav: NavPage = {
-  type: 'nav',
-  onLoad: ['#reloadHub'],
-  stateMap: {
-    grams: {
-      type: 'state',
-      value: [],
-    },
-    focusedGram: {
-      type: 'state',
-      value: null,
-    },
-  },
-  eventMap: {
-    reloadHub: '#reloadHub',
-  },
-  subpages: ['PageHub'],
-  subviews: [
-    // {
-    //   type: 'blur',
-    //   dimension: {
-    //     top: 0,
-    //     left: 0,
-    //     right: 0,
-    //     unsafeAt: 'top',
-    //   },
-    //   style: {
-    //     background: 'fffc',
-    //   },
-    //   subviews: {
-    //     dimension: {
-    //       left: 0,
-    //       right: 0,
-    //       height: 60,
-    //       bottom: 0,
-    //       topSafe: 0,
-    //     },
-    //     subviews: [
-    //       {
-    //         type: 'image',
-    //         image: {
-    //           svg: logo,
-    //           mode: 'center',
-    //         },
-    //         dimension: edge,
-    //       },
-    //     ],
-    //   },
-    // },
-    {
-      type: 'touchFade',
-      onTap: '#onTapAddGram',
-      dimension: {
-        bottomSafe: 14,
-        height: 42,
-        width: 42,
-        centerX: 0,
-        // rightSafe: 32,
-        unsafeAt: 'bottom',
+export function PageHubInNav(): NavPage {
+  return {
+    type: 'nav',
+    onLoad: ['#reloadHub'],
+    stateMap: {
+      grams: {
+        type: 'state',
+        value: [],
       },
-      style: {
-        background: color,
-        radius: 21,
+      focusedGram: {
+        type: 'state',
+        value: null,
       },
-      subviews: {
-        type: 'symbol',
-        symbol: {
-          name: 'plus',
-          weight: 500,
-          color: 'f',
+    },
+    eventMap: {
+      reloadHub: '#reloadHub',
+    },
+    subpages: ['PageHub'],
+    subviews: [
+      {
+        type: 'touchFade',
+        onTap: '#onTapAddGram',
+        dimension: {
+          bottomSafe: 14,
+          height: 42,
+          width: 42,
+          centerX: 0,
+          // rightSafe: 32,
+          unsafeAt: 'bottom',
         },
-        dimension: edge,
+        style: {
+          background: color,
+          radius: 21,
+        },
+        subviews: {
+          type: 'symbol',
+          symbol: {
+            name: 'plus',
+            weight: 500,
+            color: 'f',
+          },
+          dimension: edge,
+        },
       },
-    },
-  ],
-};
+    ],
+  };
+}
+
+Pagegram.present(PageHubInNav);

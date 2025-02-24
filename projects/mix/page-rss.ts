@@ -2,11 +2,11 @@ import {XMLParser} from 'fast-xml-parser';
 import type {NavPage, Page} from 'types/page';
 import {type Tasks, type Argument} from 'types/event';
 import {type View, type MatrixView} from 'types/view';
-import {NativeModule} from 'types/native';
+import {Pagegram} from 'types/pagegram';
 import {edge, spacer} from 'types/util';
 import {makePageNav} from './page-nav';
 
-export const PageRssInNav: NavPage = (() => {
+export function PageRssInNav(): NavPage {
   const nav = makePageNav(['PageRss']);
   nav.stateMap = {
     ...nav.stateMap,
@@ -19,150 +19,154 @@ export const PageRssInNav: NavPage = (() => {
     onTapRssItem: '#onTapRssItem',
   };
   return nav;
-})();
+}
 
-export const PageRssDetail: Page = {
-  stateMap: {
-    focusedRssItem: {
-      type: 'bind',
-      onChange: '#focusedRssItemDidChange',
+export function PageRssDetail(): Page {
+  return {
+    stateMap: {
+      focusedRssItem: {
+        type: 'bind',
+        onChange: '#focusedRssItemDidChange',
+      },
     },
-  },
-  subviews: {
-    type: 'scroll',
-    style: {
-      background: 'f',
-    },
-    dimension: edge,
     subviews: {
-      type: 'stack',
-      stack: {
-        alignment: 'center',
-      },
-      dimension: {
-        top: 0,
-        leftSafe: 60,
-        rightSafe: 60,
-        bottom: 0,
-      },
+      type: 'scroll',
       style: {
         background: 'f',
       },
-      subviews: [
-        {
-          id: 'testLabel',
-          type: 'label',
-          text: {
-            content: '123',
-          },
+      dimension: edge,
+      subviews: {
+        type: 'stack',
+        stack: {
+          alignment: 'center',
         },
-        {
-          type: 'touchFade',
-          dimension: {
-            height: 60,
-            width: 60,
+        dimension: {
+          top: 0,
+          leftSafe: 60,
+          rightSafe: 60,
+          bottom: 0,
+        },
+        style: {
+          background: 'f',
+        },
+        subviews: [
+          {
+            id: 'testLabel',
+            type: 'label',
+            text: {
+              content: '123',
+            },
           },
-          style: {background: 'f00'},
-          onTap: {
-            type: 'view',
-            view: {
-              audioView: {
-                command: {
-                  play: 'pause',
+          {
+            type: 'touchFade',
+            dimension: {
+              height: 60,
+              width: 60,
+            },
+            style: {background: 'f00'},
+            onTap: {
+              type: 'view',
+              view: {
+                audioView: {
+                  command: {
+                    play: 'pause',
+                  },
                 },
               },
             },
           },
-        },
-        {
-          id: 'imageView',
-          type: 'image',
-          dimension: {
-            height: 120,
-            width: 120,
+          {
+            id: 'imageView',
+            type: 'image',
+            dimension: {
+              height: 120,
+              width: 120,
+            },
           },
-        },
-        {
-          id: 'audioView',
-          type: 'audio',
-          dimension: {
-            height: 60,
-            width: 60,
+          {
+            id: 'audioView',
+            type: 'audio',
+            dimension: {
+              height: 60,
+              width: 60,
+            },
+            style: {
+              background: 'aaf3',
+            },
+            systemControl: {
+              skipForward: 45,
+              skipBackward: true,
+            },
           },
-          style: {
-            background: 'aaf3',
-          },
-          systemControl: {
-            skipForward: 45,
-            skipBackward: true,
-          },
-        },
-        {
-          id: 'titleView',
-          type: 'label',
-          text: {
+          {
+            id: 'titleView',
+            type: 'label',
+            text: {
             // content: 'label',
-            size: 24,
-            weight: 'semibold',
+              size: 24,
+              weight: 'semibold',
+            },
+            dimension: {
+              left: 0,
+              right: 0,
+            },
           },
-          dimension: {
-            left: 0,
-            right: 0,
-          },
-        },
-        {
-          id: 'descriptionView',
-          type: 'label',
-          text: {
-            size: 18,
+          {
+            id: 'descriptionView',
+            type: 'label',
+            text: {
+              size: 18,
             // content: 'label',
+            },
+            dimension: {
+              left: 0,
+              right: 0,
+            },
           },
-          dimension: {
-            left: 0,
-            right: 0,
-          },
-        },
-      ],
+        ],
+      },
     },
-  },
-};
+  };
+}
 
-export const PageRss: Page = {
-  stateMap: {
-    rss: {
-      type: 'state',
-      value: null,
-      onChange: '#rssDidChange',
+export function PageRss(): Page {
+  return {
+    stateMap: {
+      rss: {
+        type: 'state',
+        value: null,
+        onChange: '#rssDidChange',
+      },
     },
-  },
-  onLoad: '#fetchRss',
-  subviews: {
-    type: 'scroll',
-    dimension: edge,
-    style: {
-      background: 'f',
-    },
+    onLoad: '#fetchRss',
     subviews: {
-      id: 'rssList',
-      type: 'matrix',
-      dimension: {
-        top: 0,
-        bottom: 0,
-        leftSafe: 0,
-        rightSafe: 0,
-      },
+      type: 'scroll',
+      dimension: edge,
       style: {
-        background: 'e',
+        background: 'f',
       },
-      matrix: {
-        content: [],
-        itemSize: {
-          width: '50%',
+      subviews: {
+        id: 'rssList',
+        type: 'matrix',
+        dimension: {
+          top: 0,
+          bottom: 0,
+          leftSafe: 0,
+          rightSafe: 0,
+        },
+        style: {
+          background: 'e',
+        },
+        matrix: {
+          content: [],
+          itemSize: {
+            width: '50%',
+          },
         },
       },
     },
-  },
-};
+  };
+}
 
 export function onTapRssItem(argument: Argument): Tasks {
   return [
@@ -290,7 +294,7 @@ export async function fetchRss(): Promise<Tasks> {
     'https://zhuchangsile.xyz/episodes/feed.xml',
     'https://uxcoffee.typlog.io/episodes/feed.xml',
   ];
-  return NativeModule.fetch(list[0]!)
+  return Pagegram.fetch(list[0]!)
     .then(text => {
       const x = new XMLParser({
         ignoreAttributes: false,
